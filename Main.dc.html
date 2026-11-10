@@ -505,7 +505,7 @@ img{display:block;max-width:100%;height:auto}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"scratchOnLoad":{"editor":"boolean","default":true,"section":"Grebalica"},"$preview":{"width":1440,"height":9000}}'>
-/* ---------- Interaktivno lišće (canvas) ---------- */
+/* ---------- Interaktivno lišće v2 (canvas) ---------- */
 var ZL_COLORS = {
   amber: ['#F5A524', '#FFD27A'], orange: ['#FF7A45', '#FFB38F'], pink: ['#FF4D8D', '#FF9CC0'],
   magenta: ['#E0338A', '#FF7FC0'], violet: ['#8B5CF6', '#C4B0FF'], blue: ['#4F6BFF', '#9DB0FF'], green: ['#22C58B', '#8FF0CC']
@@ -517,7 +517,7 @@ function zlSprite(color, L, blur, dpr) {
   if (ZL_SPRITES[key]) return ZL_SPRITES[key];
   var W = L * 0.42, pad = Math.ceil(L * 0.28 + blur * 3);
   var cw = Math.ceil(W * 2 + pad * 2), ch = Math.ceil(L + pad * 2);
-  var c = document.createElement('canvas'); c.width = cw * dpr; c.height = ch * dpr;
+  var c = document.createElement('canvas'); c.width = Math.ceil(cw * dpr); c.height = Math.ceil(ch * dpr);
   var x = c.getContext('2d'); x.scale(dpr, dpr); x.translate(cw / 2, pad + L / 2);
   if (blur && 'filter' in x) x.filter = 'blur(' + blur + 'px)';
   var col = ZL_COLORS[color] || ZL_COLORS.pink;
@@ -526,24 +526,24 @@ function zlSprite(color, L, blur, dpr) {
     x.bezierCurveTo(W * 1.12, L * 0.22, W * 0.82, -L * 0.3, 0, -L / 2);
     x.bezierCurveTo(-W * 0.82, -L * 0.3, -W * 1.12, L * 0.22, 0, L / 2); x.closePath();
   }
-  // sjaj + telo lista
-  shape(); x.shadowColor = col[0]; x.shadowBlur = L * 0.22;
+  shape(); x.shadowColor = col[0]; x.shadowBlur = L * 0.24;
   var g = x.createLinearGradient(-W, L / 2, W, -L / 2);
-  g.addColorStop(0, col[0] + 'F2'); g.addColorStop(0.55, col[0] + 'C8'); g.addColorStop(1, col[1] + 'B0');
+  g.addColorStop(0, col[0] + 'F0'); g.addColorStop(0.55, col[0] + 'C0'); g.addColorStop(1, col[1] + 'A8');
   x.fillStyle = g; x.fill(); x.shadowBlur = 0;
   x.save(); shape(); x.clip();
-  var r = x.createRadialGradient(W * 0.25, -L * 0.15, 0, W * 0.25, -L * 0.15, L * 0.6);
-  r.addColorStop(0, 'rgba(255,255,255,0.22)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+  var r = x.createRadialGradient(W * 0.3, -L * 0.18, 0, W * 0.3, -L * 0.18, L * 0.62);
+  r.addColorStop(0, 'rgba(255,255,255,0.26)'); r.addColorStop(1, 'rgba(255,255,255,0)');
   x.fillStyle = r; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2);
-  // čestice
-  var n = Math.round(L / 7), s = L / 220;
+  var sh = x.createLinearGradient(0, L / 2, 0, -L / 2);
+  sh.addColorStop(0, 'rgba(5,4,9,0.35)'); sh.addColorStop(0.5, 'rgba(5,4,9,0)');
+  x.fillStyle = sh; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2);
+  var n = Math.round(L / 6), s = L / 220;
   for (var i = 0; i < n; i++) {
     x.globalAlpha = 0.45 + Math.random() * 0.55; x.fillStyle = ZL_DOTS[i % ZL_DOTS.length];
     x.beginPath(); x.arc((Math.random() - 0.5) * W * 1.8, (Math.random() - 0.5) * L, (0.7 + Math.random() * 2.2) * s, 0, 6.283); x.fill();
   }
   x.globalAlpha = 1;
-  // nervatura (tačkasta, kao na pakovanju)
-  x.strokeStyle = 'rgba(255,255,255,0.78)'; x.lineCap = 'round'; x.lineWidth = Math.max(1, L / 170);
+  x.strokeStyle = 'rgba(255,255,255,0.8)'; x.lineCap = 'round'; x.lineWidth = Math.max(1, L / 170);
   x.setLineDash([L / 160, L / 55]);
   x.beginPath(); x.moveTo(0, L / 2); x.lineTo(0, -L * 0.47); x.stroke();
   for (var k = 1; k <= 7; k++) {
@@ -552,11 +552,20 @@ function zlSprite(color, L, blur, dpr) {
     x.beginPath(); x.moveTo(0, y); x.quadraticCurveTo(-prof * 0.5, y - L * 0.05, -prof, y - L * 0.12); x.stroke();
   }
   x.restore();
-  x.setLineDash([L / 160, L / 70]); x.strokeStyle = 'rgba(255,255,255,0.55)'; x.lineWidth = Math.max(1, L / 220);
+  x.setLineDash([L / 160, L / 70]); x.strokeStyle = 'rgba(255,255,255,0.6)'; x.lineWidth = Math.max(1, L / 220);
   shape(); x.stroke();
   var sp = { c: c, w: cw, h: ch, px: cw / 2, py: pad + L };
   ZL_SPRITES[key] = sp;
   return sp;
+}
+function zlMoteSprite(color, dpr) {
+  var key = 'm' + color + dpr; if (ZL_SPRITES[key]) return ZL_SPRITES[key];
+  var R = 16, c = document.createElement('canvas'); c.width = c.height = R * 2 * dpr;
+  var x = c.getContext('2d'); x.scale(dpr, dpr);
+  var g = x.createRadialGradient(R, R, 0, R, R, R);
+  g.addColorStop(0, '#FFFFFF'); g.addColorStop(0.18, color); g.addColorStop(0.45, color + '55'); g.addColorStop(1, color + '00');
+  x.fillStyle = g; x.fillRect(0, 0, R * 2, R * 2);
+  return (ZL_SPRITES[key] = c);
 }
 
 function zlEngine(canvas, layout, opts) {
@@ -565,86 +574,182 @@ function zlEngine(canvas, layout, opts) {
   var reduce = false;
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var leaves = [], W = 0, H = 0, t0 = performance.now(), last = t0, raf = 0, alive = true, visible = true;
-  var ptr = { x: -9999, y: -9999, px: 0, py: 0, tx: 0, ty: 0, has: false };
+  var leaves = [], motes = [], W = 0, H = 0, raf = 0, alive = true, visible = true, first = true, last = performance.now();
+  var center = { x: 0, y: 0 }, lightSp = null;
+  var ptr = { x: 0, y: 0, lx: 0, ly: 0, vx: 0, vy: 0, has: false, t: 0, on: 0, px: 0, py: 0, tx: 0, ty: 0 };
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function newMote(x, y, temp) {
+    var z = Math.random();
+    return { x: x == null ? Math.random() * W : x, y: y == null ? Math.random() * H : y, z: z, vx: rnd(-0.15, 0.15), vy: rnd(-0.45, -0.12) * (0.5 + z),
+      r: 1.2 + z * 3.2, col: ZL_DOTS[(Math.random() * ZL_DOTS.length) | 0], ph: rnd(0, 6.28), f: rnd(0.001, 0.003), life: temp ? 1 : -1 };
+  }
   function relayout() {
     var r = canvas.getBoundingClientRect();
     W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    var defs = layout(W, H, canvas) || [];
+    var res = layout(W, H, canvas) || [];
+    var defs = res.leaves || res;
+    if (res.center) center = res.center; else center = { x: W / 2, y: H / 2 };
+    var now = performance.now();
+    var old = leaves;
     leaves = defs.map(function (d, i) {
-      var L = Math.round(d.L);
-      var sp = zlSprite(d.color, L, d.blur || 0, dpr);
-      return { x: d.x, y: d.y, L: L, a0: d.a, a: d.a, av: 0, ox: 0, oy: 0, vx: 0, vy: 0, depth: d.depth == null ? 0.5 : d.depth,
-        alpha: d.alpha == null ? 1 : d.alpha, sp: sp, ph: Math.random() * 6.28, f: 0.0006 + Math.random() * 0.0007,
-        delay: d.delay || 0, grow: !!opts.grow, k: d.k || 1 };
+      var L = Math.round(d.L), o = old[i];
+      var l = { x: d.x, y: d.y, L: L, a0: d.a, depth: d.depth == null ? 0.5 : d.depth, alpha: d.alpha == null ? 1 : d.alpha,
+        sp: zlSprite(d.color, L, d.blur || 0, dpr), k: d.k || 1, side: i % 2 ? 1 : -1, ph: rnd(0, 6.28) };
+      if (o) { l.a = o.a; l.av = o.av; l.fl = o.fl; l.flv = o.flv; l.ox = o.ox; l.oy = o.oy; l.vx = o.vx; l.vy = o.vy; l.born = o.born; }
+      else { l.a = d.a; l.av = 0; l.fl = rnd(-0.3, 0.3); l.flv = 0; l.ox = 0; l.oy = 0; l.vx = 0; l.vy = 0; l.born = now + (d.delay || 0); }
+      return l;
     });
-    t0 = performance.now();
-    if (reduce) draw(performance.now());
+    if (first) {
+      var n = opts.motes == null ? Math.min(90, Math.round(W * H / 15000)) : opts.motes;
+      motes = []; for (var i = 0; i < n; i++) motes.push(newMote());
+      ptr.lx = W * 0.7; ptr.ly = H * 0.3;
+      first = false;
+    }
+    if (reduce) draw(now, 0);
   }
   function onMove(e) {
     var r = canvas.getBoundingClientRect();
     var x = e.clientX - r.left, y = e.clientY - r.top;
     if (ptr.has) {
       var dx = x - ptr.x, dy = y - ptr.y;
-      if (Math.abs(dx) + Math.abs(dy) < 200) poke(x, y, dx, dy);
-    }
-    ptr.x = x; ptr.y = y; ptr.has = true;
+      if (Math.abs(dx) + Math.abs(dy) < 220) { ptr.vx += (dx - ptr.vx) * 0.6; ptr.vy += (dy - ptr.vy) * 0.6; }
+    } else { ptr.lx = x; ptr.ly = y; }
+    ptr.x = x; ptr.y = y; ptr.has = true; ptr.t = performance.now();
     ptr.tx = (e.clientX / window.innerWidth - 0.5) * 2; ptr.ty = (e.clientY / window.innerHeight - 0.5) * 2;
-  }
-  function poke(x, y, dx, dy) {
-    for (var i = 0; i < leaves.length; i++) {
-      var l = leaves[i], sa = Math.sin(l.a), ca = Math.cos(l.a);
-      var cx = l.x + l.ox + sa * l.L * 0.5, cy = l.y + l.oy - ca * l.L * 0.5;
-      var R = l.L * 0.75 + 70, d = Math.hypot(x - cx, y - cy);
-      if (d > R) continue;
-      var f = (1 - d / R); f *= f;
-      var perp = dx * ca + dy * sa;
-      l.av += Math.max(-0.14, Math.min(0.14, perp / l.L * 1.4 * f * l.k));
-      l.vx += dx * 0.12 * f; l.vy += dy * 0.12 * f;
-    }
   }
   var lastScroll = window.scrollY;
   function onScroll() {
     var dy = window.scrollY - lastScroll; lastScroll = window.scrollY;
-    if (Math.abs(dy) > 120) return;
-    for (var i = 0; i < leaves.length; i++) { var l = leaves[i]; l.av += (i % 2 ? 1 : -1) * dy * 0.0009 * (0.5 + l.depth); }
+    if (Math.abs(dy) > 140) return;
+    for (var i = 0; i < leaves.length; i++) { var l = leaves[i]; l.av += l.side * dy * 0.0007 * (0.4 + l.depth); l.flv += dy * 0.0012 * l.side; }
+    for (var j = 0; j < motes.length; j++) motes[j].vy -= dy * 0.01 * motes[j].z;
   }
-  function draw(now) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+  function wind(x, t) {
+    return Math.sin(t * 0.00042 + x * 0.0045) * 0.6 + Math.sin(t * 0.00105 + x * 0.011 + 1.3) * 0.28 + Math.sin(t * 0.00021 + 2.1) * 0.45;
+  }
+  function burst() {
     for (var i = 0; i < leaves.length; i++) {
-      var l = leaves[i], s = 1, al = l.alpha;
-      if (l.grow && !reduce) {
-        var p = Math.max(0, Math.min(1, (now - t0 - l.delay) / 650));
-        var c1 = 1.70158, c3 = c1 + 1; s = p === 0 ? 0 : 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
-        al *= Math.min(1, p * 2);
-      } else if (!reduce) {
-        al *= Math.max(0, Math.min(1, (now - t0 - l.delay) / 900));
+      var l = leaves[i], dx = l.x - center.x, dy = l.y - center.y, d = Math.hypot(dx, dy) || 1;
+      var p = rnd(9, 15); l.vx += dx / d * p; l.vy += dy / d * p; l.av += rnd(-0.28, 0.28); l.flv += rnd(-0.35, 0.35);
+    }
+    for (var j = 0; j < 70; j++) {
+      var m = newMote(center.x + rnd(-30, 30), center.y + rnd(-20, 20), true), ang = rnd(0, 6.28), sp = rnd(3, 11);
+      m.vx = Math.cos(ang) * sp; m.vy = Math.sin(ang) * sp - 2; m.r = rnd(1.5, 4.5); motes.push(m);
+    }
+  }
+  function draw(now, dt) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    // svetlo kursora
+    if (opts.light && ptr.on > 0.01) {
+      var R = Math.max(220, Math.min(W, H) * 0.32);
+      if (!lightSp) {
+        lightSp = document.createElement('canvas'); lightSp.width = lightSp.height = 256;
+        var lx = lightSp.getContext('2d'), g = lx.createRadialGradient(128, 128, 0, 128, 128, 128);
+        g.addColorStop(0, 'rgba(255,77,141,0.16)'); g.addColorStop(0.45, 'rgba(139,92,246,0.08)'); g.addColorStop(1, 'rgba(139,92,246,0)');
+        lx.fillStyle = g; lx.fillRect(0, 0, 256, 256);
       }
-      if (al <= 0.01 || s <= 0.01) continue;
-      var par = l.depth * 22;
-      ctx.save(); ctx.globalAlpha = al;
-      ctx.translate(l.x + l.ox + ptr.px * par, l.y + l.oy + ptr.py * par);
-      ctx.rotate(l.a); if (s !== 1) ctx.scale(s, s);
+      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = ptr.on;
+      ctx.drawImage(lightSp, ptr.lx - R, ptr.ly - R, R * 2, R * 2);
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    }
+    drawMotes(now, 0, 0.5);
+    for (var i = 0; i < leaves.length; i++) {
+      var l = leaves[i];
+      var p = reduce ? 1 : Math.max(0, Math.min(1, (now - l.born) / 1200));
+      if (p <= 0) continue;
+      var u = 1 - Math.pow(1 - p, 3);
+      var sy = 0.2 + 0.8 * u, extra = (1 - u) * 0.8 * l.side;
+      var breathe = opts.breathe ? 1 + Math.sin(now * 0.0013 + l.ph) * 0.035 : 1;
+      var cf = Math.cos(l.fl), sx = Math.max(0.1, Math.abs(cf));
+      var par = l.depth * 26;
+      var x = l.x + l.ox + ptr.px * par, y = l.y + l.oy + ptr.py * par;
+      var al = l.alpha * Math.min(1, p * 1.8) * (0.5 + 0.38 * sx + 0.22 * Math.max(0, Math.sin(l.fl + 0.5)));
+      ctx.save();
+      ctx.translate(x, y); ctx.rotate(l.a + extra); ctx.scale(sx * breathe, sy * breathe);
+      ctx.globalAlpha = al;
       ctx.drawImage(l.sp.c, -l.sp.px, -l.sp.py, l.sp.w, l.sp.h);
+      // osvetljenje: kursor + strana okrenuta ka svetlu
+      var hl = 0;
+      if (opts.light && ptr.on > 0.01) {
+        var cx = x + Math.sin(l.a) * l.L * 0.5, cy = y - Math.cos(l.a) * l.L * 0.5;
+        var d2 = (cx - ptr.lx) * (cx - ptr.lx) + (cy - ptr.ly) * (cy - ptr.ly);
+        hl += Math.exp(-d2 / (2 * 200 * 200)) * 0.75 * ptr.on;
+      }
+      if (hl > 0.08) {
+        ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, al * hl);
+        ctx.drawImage(l.sp.c, -l.sp.px, -l.sp.py, l.sp.w, l.sp.h);
+        ctx.globalCompositeOperation = 'source-over';
+      }
       ctx.restore();
+    }
+    drawMotes(now, 0.5, 1.01);
+  }
+  function drawMotes(now, z0, z1) {
+    ctx.globalCompositeOperation = 'lighter';
+    for (var i = 0; i < motes.length; i++) {
+      var m = motes[i]; if (m.z < z0 || m.z >= z1) continue;
+      var tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(now * m.f + m.ph));
+      var a = tw * (0.25 + m.z * 0.6) * (m.life >= 0 ? m.life : 1);
+      if (a < 0.02) continue;
+      var s = m.r * 4, par = m.z * 30;
+      ctx.globalAlpha = a;
+      ctx.drawImage(zlMoteSprite(m.col, dpr), m.x + ptr.px * par - s / 2, m.y + ptr.py * par - s / 2, s, s);
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+  function step(now, dt) {
+    var idle = now - ptr.t;
+    var target = ptr.has ? (idle < 2200 ? 1 : 0.35) : 0;
+    ptr.on += (target - ptr.on) * 0.04 * dt;
+    ptr.lx += (ptr.x - ptr.lx) * 0.1 * dt; ptr.ly += (ptr.y - ptr.ly) * 0.1 * dt;
+    ptr.px += (ptr.tx - ptr.px) * 0.045 * dt; ptr.py += (ptr.ty - ptr.py) * 0.045 * dt;
+    var pvx = ptr.vx, pvy = ptr.vy, sp = Math.hypot(pvx, pvy);
+    ptr.vx *= Math.pow(0.86, dt); ptr.vy *= Math.pow(0.86, dt);
+    for (var i = 0; i < leaves.length; i++) {
+      var l = leaves[i], w = wind(l.x, now);
+      var ta = l.a0 + w * 0.06 * (0.5 + l.depth), tf = w * 0.32 * (0.3 + l.depth);
+      if (sp > 0.3) {
+        var sa = Math.sin(l.a), ca = Math.cos(l.a);
+        var cx = l.x + l.ox + sa * l.L * 0.5, cy = l.y + l.oy - ca * l.L * 0.5;
+        var R = l.L * 0.6 + 90, d2 = (ptr.x - cx) * (ptr.x - cx) + (ptr.y - cy) * (ptr.y - cy);
+        var g = Math.exp(-d2 / (2 * R * R));
+        if (g > 0.01) {
+          var perp = pvx * ca + pvy * sa;
+          l.av += Math.max(-0.05, Math.min(0.05, perp * 0.0016 * g * l.k)) * dt;
+          l.flv += (perp >= 0 ? 1 : -1) * Math.min(0.06, sp * 0.0022 * g) * dt;
+          l.vx += pvx * 0.035 * g * dt; l.vy += pvy * 0.035 * g * dt;
+        }
+      }
+      l.av += (ta - l.a) * 0.026 * dt; l.av *= Math.pow(0.935, dt); l.a += l.av * dt;
+      l.flv += (tf - l.fl) * 0.018 * dt; l.flv *= Math.pow(0.95, dt); l.fl += l.flv * dt;
+      if (l.fl > 1.25) { l.fl = 1.25; l.flv *= -0.4; } if (l.fl < -1.25) { l.fl = -1.25; l.flv *= -0.4; }
+      l.vx += -l.ox * 0.04 * dt; l.vy += -l.oy * 0.04 * dt; l.vx *= Math.pow(0.88, dt); l.vy *= Math.pow(0.88, dt);
+      l.ox += l.vx * dt; l.oy += l.vy * dt;
+    }
+    for (var j = motes.length - 1; j >= 0; j--) {
+      var m = motes[j], wm = wind(m.x, now);
+      if (sp > 0.3) {
+        var dx = m.x - ptr.x, dy = m.y - ptr.y, d = dx * dx + dy * dy;
+        if (d < 160 * 160) { var gg = 1 - Math.sqrt(d) / 160; m.vx += (pvx * 0.05 + dx * 0.004) * gg * dt; m.vy += (pvy * 0.05 + dy * 0.004) * gg * dt; }
+      }
+      m.vx += (wm * 0.012 * (0.4 + m.z) - m.vx * 0.02) * dt;
+      var base = -0.18 * (0.5 + m.z);
+      m.vy += (base - m.vy) * 0.02 * dt;
+      m.x += m.vx * dt; m.y += m.vy * dt;
+      if (m.life >= 0) { m.life -= 0.006 * dt; m.vx *= Math.pow(0.97, dt); if (m.life <= 0) { motes.splice(j, 1); continue; } }
+      else {
+        if (m.y < -20) { m.y = H + 20; m.x = Math.random() * W; }
+        if (m.y > H + 30) m.y = -20;
+        if (m.x < -20) m.x = W + 20; else if (m.x > W + 20) m.x = -20;
+      }
     }
   }
   function tick(now) {
     if (!alive) return;
     if (!canvas.isConnected) { destroy(); return; }
     var dt = Math.min(2.5, (now - last) / 16.67); last = now;
-    if (visible) {
-      ptr.px += (ptr.tx - ptr.px) * 0.05 * dt; ptr.py += (ptr.ty - ptr.py) * 0.05 * dt;
-      for (var i = 0; i < leaves.length; i++) {
-        var l = leaves[i];
-        var idle = Math.sin(now * l.f + l.ph) * 0.045 * (0.6 + l.depth);
-        l.av = (l.av + (l.a0 + idle - l.a) * 0.03 * dt) * Math.pow(0.93, dt); l.a += l.av * dt;
-        l.vx = (l.vx - l.ox * 0.045 * dt) * Math.pow(0.88, dt); l.vy = (l.vy - l.oy * 0.045 * dt) * Math.pow(0.88, dt);
-        l.ox += l.vx * dt; l.oy += l.vy * dt;
-      }
-      draw(now);
-    }
+    if (visible && (leaves.length || motes.length)) { step(now, dt); draw(now, dt); }
     raf = requestAnimationFrame(tick);
   }
   var ro = null, io = null;
@@ -655,8 +760,10 @@ function zlEngine(canvas, layout, opts) {
     if (ro) ro.disconnect(); if (io) io.disconnect();
   }
   relayout();
-  if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(function () { relayout(); }); ro.observe(canvas); var wt = opts.watch && canvas.parentElement && canvas.parentElement.querySelector(opts.watch); if (wt) ro.observe(wt); }
-  else window.addEventListener('resize', relayout);
+  if (typeof ResizeObserver !== 'undefined') {
+    ro = new ResizeObserver(function () { relayout(); }); ro.observe(canvas);
+    var wt = opts.watch && canvas.parentElement && canvas.parentElement.querySelector(opts.watch); if (wt) ro.observe(wt);
+  } else window.addEventListener('resize', relayout);
   if (typeof IntersectionObserver !== 'undefined') { io = new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }); io.observe(canvas); }
   if (!reduce) {
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -664,43 +771,45 @@ function zlEngine(canvas, layout, opts) {
     window.addEventListener('scroll', onScroll, { passive: true });
     raf = requestAnimationFrame(tick);
   }
-  return { destroy: destroy, relayout: relayout };
+  return { destroy: destroy, relayout: relayout, burst: reduce ? function () {} : burst };
 }
 
-/* Raspored: hero (iza sadržaja) — lišće po ivicama, prigušeno iza teksta */
+/* Raspored: hero, sloj iza sadržaja (daleki mutni + srednji oštri listovi) */
 function zlHeroBack(W, H, canvas) {
-  var hero = canvas.parentElement, buy = hero && hero.querySelector('.buy'), gal = hero && hero.querySelector('.hero-img');
-  var hr = canvas.getBoundingClientRect();
-  var rb = buy ? buy.getBoundingClientRect() : null, rg = gal ? gal.getBoundingClientRect() : null;
+  var hero = canvas.parentElement, buy = hero && hero.querySelector('.buy');
+  var hr = canvas.getBoundingClientRect(), rb = buy ? buy.getBoundingClientRect() : null;
   var mob = W < 700, base = mob ? Math.min(W * 0.36, 150) : Math.min(Math.max(W * 0.13, 150), 230);
   var spots = mob ? [
-    [-0.04, 0.10, 1.0, 0.75, 'violet', 0.4], [1.04, 0.07, 0.95, -0.8, 'pink', 0.45], [1.05, 0.30, 0.9, -1.0, 'amber', 0.35],
-    [-0.05, 0.40, 1.1, 0.95, 'magenta', 0.5], [-0.03, 0.70, 1.0, 0.8, 'blue', 0.35], [1.04, 0.62, 1.05, -0.85, 'violet', 0.5],
-    [1.03, 0.92, 0.9, -0.7, 'orange', 0.4], [-0.04, 0.97, 0.95, 0.6, 'pink', 0.45]
+    [-0.04, 0.10, 1.0, 0.75, 'violet', 0.45], [1.04, 0.07, 0.95, -0.8, 'pink', 0.5], [1.05, 0.30, 0.9, -1.0, 'amber', 0.4],
+    [-0.05, 0.40, 1.1, 0.95, 'magenta', 0.55], [-0.03, 0.70, 1.0, 0.8, 'blue', 0.4], [1.04, 0.62, 1.05, -0.85, 'violet', 0.55],
+    [1.03, 0.92, 0.9, -0.7, 'orange', 0.45], [-0.04, 0.97, 0.95, 0.6, 'pink', 0.5],
+    [0.5, 0.02, 0.6, 3.1, 'blue', 0.12], [0.2, 0.5, 0.55, 0.3, 'pink', 0.1], [0.85, 0.82, 0.55, -0.2, 'green', 0.1]
   ] : [
-    [0.015, 0.20, 1.15, 0.55, 'violet', 0.35], [0.05, 0.62, 1.3, 0.35, 'pink', 0.5], [-0.01, 0.95, 1.2, 0.95, 'amber', 0.4],
-    [0.10, 0.02, 0.85, 2.7, 'blue', 0.25], [0.26, 0.00, 0.75, 3.3, 'orange', 0.3], [0.47, 0.03, 0.7, 2.9, 'magenta', 0.25],
-    [0.985, 0.10, 1.2, -0.6, 'amber', 0.4], [0.995, 0.45, 1.05, -0.45, 'magenta', 0.5], [1.0, 0.82, 1.3, -0.8, 'violet', 0.45],
-    [0.80, 1.0, 0.95, 0.25, 'green', 0.3], [0.30, 1.0, 1.0, -0.3, 'pink', 0.4], [0.50, 0.98, 0.8, 0.15, 'blue', 0.3],
-    [0.73, 0.01, 0.8, 3.0, 'pink', 0.3]
+    [0.015, 0.20, 1.15, 0.55, 'violet', 0.45], [0.05, 0.62, 1.3, 0.35, 'pink', 0.6], [-0.01, 0.95, 1.2, 0.95, 'amber', 0.5],
+    [0.10, 0.02, 0.85, 2.7, 'blue', 0.35], [0.26, 0.00, 0.75, 3.3, 'orange', 0.4], [0.47, 0.03, 0.7, 2.9, 'magenta', 0.35],
+    [0.985, 0.10, 1.2, -0.6, 'amber', 0.5], [0.995, 0.45, 1.05, -0.45, 'magenta', 0.6], [1.0, 0.82, 1.3, -0.8, 'violet', 0.55],
+    [0.80, 1.0, 0.95, 0.25, 'green', 0.4], [0.30, 1.0, 1.0, -0.3, 'pink', 0.5], [0.50, 0.98, 0.8, 0.15, 'blue', 0.4],
+    [0.73, 0.01, 0.8, 3.0, 'pink', 0.4],
+    [0.18, 0.35, 0.5, 0.9, 'violet', 0.1], [0.40, 0.55, 0.45, -0.4, 'amber', 0.1], [0.62, 0.25, 0.5, 0.6, 'blue', 0.1],
+    [0.88, 0.62, 0.5, -0.9, 'pink', 0.1], [0.55, 0.85, 0.45, 0.4, 'violet', 0.1], [0.08, 0.80, 0.5, -0.6, 'green', 0.1]
   ];
   return spots.map(function (s, i) {
-    var L = base * s[2], x = s[0] * W, y = s[1] * H, a = s[3];
-    var cx = x + Math.sin(a) * L * 0.5, cy = y - Math.cos(a) * L * 0.5; // centar lista
-    var alpha = 0.55 + s[5] * 0.6, blur = s[5] < 0.3 ? 3 : 0;
-    function inside(r, pad) { return r && cx > r.left - hr.left - pad && cx < r.right - hr.left + pad && cy > r.top - hr.top - pad && cy < r.bottom - hr.top + pad; }
-    if (inside(rb, 30)) alpha *= 0.28;
-    return { x: x, y: y, L: L, a: a, color: s[4], depth: s[5], alpha: Math.min(1, alpha), blur: blur, delay: i * 70 };
+    var L = base * s[2], x = s[0] * W, y = s[1] * H, a = s[3], far = s[5] < 0.2;
+    var cx = x + Math.sin(a) * L * 0.5, cy = y - Math.cos(a) * L * 0.5;
+    var alpha = far ? 0.45 : 0.6 + s[5] * 0.5;
+    if (rb && cx > rb.left - hr.left - 30 && cx < rb.right - hr.left + 30 && cy > rb.top - hr.top - 30 && cy < rb.bottom - hr.top + 30) alpha *= 0.28;
+    var dx = cx - W / 2, dy = cy - H / 2;
+    return { x: x, y: y, L: L, a: a, color: s[4], depth: s[5], alpha: Math.min(1, alpha), blur: far ? 6 : 0, delay: 150 + Math.sqrt(dx * dx + dy * dy) * 0.9 };
   });
 }
-/* Raspored: hero (ispred sadržaja) — par krupnih, mutnih listova samo na ivicama širokih ekrana */
+/* Raspored: hero, prvi plan (krupni mutni listovi, samo ivice širokih ekrana) */
 function zlHeroFront(W, H) {
   if (W < 1280) return [];
   var m = (W - 1200) / 2, base = Math.min(300, 140 + m * 0.7);
   return [
-    { x: -m * 0.15, y: H * 0.98, L: base * 1.1, a: 0.32, color: 'pink', depth: 1, alpha: 0.95, blur: 2, delay: 300, k: 0.7 },
-    { x: W + m * 0.15, y: H * 0.70, L: base, a: -0.36, color: 'violet', depth: 1, alpha: 0.9, blur: 2, delay: 420, k: 0.7 },
-    { x: W + m * 0.1, y: 6, L: base * 0.75, a: -2.75, color: 'orange', depth: 0.9, alpha: 0.85, blur: 2, delay: 520, k: 0.7 }
+    { x: -m * 0.15, y: H * 0.98, L: base * 1.1, a: 0.32, color: 'pink', depth: 1, alpha: 0.95, blur: 3, delay: 700, k: 0.7 },
+    { x: W + m * 0.15, y: H * 0.70, L: base, a: -0.36, color: 'violet', depth: 1, alpha: 0.9, blur: 3, delay: 820, k: 0.7 },
+    { x: W + m * 0.1, y: 6, L: base * 0.75, a: -2.75, color: 'orange', depth: 0.9, alpha: 0.85, blur: 3, delay: 920, k: 0.7 }
   ];
 }
 /* Raspored: venac oko kartice sa popustom */
@@ -714,12 +823,12 @@ function zlWreath(W, H, canvas) {
   var out = [];
   for (var i = 0; i < n; i++) {
     var ang = (i / n) * Math.PI * 2 + (i % 2 ? 0.12 : -0.08);
-    var px = cx + Math.cos(ang) * rx, py = cy + Math.sin(ang) * ry;
     var a = ang + Math.PI / 2 + (i % 3 - 1) * 0.28;
     var L = (W < 600 ? 95 : 130) + ((i * 37) % 60);
-    out.push({ x: px, y: py, L: L, a: a, color: cols[i % cols.length], depth: 0.4 + (i % 4) * 0.15, alpha: 0.95, blur: i % 5 === 0 ? 2 : 0, delay: 80 + i * 45, k: 1.2 });
+    out.push({ x: cx + Math.cos(ang) * rx, y: cy + Math.sin(ang) * ry, L: L, a: a, color: cols[i % cols.length],
+      depth: 0.4 + (i % 4) * 0.15, alpha: 0.95, blur: i % 5 === 0 ? 3 : 0, delay: 80 + i * 45, k: 1.2 });
   }
-  return out;
+  return { leaves: out, center: { x: cx, y: cy } };
 }
 
 class Component extends DCLogic {
@@ -756,9 +865,10 @@ class Component extends DCLogic {
         self.lv[key] = el ? { el: el, eng: zlEngine(el, layout, opts) } : null;
       };
     }
-    this.setLeavesBack = leafRef('back', zlHeroBack);
-    this.setLeavesFront = leafRef('front', zlHeroFront);
-    this.setLeavesPop = leafRef('pop', zlWreath, { grow: true, watch: '.card-in' });
+    this.setLeavesBack = leafRef('back', zlHeroBack, { light: true });
+    this.setLeavesFront = leafRef('front', zlHeroFront, { motes: 0 });
+    this.setLeavesPop = leafRef('pop', zlWreath, { light: true, motes: 40, breathe: true, watch: '.card-in' });
+    this.burst = function () { var p = self.lv.pop; if (p && p.eng) p.eng.burst(); };
   }
   componentWillUnmount() {
     for (var k in this.lv) { if (this.lv[k] && this.lv[k].eng) this.lv[k].eng.destroy(); }
@@ -794,7 +904,7 @@ class Component extends DCLogic {
     if (this.moves % 8 === 0) {
       var d = x.getImageData(0, 0, c.width, c.height).data, clear = 0, n = 0;
       for (var i = 3; i < d.length; i += 64) { n++; if (d[i] === 0) clear++; }
-      if (clear / n > 0.45) { this.drawing = false; this.cv = null; this.setState({ revealed: true }); }
+      if (clear / n > 0.45) { this.drawing = false; this.cv = null; this.setState({ revealed: true }); this.burst(); }
     }
   }
   renderVals() {
@@ -905,7 +1015,7 @@ class Component extends DCLogic {
       onDown: this.onDown,
       onMove: this.onMove,
       onUp: this.onUp,
-      reveal: function () { self.cv = null; self.setState({ revealed: true }); },
+      reveal: function () { self.cv = null; self.setState({ revealed: true }); self.burst(); },
       onEmail: function (e) { self.setState({ email: e.target.value, err: '' }); },
       accept: function () {
         var m = (self.state.email || '').trim();
