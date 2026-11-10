@@ -28,3 +28,8 @@
 @media (max-width: 360px){.ftr-cols{grid-template-columns:1fr}}
 
 .ftr-cols a:hover{color:#FFFFFF !important}
+
+.hdr-logo{display:block;height:40px;width:auto}
+.ftr-logo-img{display:block;height:clamp(64px,7vw,96px);width:auto}
+.soc:hover{border-color:#FFFFFF !important;background:rgba(255,255,255,0.06)}
+@media (max-width: 600px){.hdr-logo{height:30px}}

@@ -299,7 +299,7 @@ img{display:block;max-width:100%;height:auto}
 <div style="text-align: center; font-size: 13px; font-weight: 500; color: #DED8EA">Plaćaš kuriru kad stigne · {{sel.shipTxt}}</div>
 <div class="trust">
 <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem</span>
-<span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Isporuka [1–3 dana]</span>
+<span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>BEX isporuka 2–5 radnih dana</span>
 <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>[X] dana garancija</span>
 </div>
 </div>
@@ -381,7 +381,7 @@ img{display:block;max-width:100%;height:auto}
 <h2 class="h2">Dali smo kesicu <span class="gtext">ljudima na ulici.</span></h2>
 <p class="lead">Bez scenarija. Dali smo kesicu prolaznicima i pitali za prvi utisak.</p>
 </div>
-<a href="#instagram" class="cta ghostc" style="padding: 14px 22px; min-height: 48px; font-size: 13px">Svi snimci na Instagramu <span class="arr" aria-hidden="true">↗</span></a>
+<a href="https://www.instagram.com/zynamik_global/" target="_blank" rel="noopener noreferrer" class="cta ghostc" style="padding: 14px 22px; min-height: 48px; font-size: 13px">Svi snimci na Instagramu <span class="arr" aria-hidden="true">↗</span></a>
 </div>
 <div class="strip">
 <sc-for list="{{street}}" as="s" hint-placeholder-count="8"><div class="vcard"><span class="play" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4l13 8-13 8z"></path></svg></span><span class="loc">{{s}}</span><span class="s">[video uskoro]</span></div></sc-for>
@@ -1186,7 +1186,7 @@ class Component extends DCLogic {
       { q: 'Da li stvara naviku?', a: 'Prema deklaraciji, upotreba ne dovodi do stvaranja navike i zavisnosti.' },
       { q: 'Da li je registrovan?', a: 'Da. Upisan je u bazu dodataka ishrani Ministarstva zdravlja pod brojem 17932/2026. Proizvodi ga Phytonet d.o.o. u Šimanovcima.' },
       { q: 'Gde mogu da pročitam studije?', a: 'Wightman i saradnici, Nutrients 2020 (doi.org/10.3390/nu12082194) i López-Ríos i saradnici, Journal of Ethnopharmacology 2020 (doi.org/10.1016/j.jep.2020.112996). Studije je finansirao Nektium i odnose se na sastojak, ne na gotov proizvod.' },
-      { q: 'Kako ide dostava i plaćanje?', a: 'Proizvedeno je u Srbiji, pa paket ne čeka carinu. [KURIR], isporuka za [X RADNIH DANA]. Plaćanje: [NAČIN PLAĆANJA]. Od paketa 2+1 dostava je gratis.' },
+      { q: 'Kako ide dostava i plaćanje?', a: 'Proizvedeno je u Srbiji, pa paket ne čeka carinu. Šaljemo BEX kurirskom službom, isporuka je 2–5 radnih dana. Plaćanje: [NAČIN PLAĆANJA]. Od paketa 2+1 dostava je gratis.' },
       { q: 'Šta ako mi ne prija?', a: '[X DANA] garancija prazne kutije, uz [USLOVI POVRAĆAJA].' }
     ];
     var faq = faqRaw.map(function (f, i) {
