@@ -275,7 +275,7 @@ img{display:block;max-width:100%;height:auto}
 <div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip">Bez vode</span><span class="chip">contains Zynamite®</span><span class="chip">Proizvedeno u Srbiji</span></div>
 
 <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 4px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span class="eyebrow" style="color: #fff">Izaberi paket</span><span style="font-size: 13px; font-weight: 600" class="gtext">Što više uzmeš, manje plaćaš</span></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span class="eyebrow" style="color: #fff">Izaberi paket</span><span style="font-size: 13px; font-weight: 600" class="gtext">Dostava gratis od 3 kutije</span></div>
 <sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
 <button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
 <sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
@@ -524,7 +524,7 @@ img{display:block;max-width:100%;height:auto}
 <button type="button" class="linkbtn" onClick="{{reveal}}">Otkrij bez grebanja</button>
 </sc-if>
 <sc-if value="{{revealed}}" hint-placeholder-val="{{ false }}">
-<p style="margin: 0; font-size: 16px; color: var(--muted)">Ostavi mejl i šaljemo ti kod. Jedna kutija je onda <strong style="color: #fff">1.899 RSD umesto 2.110 RSD</strong>, a važi i na 2+1 i 4+2.</p>
+<p style="margin: 0; font-size: 16px; color: var(--muted)">Ostavi mejl i šaljemo ti kod. Jedna kutija je onda <strong style="color: #fff">1.899 RSD umesto 2.110 RSD</strong>, a važi i na 2+1 i 5+1.</p>
 <label class="fld">Tvoj mejl<input type="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
 <sc-if value="{{err}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #F0609A">{{err}}</div></sc-if>
 <div class="pop-btns" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
@@ -1143,15 +1143,15 @@ class Component extends DCLogic {
     var badgeBase = 'position: absolute; top: -11px; right: 16px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 5px 10px; border-radius: 999px; ';
     var defs = [
       { name: 'Proba · 5 dana', boxes: 1, pay: 1, off: 0, chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
-      { name: '15 dana · 2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: linear-gradient(100deg,#D92D7A,#7436E0); color: #fff; box-shadow: 0 6px 20px -4px rgba(217,45,122,0.6);' },
-      { name: 'Pun ciklus · 4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, chips: ['Dostava gratis', '−15%'], badge: 'NAJISPLATIVIJE', badgeStyle: badgeBase + 'background: #fff; color: #07050D;' }
+      { name: '15 dana · 2 + 1 gratis', boxes: 3, pay: 2, off: 0, chips: ['Dostava gratis', '1 kutija gratis'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: linear-gradient(100deg,#D92D7A,#7436E0); color: #fff; box-shadow: 0 6px 20px -4px rgba(217,45,122,0.6);' },
+      { name: 'Pun ciklus · 5 + 1 gratis', boxes: 6, pay: 5, off: 0, chips: ['Dostava gratis', '1 kutija gratis'], badge: 'CEO MESEC', badgeStyle: badgeBase + 'background: #fff; color: #07050D;' }
     ];
     var packages = defs.map(function (p, i) {
       var price = p.pay * BASE * (1 - p.off) * (disc ? 0.9 : 1);
       var full = p.boxes * BASE;
       var sel = self.state.pkg === i;
       var perDay = price / days(p.boxes);
-      var sub = (p.boxes === 1 ? '1 kutija' : p.boxes + (p.boxes === 6 ? ' kutija' : ' kutije')) + ' · ' + (p.boxes * PER_BOX) + ' kesica · ' + days(p.boxes) + ' dana' + (p.boxes === 6 ? ' · oko ' + Math.round(perDay) + ' RSD dnevno' : '');
+      var sub = (p.boxes === 1 ? '1 kutija' : p.boxes + (p.boxes === 6 ? ' kutija' : ' kutije')) + ' · ' + (p.boxes * PER_BOX) + ' kesica · ' + days(p.boxes) + ' dana' + '';
       return Object.assign({}, p, {
         sub: sub,
         on: sel,
@@ -1179,7 +1179,7 @@ class Component extends DCLogic {
     var faqRaw = [
       { q: 'Da li je ovo kao kafa?', a: 'Ne radi na isti način. Kofein blokira receptore za umor, a mangiferin iz Zynamite®-a deluje preko drugog mehanizma. Mnogi ga koriste upravo kad neće još jednu kafu.' },
       { q: 'Kako se uzima?', a: 'Dve kesice dnevno, svaka posebno. Istresi je na jezik i pusti da se istopi. Voda nije potrebna.' },
-      { q: 'Koliko traje jedna kutija?', a: 'Pet dana, jer u kutiji ima 10 kesica. Paket 2+1 traje 15 dana, a 4+2 ceo mesec.' },
+      { q: 'Koliko traje jedna kutija?', a: 'Pet dana, jer u kutiji ima 10 kesica. Paket 2+1 traje 15 dana, a 5+1 ceo mesec.' },
       { q: 'Ima li šećera?', a: 'Zaslađeno je ksilitolom i sukralozom, sa ukusom egzotičnog voća. Energetska vrednost: [KCAL PO KESICI].' },
       { q: 'Ko ne bi trebalo da ga koristi?', a: 'Mlađi od 16 godina, trudnice, dojilje i osobe osetljive na neki od sastojaka. Ako piješ lekove ili imaš zdravstveni problem, prvo pitaj lekara ili farmaceuta.' },
       { q: 'Šta ako uzmem više?', a: 'Ne prekoračuj dve kesice dnevno. Ksilitol u većoj količini može imati laksativni efekat.' },
@@ -1216,7 +1216,7 @@ class Component extends DCLogic {
         { k: 'Pre posla', v: 'Prva kesica uz jutarnje mejlove. Bez šolje, bez aparata.' },
         { k: 'Posle ručka', v: 'Kad krene popodnevni pad. Kesica je u džepu, voda ti ne treba.' },
         { k: 'Pre treninga', v: 'Došao si posle posla i hoćeš da budeš tu, ne samo da odradiš.' },
-        { k: 'Pun ciklus', v: '4 + 2 kutije traju 30 dana. Oko 239 RSD dnevno.' }
+        { k: 'Pun ciklus', v: '5 + 1 kutija pokriva ceo mesec, bez dopunjavanja.' }
       ],
       wall: [
         { r: '3 / 4', t: '1' }, { r: '1 / 1', t: '2' }, { r: '3 / 5', t: '3' },

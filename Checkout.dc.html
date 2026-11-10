@@ -122,7 +122,7 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <!-- PREGLED -->
 <aside class="sum" aria-label="Pregled porudžbine" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
 <div class="card" style="gap: 12px">
-<div class="row" style="align-items: baseline"><h2 style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</h2><span style="font-size: 12px; font-weight: 700; color: #E063A3">Što više, to jeftinije</span></div>
+<div class="row" style="align-items: baseline"><h2 style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</h2><span style="font-size: 12px; font-weight: 700; color: #E063A3">Dostava gratis od 3 kutije</span></div>
 <sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
 <button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
 <sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
@@ -136,7 +136,7 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <sc-if value="{{showUpsell}}" hint-placeholder-val="{{ true }}">
 <div style="background: rgba(217,45,122,0.10); border: 1.5px solid #D92D7A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
 <div style="font-weight: 800">Treća kutija gratis za samo {{upsellDiff}} više.</div>
-<div style="font-size: 13px; color: #DED8EA">Sa 2+1 dobijaš 3 kutije, dodatnih 5% i dostavu gratis. Jedna kutija traje 5 dana, a 2+1 pokriva 15.</div>
+<div style="font-size: 13px; color: #DED8EA">Sa 2+1 dobijaš 3 kutije i dostavu gratis. Jedna kutija traje 5 dana, a 2+1 pokriva 15.</div>
 <button type="button" class="small" onClick="{{upgrade}}" style="align-self: flex-start">Prebaci na 2+1</button>
 </div>
 </sc-if>
@@ -215,11 +215,11 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"paket":{"editor":"enum","options":["1 kutija","2 + 1 gratis","4 + 2 gratis"],"default":"2 + 1 gratis","section":"Pregled"},"popust":{"editor":"boolean","default":false,"section":"Pregled"},"$preview":{"width":1440,"height":1700}}'>
+<script type="text/x-dc" data-dc-script data-props='{"paket":{"editor":"enum","options":["1 kutija","2 + 1 gratis","5 + 1 gratis"],"default":"2 + 1 gratis","section":"Pregled"},"popust":{"editor":"boolean","default":false,"section":"Pregled"},"$preview":{"width":1440,"height":1700}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    var names = ['1 kutija', '2 + 1 gratis', '4 + 2 gratis'];
+    var names = ['1 kutija', '2 + 1 gratis', '5 + 1 gratis'];
     var idx = names.indexOf(props.paket);
     var pkg = idx < 0 ? 1 : idx, coupon = props.popust === true, mail = '';
     try {
@@ -238,8 +238,8 @@ class Component extends DCLogic {
     var badgeBase = 'position: absolute; top: -10px; right: 14px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 6px; ';
     var defs = [
       { name: '1 kutija', boxes: 1, pay: 1, off: 0, chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
-      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: linear-gradient(100deg,#D92D7A,#7436E0); color: #F5F2FA;' },
-      { name: '4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, chips: ['Dostava gratis', '−15%'], badge: 'NAJVEĆA UŠTEDA', badgeStyle: badgeBase + 'background: #1A1330; color: #E063A3;' }
+      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0, chips: ['Dostava gratis', '1 gratis'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: linear-gradient(100deg,#D92D7A,#7436E0); color: #F5F2FA;' },
+      { name: '5 + 1 gratis', boxes: 6, pay: 5, off: 0, chips: ['Dostava gratis', '1 gratis'], badge: 'CEO MESEC', badgeStyle: badgeBase + 'background: #1A1330; color: #E063A3;' }
     ];
     var packages = defs.map(function (p, i) {
       var full = p.boxes * BASE;
