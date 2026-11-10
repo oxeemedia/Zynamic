@@ -133,6 +133,12 @@ img{display:block;max-width:100%;height:auto}
 .uni{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:#DED8EA;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,0.03)}
 .uni-ico{flex:none;width:34px;height:34px;border-radius:10px;background:var(--grad2);display:flex;align-items:center;justify-content:center}
 .uni a{color:#fff;font-weight:600;white-space:nowrap}
+.docbtns{display:flex;gap:10px;flex-wrap:wrap}
+.docbtn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 20px;border-radius:999px;border:1.5px solid var(--line2);background:rgba(255,255,255,0.04);font-weight:800;font-size:14px;color:#F5F2FA;text-decoration:none;transition:border-color .2s,background .2s}
+.docbtn:hover{border-color:#D92D7A;background:rgba(217,45,122,0.1);color:#fff}
+.docbtn:focus-visible{outline:3px solid #D92D7A;outline-offset:3px}
+.dekl-box{position:relative;width:100%;max-width:620px;max-height:calc(100vh - 40px);overflow:auto;background:#000;border:1px solid var(--line2);border-radius:24px;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.dekl-box img{width:100%;height:auto;display:block}
 .fine{margin:0;font-size:12px;color:var(--dim);max-width:760px}
 @media (max-width: 899px){.scenes{grid-template-columns:1fr}}
 .stat p{margin:0;font-size:14.5px;color:var(--muted)}
@@ -349,6 +355,7 @@ img{display:block;max-width:100%;height:auto}
 <h2 class="h2">Mala kesica.<br><span class="gtext">Jasan sastav.</span></h2>
 <p class="lead">Zynamite® je ekstrakt lista manga sa najmanje 60% mangiferina, robna marka španske kompanije Nektium. Rezultati kliničkih studija pokazuju da Zynamite® pojačava pažnju i smanjuje mentalni umor.</p>
 <div class="uni"><span class="uni-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-5 9 5-9 5-9-5z"></path><path d="M7 11v5c3 2 7 2 10 0v-5"></path></svg></span><span>Ispitan u dvostruko slepoj, placebo kontrolisanoj studiji na univerzitetu Northumbria, Velika Britanija. <a href="https://doi.org/10.3390/nu12082194" target="_blank" rel="noopener">Pogledaj studiju ↗</a></span></div>
+<div class="docbtns"><button type="button" class="docbtn" onClick="{{openDekl}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6M8 13h8M8 17h5"></path></svg>Deklaracija</button><a class="docbtn" href="Studije.dc.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"></path><path d="M7 15h10"></path></svg>Sve studije (6)<span aria-hidden="true">→</span></a></div>
 </div>
 <div style="position: relative; display: flex; justify-content: center">
 <div class="glow" style="width: 70%; height: 70%; left: 15%; top: 15%; --c: #7436E0; opacity: 0.45"></div>
@@ -485,6 +492,17 @@ img{display:block;max-width:100%;height:auto}
 <a href="Checkout.dc.html" class="cta" style="padding: 12px 24px; min-height: 46px; font-size: 13px; flex: none">Poruči</a>
 </div>
 </div>
+
+<!-- DEKLARACIJA -->
+<sc-if value="{{dekl}}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Deklaracija Zynamik Direct" onClick="{{closeDekl}}" style="position: fixed; inset: 0; z-index: 60; background: rgba(4,2,9,0.82); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
+<div class="dekl-box card-in" onClick="{{stop}}">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px"><span class="eyebrow">Deklaracija</span><button type="button" class="xbtn" aria-label="Zatvori deklaraciju" onClick="{{closeDekl}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<img src="assets/deklaracija.png" alt="Deklaracija Zynamik Direct: sastojci, aktivni sastojci po dnevnoj dozi, namena, način primene, upozorenja i podaci o proizvođaču" width="548" height="971">
+<a class="docbtn" href="Studije.dc.html#deklaracija" style="align-self: center">Deklaracija kao tekst i sve studije →</a>
+</div>
+</div>
+</sc-if>
 
 <!-- GREBALICA -->
 <sc-if value="{{scratch}}" hint-placeholder-val="{{ false }}">
@@ -1085,7 +1103,7 @@ class Component extends DCLogic {
     } catch (e) {}
     var wantScratch = (on === undefined ? true : !!on) && !seen && !disc;
     this.wantScratch = wantScratch;
-    this.state = { open: 0, pkg: pkg, shot: 0, scratch: false, revealed: false, copied: false, discount: disc, email: mail, err: '' };
+    this.state = { open: 0, pkg: pkg, shot: 0, dekl: false, scratch: false, revealed: false, copied: false, discount: disc, email: mail, err: '' };
     this.cv = null;
     this.drawing = false;
     this.moves = 0;
@@ -1114,6 +1132,8 @@ class Component extends DCLogic {
   componentDidMount() {
     var self = this;
     this.mq = zlMarquee();
+    this.onKey = function (e) { if (e.key === 'Escape' && self.state.dekl) self.setState({ dekl: false }); };
+    document.addEventListener('keydown', this.onKey);
     if (this.wantScratch) this.scrTimer = setTimeout(function () {
       var seen = false;
       try { seen = sessionStorage.getItem('zd_scratch_seen') === '1' || localStorage.getItem('zd_disc') === '1'; } catch (e) {}
@@ -1121,7 +1141,7 @@ class Component extends DCLogic {
     }, 15000);
   }
   componentWillUnmount() {
-    clearTimeout(this.scrTimer);
+    clearTimeout(this.scrTimer); document.removeEventListener('keydown', this.onKey);
     if (this.mq) this.mq();
     for (var k in this.lv) { if (this.lv[k] && this.lv[k].eng) this.lv[k].eng.destroy(); }
   }
@@ -1215,7 +1235,7 @@ class Component extends DCLogic {
       { q: 'Šta ako uzmem više?', a: 'Drži se dve kesice dnevno. Ksilitol u većoj količini može da ima laksativni efekat.' },
       { q: 'Da li stvara naviku?', a: 'Prema deklaraciji, upotreba ne dovodi do stvaranja navike i zavisnosti.' },
       { q: 'Da li je registrovan?', a: 'Da. Upisan je u bazu dodataka ishrani Ministarstva zdravlja pod brojem 17932/2026. Proizvodi ga Phytonet d.o.o. u Šimanovcima.' },
-      { q: 'Gde mogu da pročitam studije?', a: 'Wightman i saradnici, Nutrients 2020 (doi.org/10.3390/nu12082194) i López-Ríos i saradnici, Journal of Ethnopharmacology 2020 (doi.org/10.1016/j.jep.2020.112996). Studije je finansirao Nektium i odnose se na sastojak, ne na gotov proizvod.' },
+      { q: 'Gde mogu da pročitam studije?', a: 'Na stranici Studije, link je u footeru i u delu Šta je unutra. Tamo je svih šest objavljenih studija o sastojku Zynamite® u PDF-u, uz kratak opis na srpskom. Studije je finansirao Nektium i odnose se na sastojak, ne na gotov proizvod.' },
       { q: 'Kako ide dostava i plaćanje?', a: 'Proizvodi se u Srbiji, pa paket ne čeka na carini. Šaljemo preko BEX-a i stiže za 2–5 radnih dana. Plaćaš pouzećem, karticom (Visa, Mastercard, Maestro, Amex, Dina) ili IPS skeniranjem. Dostava je 299 RSD, a od 3 kutije gratis.' },
       { q: 'Šta ako mi ne prija?', a: '[X DANA] garancija prazne kutije, uz [USLOVI POVRAĆAJA].' }
     ];
@@ -1264,6 +1284,10 @@ class Component extends DCLogic {
       setCanvas: this.setCanvas,
       setLeavesBack: this.setLeavesBack,
       setLeavesFront: this.setLeavesFront,
+      dekl: this.state.dekl,
+      openDekl: function () { self.setState({ dekl: true }); },
+      closeDekl: function () { self.setState({ dekl: false }); },
+      stop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
       copyTxt: this.state.copied ? 'Kopirano ✓' : 'Kopiraj kod',
       copyCode: function () {
         try { navigator.clipboard.writeText('FOKUS10'); } catch (e) {}
