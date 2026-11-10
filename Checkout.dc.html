@@ -144,13 +144,13 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px">
 <sc-if value="{{couponOn}}" hint-placeholder-val="{{ true }}">
 <div class="row" style="align-items: center; background: #100B1B; border-radius: 12px; padding: 10px 14px">
-<span style="font-weight: 700; font-size: 14px">Kod MINDS10 · −10%</span>
+<span style="font-weight: 700; font-size: 14px">Kod FOKUS10 · −10%</span>
 <button type="button" class="linkbtn" onClick="{{removeCoupon}}">Ukloni</button>
 </div>
 </sc-if>
 <sc-if value="{{couponOff}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; gap: 8px; align-items: flex-end">
-<label class="fld" style="flex: 1 1 auto">Kod za popust<input type="text" placeholder="MINDS10" value="{{code}}" onChange="{{onCode}}" style="text-transform: uppercase"></label>
+<label class="fld" style="flex: 1 1 auto">Kod za popust<input type="text" placeholder="FOKUS10" value="{{code}}" onChange="{{onCode}}" style="text-transform: uppercase"></label>
 <button type="button" class="small" onClick="{{applyCoupon}}">Primeni</button>
 </div>
 <sc-if value="{{codeErr}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 13px; font-weight: 700; color: #F0609A">{{codeErr}}</div></sc-if>
@@ -160,7 +160,7 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.09); font-size: 14px">
 <div class="row"><span>Vrednost ({{sel.boxes}} kutija)</span><span>{{sel.fullTxt}}</span></div>
 <div class="row" style="color: #F07AAE; font-weight: 700"><span>Ušteda na paketu</span><span>{{sel.saveTxt}}</span></div>
-<sc-if value="{{couponOn}}" hint-placeholder-val="{{ true }}"><div class="row" style="color: #F07AAE; font-weight: 700"><span>Kod MINDS10</span><span>{{sel.couponTxt}}</span></div></sc-if>
+<sc-if value="{{couponOn}}" hint-placeholder-val="{{ true }}"><div class="row" style="color: #F07AAE; font-weight: 700"><span>Kod FOKUS10</span><span>{{sel.couponTxt}}</span></div></sc-if>
 <div class="row"><span>Dostava</span><span>{{sel.shipTxt}}</span></div>
 <div class="row" style="align-items: baseline; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.09)"><span style="font-weight: 800; font-size: 16px">Ukupno</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 26px">{{total}}</span></div>
 <div style="font-size: 12px; color: #ABA4BF">Plaćaš kuriru kad paket stigne. PDV uračunat.</div>
@@ -293,7 +293,7 @@ class Component extends DCLogic {
       codeErr: this.state.codeErr,
       onCode: function (e) { self.setState({ code: e.target.value, codeErr: '' }); },
       applyCoupon: function () {
-        if ((self.state.code || '').trim().toUpperCase() === 'MINDS10') self.setState({ coupon: true, codeErr: '' });
+        if ((self.state.code || '').trim().toUpperCase() === 'FOKUS10') self.setState({ coupon: true, codeErr: '' });
         else self.setState({ codeErr: 'Ovaj kod ne važi.' });
       },
       removeCoupon: function () { self.setState({ coupon: false, code: '' }); },
