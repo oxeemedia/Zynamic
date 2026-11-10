@@ -70,13 +70,12 @@ img{display:block;max-width:100%}
 .gal{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
 .hero-img{position:relative;border-radius:32px;overflow:hidden;background:#050409;border:1px solid var(--line);aspect-ratio:6 / 5}
 .hero-img img{width:100%;height:100%;object-fit:cover}
-.hero-img.contain img{object-fit:contain;padding:4% 0;box-sizing:border-box}
 .hero-badge{position:absolute;top:18px;right:18px;width:96px;height:96px;border-radius:999px;background:var(--grad);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;line-height:1;text-transform:uppercase;transform:rotate(-10deg);box-shadow:0 10px 40px -6px rgba(255,77,141,0.7)}
 .hero-badge b{font-size:28px}.hero-badge small{font-size:11px;letter-spacing:0.12em;margin-top:3px}
 .zbadge{position:absolute;top:18px;left:18px;border:1.5px solid rgba(255,255,255,0.85);padding:6px 10px;color:#fff;line-height:1.1;background:rgba(5,4,9,0.35);backdrop-filter:blur(6px)}
 .zbadge small{display:block;font-size:10px;opacity:0.85}.zbadge b{font-size:14px;font-weight:700}
 .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.thumb{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1 / 1;border-radius:16px;background:#0B0A11;border:1.5px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.thumb{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:6 / 5;border-radius:14px;background:#0B0A11;border:1.5px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb:hover{border-color:var(--line2)}
 .thumb[aria-pressed="true"]{border-color:transparent;background:linear-gradient(#0B0A11,#0B0A11) padding-box,var(--grad) border-box}
@@ -92,7 +91,7 @@ img{display:block;max-width:100%}
 .bnd{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:18px;min-height:76px;transition:transform .15s ease}
 .bnd:hover{transform:translateY(-1px)}
 .pk-thumb{width:52px;height:52px;flex:none;border-radius:12px;overflow:hidden;position:relative;background:#050409;border:1px solid var(--line)}
-.pk-thumb img{width:100%;height:100%;object-fit:cover}
+.pk-thumb img{width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box}
 .pk-thumb span{position:absolute;right:3px;bottom:3px;font-size:10px;font-weight:800;background:#fff;color:#050409;border-radius:6px;padding:1px 5px}
 .pk-chips{display:flex;gap:6px;flex-wrap:wrap}
 .pk-chips .chip{font-size:9.5px;padding:3px 8px}
@@ -163,7 +162,6 @@ img{display:block;max-width:100%}
 @media (max-width: 899px){
   .hero-grid{grid-template-columns:1fr}
   .gal{position:static}
-  .hero-img{aspect-ratio:4 / 3}
   .two{grid-template-columns:1fr !important}
   .steps{grid-template-columns:1fr 1fr}
   .steps > :last-child{grid-column:1 / -1}
@@ -171,8 +169,8 @@ img{display:block;max-width:100%}
 @media (min-width: 680px) and (max-width: 899px){
   .hero-grid{grid-template-columns:1fr 1fr;gap:28px}
   .gal{position:sticky;top:16px}
-  .hero-img{aspect-ratio:1 / 1}
   .h1{font-size:44px}
+  .pk-thumb{display:none}
 }
 @media (max-width: 600px){
   .wrap{padding-left:18px;padding-right:18px}
@@ -190,7 +188,6 @@ img{display:block;max-width:100%}
   .cta{padding:16px 24px;font-size:14px}
   .faqbtn{font-size:16px}
   .fin-img{display:none}
-  .kr-box{width:min(78%,300px) !important}
 }
 @media (max-width: 480px){
   .pk-thumb{display:none}
@@ -316,7 +313,7 @@ img{display:block;max-width:100%}
 </div>
 <div style="position: relative; display: flex; justify-content: center">
 <div class="glow" style="width: 70%; height: 70%; left: 15%; top: 15%; background: #8B5CF6; opacity: 0.45; filter: blur(70px)"></div>
-<img src="assets/box-front.webp" alt="Zynamik Direct kutija, prednja strana: ekstrakt lista manga i vitamini B2, B6, B12, 10 kesica" width="1000" height="1260" loading="lazy" class="kr-box" style="position: relative; width: min(100%, 440px); border-radius: 18px; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(2deg)">
+<figure style="position: relative; margin: 0; width: 100%; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 3; box-shadow: 0 40px 100px -30px rgba(139,92,246,0.55)"><img src="assets/leaves.webp" alt="Ilustracija lista manga sa pakovanja Zynamik Direct" width="1000" height="750" loading="lazy" style="width: 100%; height: 100%; object-fit: cover"><figcaption style="position: absolute; left: 16px; bottom: 16px; display: flex; gap: 10px; align-items: center"><span class="zbadge" style="position: static"><small>contains</small><b>Zynamite®</b></span><span style="font-size: 12px; font-weight: 600; color: #fff; background: rgba(5,4,9,0.55); backdrop-filter: blur(6px); padding: 6px 10px; border-radius: 999px">400 mg u svakoj kesici</span></figcaption></figure>
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
@@ -372,7 +369,7 @@ img{display:block;max-width:100%}
 <h2 class="h2">Deset sekundi <span class="gtext">do fokusa.</span></h2>
 </div>
 <div class="steps">
-<div class="card step"><div class="vis"><span class="num">01</span><img src="assets/stick.webp" alt="Zynamik Direct kesica sa oznakom Otvori" width="334" height="1325" loading="lazy" style="height: 300px; width: auto; transform: rotate(-62deg) translateY(10px); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7))"></div><div class="body"><h3>Pocepaj</h3><p>Kesica stoji u džepu, torbi ili rancu za teretanu. Cepa se na oznaci „Otvori".</p></div></div>
+<div class="card step"><div class="vis" style="background: #0D0C10"><img src="assets/step1.webp" alt="Zynamik Direct kesica sa oznakom Otvori" width="1000" height="560" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"><span class="num" style="z-index: 1">01</span></div><div class="body"><h3>Pocepaj</h3><p>Kesica stoji u džepu, torbi ili rancu za teretanu. Cepa se na oznaci „Otvori".</p></div></div>
 <div class="card step"><div class="vis" style="background: radial-gradient(70% 80% at 50% 100%, rgba(255,77,141,0.28), transparent 70%), #0B0A11"><span class="num">02</span><svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5A524"></stop><stop offset=".5" stop-color="#FF4D8D"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs><circle cx="60" cy="60" r="44" stroke="url(#g2)" stroke-width="3" stroke-dasharray="4 7"></circle><path d="M38 52c6 18 38 18 44 0" stroke="#fff" stroke-width="5" stroke-linecap="round"></path><path d="M50 60c0 14 20 14 20 0" fill="url(#g2)"></path><circle cx="36" cy="34" r="3" fill="#F5A524"></circle><circle cx="86" cy="30" r="2.5" fill="#FF4D8D"></circle><circle cx="92" cy="80" r="3" fill="#8B5CF6"></circle></svg></div><div class="body"><h3>Na jezik</h3><p>Prah sa ukusom manga se topi u ustima. Ne treba ti voda.</p></div></div>
 <div class="card step"><div class="vis" style="background: radial-gradient(70% 80% at 50% 100%, rgba(245,165,36,0.22), transparent 70%), #0B0A11"><span class="num">03</span><svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5A524"></stop><stop offset=".5" stop-color="#FF4D8D"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs><circle cx="60" cy="60" r="42" stroke="rgba(255,255,255,0.15)" stroke-width="6"></circle><path d="M60 18a42 42 0 0 1 36.4 63" stroke="url(#g3)" stroke-width="6" stroke-linecap="round"></path><path d="M60 36v24l15 9" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="body"><h3>Dve dnevno</h3><p>Jedna ujutru uz doručak, druga posle ručka. Treniraš? Jedna 60 minuta pre.</p></div></div>
 </div>
@@ -391,7 +388,7 @@ img{display:block;max-width:100%}
 </div>
 <a href="#paket" class="cta" style="align-self: flex-start">Uzmi 2+1 gratis <span class="arr" aria-hidden="true">→</span></a>
 </div>
-<div style="border-radius: 32px; overflow: hidden; background: #0D0C10; border: 1px solid var(--line)"><img src="assets/sticks.webp" alt="Kesica Zynamik Direct, prednja i zadnja strana" width="1100" height="1269" loading="lazy" style="width: 100%; height: auto"></div>
+<div style="border-radius: 32px; overflow: hidden; background: #0D0C10; border: 1px solid var(--line); aspect-ratio: 6 / 5"><img src="assets/g4.webp" alt="Kesica Zynamik Direct" width="1600" height="1333" loading="lazy" style="width: 100%; height: 100%; object-fit: cover"></div>
 </div>
 </section>
 
@@ -601,14 +598,14 @@ class Component extends DCLogic {
       });
     });
     var shots = [
-      { label: 'Kutija i kesice', src: 'assets/hero.webp', alt: 'Zynamik Direct kutija sa 10 kesica i dve kesice', cls: 'hero-img' },
-      { label: 'Prednja strana kutije', src: 'assets/box-front.webp', alt: 'Prednja strana kutije Zynamik Direct', cls: 'hero-img contain' },
-      { label: 'Kesica, prednja i zadnja', src: 'assets/sticks.webp', alt: 'Kesica Zynamik Direct, prednja i zadnja strana', cls: 'hero-img contain' },
-      { label: 'Jedna kesica', src: 'assets/stick.webp', alt: 'Kesica Zynamik Direct', cls: 'hero-img contain' }
+      { label: 'Kutija i kesice', src: 'assets/g1.webp', t: 'assets/g1-t.webp', alt: 'Zynamik Direct kutija sa 10 kesica i dve kesice' },
+      { label: 'Prednja strana kutije', src: 'assets/g2.webp', t: 'assets/g2-t.webp', alt: 'Prednja strana kutije Zynamik Direct' },
+      { label: 'Kesica, prednja i zadnja', src: 'assets/g3.webp', t: 'assets/g3-t.webp', alt: 'Kesica Zynamik Direct, prednja i zadnja strana' },
+      { label: 'Jedna kesica', src: 'assets/g4.webp', t: 'assets/g4-t.webp', alt: 'Kesica Zynamik Direct' }
     ];
     var cur = shots[this.state.shot];
     var thumbs = shots.map(function (s, i) {
-      return { label: s.label, src: s.src, fit: i === 0 ? '' : 'object-fit: contain; padding: 6px; box-sizing: border-box;', on: self.state.shot === i ? 'true' : 'false', pick: function () { self.setState({ shot: i }); } };
+      return { label: s.label, src: s.t, fit: '', on: self.state.shot === i ? 'true' : 'false', pick: function () { self.setState({ shot: i }); } };
     });
     var faqRaw = [
       { q: 'Da li stvarno radi?', a: 'Zynamite® je ispitan u dvostruko slepim studijama, efekat je meren od 30 minuta do 5 sati. Ali ne moraš da veruješ nama: imaš [X] dana garancije. Ako ne osetiš razliku, vraćamo ti novac.' },
@@ -634,7 +631,7 @@ class Component extends DCLogic {
       thumbs: thumbs,
       shotSrc: cur.src,
       shotAlt: cur.alt,
-      shotCls: cur.cls,
+      shotCls: 'hero-img',
       bullets: [
         { k: 'Fokus za ~30 minuta,', v: 'traje do 5 sati' },
         { k: 'Bez kofeina,', v: 'pa bez drhtanja i lupanja srca' },
