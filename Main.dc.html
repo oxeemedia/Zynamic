@@ -911,57 +911,66 @@ function zlCanopy(W, H, canvas) {
   out.sort(function (p, q) { return p.depth - q.depth; });
   return out;
 }
-/* Raspored: uvodna sekvenca — pun ekran lišća oko znaka */
+/* Raspored: uvodna sekvenca — prstenovi lišća oko znaka, svaki list okrenut ka spolja */
 function zlIntro(W, H) {
-  var mob = W < 700, cell = mob ? 98 : 150, base = mob ? 130 : 210, rnd = zlRand(104729), out = [];
-  var cx = W / 2, cy = H / 2, cols = Math.ceil(W / cell) + 1, rows = Math.ceil(H / cell) + 1;
-  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
-    var x = (c + rnd() * 0.9 - 0.2) * cell, y = (r + rnd() * 0.9 - 0.1) * cell, z = rnd();
-    var dx = x - cx, dy = y - cy, d = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx);
-    var a = ang + Math.PI / 2 + (rnd() - 0.5) * 1.1;
-    var near = d < (mob ? 160 : 340);
-    out.push({ x: x, y: y, L: base * (0.65 + rnd() * 0.6), a: a, color: ZL_PAL[(rnd() * ZL_PAL.length) | 0],
-      depth: 0.2 + z * 0.8, alpha: near ? 0.18 : 0.92, blur: z < 0.25 ? 6 : 0, delay: d * 0.55, k: 1 });
+  var mob = W < 700, cx = W / 2, cy = H / 2, out = [];
+  var L = mob ? 120 : 190, R0 = mob ? 165 : 300, step = L * 0.92;
+  var Rmax = Math.sqrt(cx * cx + cy * cy) + L * 0.3;
+  var PAL = ['pink', 'violet', 'amber', 'magenta', 'blue'];
+  for (var k = 0, R = R0; R < Rmax; k++, R += step) {
+    var n = Math.max(8, Math.round((2 * Math.PI * R) / (L * 0.78)));
+    var off = (k % 2) * (Math.PI / n);
+    for (var i = 0; i < n; i++) {
+      var ang = off + (i / n) * Math.PI * 2;
+      var x = cx + Math.cos(ang) * R, y = cy + Math.sin(ang) * R;
+      if (x < -L || x > W + L || y < -L || y > H + L) continue;
+      var a = ang + Math.PI / 2 + (i % 2 ? 0.16 : -0.16);
+      out.push({ x: x, y: y, L: L * (k === 0 ? 0.8 : 1 - (i % 3) * 0.08), a: a, color: PAL[(i + k * 2) % PAL.length],
+        dark: (i + k) % 3 === 0, depth: 0.3 + (k % 3) * 0.25, alpha: k === 0 ? 0.8 : 0.95, blur: 0, delay: k * 160 + i * 6, k: 1 });
+    }
   }
-  out.sort(function (p, q) { return p.depth - q.depth; });
   return { leaves: out, center: { x: cx, y: cy } };
 }
-/* Raspored: krošnja sa leve i desne ivice (grane sa lepezom listova) */
+/* Raspored: krošnja sa leve i desne ivice — uredan ritam grana, svaka grana lepeza od 3 lista */
 function zlEdgeCanopy(front) {
   return function (W, H, canvas) {
     var hero = canvas.parentElement, buy = hero && hero.querySelector('.buy');
     var hr = canvas.getBoundingClientRect(), rbb = buy ? buy.getBoundingClientRect() : null;
     var rb = rbb ? { l: rbb.left - hr.left, t: rbb.top - hr.top, r: rbb.right - hr.left, b: rbb.bottom - hr.top } : null;
-    var mob = W < 700, rnd = zlRand(front ? 31337 : 4241), out = [];
-    var margin = Math.max(0, (W - 1200) / 2);
-    var reach = mob ? 70 : Math.max(140, Math.min(300, margin + 110));
-    var base = mob ? 78 : Math.min(185, 120 + margin * 0.35);
-    var nB = front ? (mob ? 1 : 2) : (mob ? 3 : Math.min(5, Math.max(4, Math.round(H / 230))));
-    if (front && W < 1100) return [];
+    var mob = W < 700, margin = Math.max(0, (W - 1200) / 2), out = [];
+    var PAL = ['pink', 'violet', 'amber', 'magenta', 'blue', 'violet', 'pink', 'amber'];
+    if (front) {
+      if (W < 1280) return [];
+      var B = Math.min(260, 120 + margin * 0.6);
+      return [
+        { x: -20, y: H + 10, L: B * 1.15, a: 0.55, color: 'magenta', dark: true, depth: 1, alpha: 0.9, blur: 3, delay: 900, k: 0.6, part: 1 },
+        { x: W + 20, y: -10, L: B, a: Math.PI + 0.55, color: 'violet', dark: true, depth: 1, alpha: 0.85, blur: 3, delay: 1000, k: 0.6, part: 1 }
+      ];
+    }
+    var reach = mob ? 62 : Math.max(130, Math.min(300, margin + 80));
+    var L = mob ? 74 : Math.max(110, Math.min(200, reach * 0.78));
+    var gap = L * (mob ? 1.25 : 1.08);
+    var yMax = mob ? H * 0.42 : H + L * 0.3;
     [-1, 1].forEach(function (side) {
-      for (var b = 0; b < nB; b++) {
-        var t = nB === 1 ? 0.1 : b / (nB - 1);
-        var ay = mob ? H * (0.02 + t * 0.32) + (rnd() - 0.5) * 40 : H * (-0.04 + t * 1.06) + (rnd() - 0.5) * 60;
-        var ax = side < 0 ? -18 - rnd() * 20 : W + 18 + rnd() * 20;
-        var dirA = side < 0 ? Math.PI / 2 : -Math.PI / 2;
-        var droop = (ay < H * 0.25 ? 0.35 : ay > H * 0.75 ? -0.25 : 0.1) * side;
-        var m = mob ? 3 : (front ? 2 : 3 + (rnd() * 2 | 0));
-        var span = reach * (0.55 + rnd() * 0.45);
-        for (var k = 0; k < m; k++) {
-          var u = m === 1 ? 0 : k / (m - 1);
-          var px = ax - side * -1 * 0 + (side < 0 ? 1 : -1) * span * u * 0.55;
-          var py = ay + (rnd() - 0.5) * 26;
-          var fan = (k % 2 ? 1 : -1) * (0.45 + rnd() * 0.55) * (1 - u * 0.5);
-          var a = dirA + fan + droop * (0.4 + u);
-          var L = base * (front ? 1.35 + rnd() * 0.4 : 0.75 + rnd() * 0.5) * (1 - u * 0.25);
-          var tipx = px + Math.sin(a) * L, cx = px + Math.sin(a) * L * 0.5, cy = py - Math.cos(a) * L * 0.5;
-          var dark = rnd() < (front ? 0.85 : 0.6);
-          var alpha = front ? 0.95 : (dark ? 0.95 : 0.8);
+      var dirA = side < 0 ? Math.PI / 2 : -Math.PI / 2;
+      for (var r = 0, y = (side < 0 ? -L * 0.15 : gap * 0.5 - L * 0.15); y < yMax; r++, y += gap) {
+        var x = side < 0 ? -12 : W + 12;
+        var tilt = (r % 2 ? 0.14 : -0.1) * side;
+        var depth = r % 2 ? 0.7 : 0.45;
+        var c = PAL[(r * 3 + (side > 0 ? 2 : 0)) % PAL.length], c2 = PAL[(r * 3 + (side > 0 ? 2 : 0) + 1) % PAL.length];
+        var fan = [
+          { da: -0.64 * side, s: 0.8, col: c2, dark: true },
+          { da: 0.62 * side, s: 0.76, col: c2, dark: true },
+          { da: 0, s: 1, col: c, dark: r % 3 === 1 }
+        ];
+        fan.forEach(function (fl, k) {
+          var a = dirA + fl.da + tilt, len = L * fl.s;
+          var cx = x + Math.sin(a) * len * 0.5, cy = y - Math.cos(a) * len * 0.5;
+          var alpha = fl.dark ? 0.95 : 0.88;
           if (rb && cx > rb.l - 20 && cx < rb.r + 20 && cy > rb.t - 20 && cy < rb.b + 20) alpha *= 0.35;
-          out.push({ x: px, y: py, L: L, a: a, color: ZL_PAL[(rnd() * ZL_PAL.length) | 0], dark: dark,
-            depth: front ? 0.95 : 0.35 + rnd() * 0.4, alpha: alpha, blur: front ? 2 : (rnd() < 0.2 ? 4 : 0), bake: false,
-            delay: 250 + (side < 0 ? 0 : 120) + b * 60 + k * 70, k: front ? 0.7 : 1, part: 1 });
-        }
+          out.push({ x: x, y: y, L: len, a: a, color: fl.col, dark: fl.dark, depth: depth + k * 0.05, alpha: alpha, blur: 0,
+            delay: 200 + r * 110 + (side > 0 ? 70 : 0) + k * 60, k: 1, part: 1 });
+        });
       }
     });
     out.sort(function (p, q) { return p.depth - q.depth; });
