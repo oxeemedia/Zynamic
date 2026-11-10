@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050409">
 <meta name="description" content="Zynamik® Direct: fokus bez kofeina. 400 mg Zynamite® u kesici, ide direktno na jezik. 2+1 gratis, plaćanje pouzećem, isporuka iz Beograda.">
 <title>Zynamik Direct — fokus bez kofeina</title>
 <script src="./vendor/react.js"></script>
@@ -13,296 +14,441 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Archivo:wdth,wght@62..125,300..900&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#FAF7F0}
-a{color:#141310}a:hover{color:#5E5A50}
+:root{
+  --bg:#050409;--bg2:#0B0A11;--card:#111018;--card2:#16141F;--line:rgba(255,255,255,0.09);--line2:rgba(255,255,255,0.16);
+  --text:#F4F2F8;--muted:#A9A5B8;--dim:#6F6B80;
+  --amber:#F5A524;--pink:#FF4D8D;--magenta:#E0338A;--violet:#8B5CF6;--blue:#4F6BFF;--green:#22C58B;
+  --grad:linear-gradient(100deg,#F5A524 0%,#FF4D8D 48%,#8B5CF6 100%);
+  --grad2:linear-gradient(100deg,#FF4D8D 0%,#8B5CF6 100%);
+}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+::selection{background:#FF4D8D;color:#fff}
+a{color:var(--text)}a:hover{color:#fff}
+img{display:block;max-width:100%}
+.page{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.55;min-height:100vh;overflow-x:clip}
+.wrap{max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;box-sizing:border-box}
+.wide{font-family:Archivo,sans-serif;font-stretch:125%}
+.gtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-stretch:125%;font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--grad)}
+.eyebrow.center::after{content:"";width:22px;height:2px;border-radius:2px;background:var(--grad)}
+.h2{margin:0;font-family:Archivo,sans-serif;font-stretch:112%;font-weight:800;font-size:clamp(30px,4.2vw,54px);line-height:1.02;letter-spacing:-0.02em}
+.lead{margin:0;font-size:18px;color:var(--muted);max-width:620px}
+.sec{padding-top:120px;padding-bottom:120px;position:relative}
+.glow{position:absolute;border-radius:999px;filter:blur(90px);opacity:0.55;pointer-events:none;z-index:0}
+.rel{position:relative;z-index:1}
+.dots{background-image:radial-gradient(rgba(255,255,255,0.10) 1px,transparent 1.2px);background-size:22px 22px}
+
+/* marquee */
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.track{display:flex;width:max-content;animation:tick 40s linear infinite}
-.track > span{display:flex;gap:32px;padding-right:32px;flex:none}
-.track.slow{animation-duration:60s}
+.track{display:flex;width:max-content;animation:tick 45s linear infinite}
+.track > span{display:flex;gap:28px;padding-right:28px;flex:none;align-items:center}
+.track.slow{animation-duration:70s}
+@media (prefers-reduced-motion: reduce){.track{animation:none}}
+
+/* buttons */
+.cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--grad2);color:#fff;text-decoration:none;font-family:Archivo,sans-serif;font-stretch:115%;font-weight:800;font-size:15px;letter-spacing:0.08em;text-transform:uppercase;padding:18px 34px;border-radius:999px;min-height:56px;box-sizing:border-box;border:0;cursor:pointer;box-shadow:0 10px 40px -8px rgba(255,77,141,0.55),inset 0 1px 0 rgba(255,255,255,0.25);transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.cta:hover{color:#fff;transform:translateY(-1px);box-shadow:0 16px 50px -8px rgba(139,92,246,0.65),inset 0 1px 0 rgba(255,255,255,0.3);filter:saturate(1.15)}
+.cta .arr{transition:transform .2s ease}.cta:hover .arr{transform:translateX(3px)}
+.cta.ghostc{background:transparent;box-shadow:none;border:1.5px solid var(--line2)}
+.cta.ghostc:hover{border-color:#fff;box-shadow:none}
+.cta:focus-visible,.bnd:focus-visible,.thumb:focus-visible,.faqbtn:focus-visible,.ghost:focus-visible,.xbtn:focus-visible,.linkbtn:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+
+/* chips & cards */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid var(--line);color:var(--text)}
+.chip.hot{background:var(--grad2);border-color:transparent;color:#fff}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.015));border:1px solid var(--line);border-radius:24px}
+.gborder{border:1.5px solid transparent;background:linear-gradient(var(--card2),var(--card2)) padding-box,var(--grad) border-box}
+.ph{border:1.5px dashed rgba(255,255,255,0.16);border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--dim);font-size:12px;letter-spacing:0.02em;padding:16px;box-sizing:border-box;background:radial-gradient(120% 90% at 20% 0%,rgba(139,92,246,0.14),transparent 60%),radial-gradient(120% 90% at 100% 100%,rgba(255,77,141,0.10),transparent 60%),#0D0C13}
+
+/* hero */
+.hero{position:relative;padding-top:36px;padding-bottom:96px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:56px;align-items:start}
+.gal{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
+.hero-img{position:relative;border-radius:32px;overflow:hidden;background:#050409;border:1px solid var(--line);aspect-ratio:6 / 5}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img.contain img{object-fit:contain;padding:4% 0;box-sizing:border-box}
+.hero-badge{position:absolute;top:18px;right:18px;width:96px;height:96px;border-radius:999px;background:var(--grad);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;line-height:1;text-transform:uppercase;transform:rotate(-10deg);box-shadow:0 10px 40px -6px rgba(255,77,141,0.7)}
+.hero-badge b{font-size:28px}.hero-badge small{font-size:11px;letter-spacing:0.12em;margin-top:3px}
+.zbadge{position:absolute;top:18px;left:18px;border:1.5px solid rgba(255,255,255,0.85);padding:6px 10px;color:#fff;line-height:1.1;background:rgba(5,4,9,0.35);backdrop-filter:blur(6px)}
+.zbadge small{display:block;font-size:10px;opacity:0.85}.zbadge b{font-size:14px;font-weight:700}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.thumb{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1 / 1;border-radius:16px;background:#0B0A11;border:1.5px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb:hover{border-color:var(--line2)}
+.thumb[aria-pressed="true"]{border-color:transparent;background:linear-gradient(#0B0A11,#0B0A11) padding-box,var(--grad) border-box}
+.thumb .t{font-size:10px;color:var(--muted);text-align:center;padding:6px;line-height:1.2}
+.h1{margin:0;font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(44px,6vw,76px);line-height:0.9;letter-spacing:-0.015em;text-transform:uppercase}
+.h1 sup{font-size:0.26em;vertical-align:top;position:relative;top:0.5em;margin-left:2px;font-weight:600}
+.h1 .thin{display:block;font-weight:300;font-stretch:100%;letter-spacing:0.02em;font-size:0.62em;margin-top:6px;text-align:right;max-width:max-content}
+.buy{display:flex;flex-direction:column;gap:18px}
+.stars{color:var(--amber);letter-spacing:2px}
+.ticks{display:flex;flex-direction:column;gap:10px;font-size:15px;color:#DCD9E6}
+.ticks > div{display:flex;gap:12px;align-items:flex-start}
+.tick{flex:none;width:22px;height:22px;border-radius:999px;background:var(--grad2);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.bnd{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:18px;min-height:76px;transition:transform .15s ease}
+.bnd:hover{transform:translateY(-1px)}
+.pk-thumb{width:52px;height:52px;flex:none;border-radius:12px;overflow:hidden;position:relative;background:#050409;border:1px solid var(--line)}
+.pk-thumb img{width:100%;height:100%;object-fit:cover}
+.pk-thumb span{position:absolute;right:3px;bottom:3px;font-size:10px;font-weight:800;background:#fff;color:#050409;border-radius:6px;padding:1px 5px}
+.pk-chips{display:flex;gap:6px;flex-wrap:wrap}
+.pk-chips .chip{font-size:9.5px;padding:3px 8px}
+.trust{display:flex;justify-content:center;gap:8px 20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.trust span{display:flex;gap:6px;align-items:center}
+
+/* band */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:26px 0;background:linear-gradient(90deg,rgba(245,165,36,0.06),rgba(255,77,141,0.06),rgba(139,92,246,0.06))}
+.band .track > span{gap:36px;padding-right:36px}
+.band b{font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(26px,3.4vw,44px);text-transform:uppercase;letter-spacing:-0.01em}
+.band b.o{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,0.55)}
+.band i{font-style:normal;font-size:22px}
+
+/* misc */
+.pill{display:flex;align-items:center;gap:14px;padding:18px 20px;font-size:15px;color:#DCD9E6}
+.dot{width:38px;height:38px;border-radius:12px;background:rgba(255,77,141,0.12);border:1px solid rgba(255,77,141,0.25);display:flex;align-items:center;justify-content:center;flex:none}
+.ba{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;overflow:hidden;border:1px solid var(--line)}
+.ba .ph{border:0;border-radius:0;aspect-ratio:4 / 3;position:relative}
+.ba .tag{position:absolute;top:16px;left:16px;font-size:11px;font-weight:800;letter-spacing:0.1em;padding:6px 10px;border-radius:999px}
+.stat{padding:24px;display:flex;flex-direction:column;gap:8px}
+.stat .n{font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;font-size:44px;line-height:1}
+.stat p{margin:0;font-size:14.5px;color:var(--muted)}
+.stat strong{color:var(--text)}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(170px,1fr);gap:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;scroll-snap-type:x mandatory}
+.strip::-webkit-scrollbar{display:none}
+.vcard{scroll-snap-align:start;aspect-ratio:9 / 16;border-radius:20px;position:relative;overflow:hidden;border:1px solid var(--line);background:radial-gradient(90% 60% at 50% 0%,rgba(139,92,246,0.25),transparent 70%),radial-gradient(90% 60% at 50% 100%,rgba(255,77,141,0.18),transparent 70%),#0C0B12;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;box-sizing:border-box}
+.vcard .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:999px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+.vcard .loc{font-size:13px;font-weight:700}.vcard .s{font-size:11px;color:var(--dim)}
+.vs{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center}
+.row{display:flex;gap:12px;align-items:center}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.step{overflow:hidden;display:flex;flex-direction:column}
+.step .vis{height:220px;position:relative;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);overflow:hidden;background:radial-gradient(70% 80% at 50% 100%,rgba(139,92,246,0.25),transparent 70%),#0B0A11}
+.step .num{position:absolute;top:16px;left:16px;font-family:Archivo,sans-serif;font-stretch:125%;font-weight:900;font-size:13px;letter-spacing:0.1em;color:var(--muted)}
+.step .body{padding:22px;display:flex;flex-direction:column;gap:6px}
+.step h3{margin:0;font-family:Archivo,sans-serif;font-stretch:112%;font-size:20px;font-weight:800}
+.step p{margin:0;font-size:14.5px;color:var(--muted)}
+.tl{display:flex;flex-direction:column;gap:0;position:relative}
+.tl > div{display:flex;gap:18px;align-items:flex-start;padding-bottom:26px;position:relative}
+.tl > div::before{content:"";position:absolute;left:13px;top:30px;bottom:0;width:2px;background:linear-gradient(var(--pink),rgba(139,92,246,0.15))}
+.tl > div:last-child::before{display:none}
+.tl .b{width:28px;height:28px;border-radius:999px;background:var(--grad);flex:none;box-shadow:0 0 0 5px rgba(255,77,141,0.15)}
+.wall{columns:3 240px;column-gap:16px}
+.wall > div{break-inside:avoid;margin-bottom:16px}
+.faqbtn{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 4px;cursor:pointer;font-weight:600;font-size:17px;color:var(--text);min-height:44px}
+.faqbtn .pm{width:30px;height:30px;border-radius:999px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;flex:none;font-size:18px;line-height:1;color:#fff}
+.faqbtn[aria-expanded="true"] .pm{background:var(--grad2);border-color:transparent}
+
+/* sticky + popup */
+.stickybar{position:sticky;bottom:0;z-index:10;background:rgba(11,10,17,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.sb-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @keyframes pop{from{transform:translateY(16px) scale(0.97);opacity:0}to{transform:none;opacity:1}}
 .card-in{animation:pop .35s ease-out}
 @media (prefers-reduced-motion: reduce){.card-in{animation:none}}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#141310;color:#FAF7F0;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 32px;border-radius:999px;min-height:48px;box-sizing:border-box;border:0;cursor:pointer}
-.cta:hover{background:#2E2B24;color:#FAF7F0}
-.cta.alt{background:#FF9F1C;color:#141310}
-.cta.alt:hover{background:#FFB54D;color:#141310}
-.cta:focus-visible,.bnd:focus-visible,.thumb:focus-visible,.faqbtn:focus-visible,.ghost:focus-visible,.xbtn:focus-visible,.linkbtn:focus-visible{outline:3px solid #FF9F1C;outline-offset:3px}
-.bnd{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:16px;background:#FFFFFF;min-height:72px}
-.thumb{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1/1;border-radius:12px;background:#F1ECE0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#5E5A50;text-align:center;padding:4px;line-height:1.2}
-.faqbtn{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 4px;cursor:pointer;font-weight:700;font-size:17px;color:#141310;min-height:44px}
-.ph{border:2px dashed #B9B3A3;border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:#5E5A50;font-size:13px;padding:16px;box-sizing:border-box;background:#F1ECE0}
-.ph.dark{background:#24221D;border-color:#55524A;color:#C9C4B6}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#B35F00}
-.h2{margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(30px,3.6vw,44px);line-height:1.02;letter-spacing:-0.025em}
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:#FFF1DC;color:#8A4A00}
-.fld{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
-.fld input{font:inherit;font-weight:500;font-size:17px;padding:14px 16px;border:1.5px solid #CFC8B8;border-radius:14px;background:#FFFFFF;color:#141310;min-height:48px;box-sizing:border-box;width:100%}
-.fld input:focus{outline:3px solid #FF9F1C;outline-offset:1px;border-color:#141310}
-.ghost{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 18px;border-radius:999px;border:1.5px solid #CFC8B8;font-weight:700;font-size:15px;color:#5E5A50;text-align:center}
-.ghost:hover{border-color:#141310;color:#141310}
-.xbtn{all:unset;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:999px}
-.linkbtn{all:unset;cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;color:#5E5A50;align-self:center;min-height:32px}
-.pill{display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E4DED0;border-radius:14px;padding:14px 16px;font-size:14px;color:#3A372F}
-.dot{width:32px;height:32px;border-radius:999px;background:#FFF1DC;display:flex;align-items:center;justify-content:center;flex:none}
-.wall{columns:3 240px;column-gap:16px}
-.wall > div{break-inside:avoid;margin-bottom:16px}
-.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;padding-bottom:6px}
-.strip{scrollbar-width:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}.strip::-webkit-scrollbar{display:none}.strip > div{scroll-snap-align:start}
-.sb-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--muted)}
+.fld input{font:inherit;font-weight:500;font-size:17px;padding:14px 16px;border:1.5px solid var(--line2);border-radius:14px;background:#0B0A11;color:var(--text);min-height:50px;box-sizing:border-box;width:100%}
+.fld input:focus{outline:3px solid rgba(255,77,141,0.6);outline-offset:1px;border-color:var(--pink)}
+.ghost{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:14px 18px;border-radius:999px;border:1.5px solid var(--line2);font-weight:600;font-size:15px;color:var(--muted);text-align:center}
+.ghost:hover{border-color:#fff;color:#fff}
+.xbtn{all:unset;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid var(--line)}
+.linkbtn{all:unset;cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;color:var(--muted);align-self:center;min-height:32px}
+
+/* responsive */
+@media (max-width: 1023px){
+  .hero-grid{gap:36px}
+  .vs{grid-template-columns:1fr}
+}
 @media (max-width: 899px){
-  .hero{gap:24px !important;padding-top:20px !important}
-  .hero-img{aspect-ratio:4 / 3 !important}
+  .hero-grid{grid-template-columns:1fr}
+  .gal{position:static}
+  .hero-img{aspect-ratio:4 / 3}
+  .two{grid-template-columns:1fr !important}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps > :last-child{grid-column:1 / -1}
 }
 @media (min-width: 680px) and (max-width: 899px){
-  .hero > div{flex-basis:300px !important}
-  .hero > div:first-child{position:sticky;top:16px}
-  .hero-img{aspect-ratio:1 / 1 !important}
+  .hero-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .gal{position:sticky;top:16px}
+  .hero-img{aspect-ratio:1 / 1}
+  .h1{font-size:44px}
 }
 @media (max-width: 600px){
-  .sec{padding-top:56px !important;padding-bottom:56px !important;padding-left:20px !important;padding-right:20px !important}
-  .hero,.sec-top{padding-left:20px !important;padding-right:20px !important}
-  .hero-badge{width:72px !important;height:72px !important;top:12px !important;right:12px !important}
-  .hero-badge > span:first-child{font-size:22px !important}
-  .hero-badge > span:last-child{font-size:10px !important}
-  .thumbs{display:flex !important;overflow-x:auto;scrollbar-width:none}
-  .thumbs::-webkit-scrollbar{display:none}
-  .thumbs > .thumb{flex:0 0 64px}
-  .strip{grid-auto-columns:42% !important}
-  .wall{columns:2 !important;column-gap:10px !important}
-  .wall > div{margin-bottom:10px !important}
-  .cta{padding:16px 22px;font-size:15px}
-  .stickybar > div{padding:8px 16px !important}
+  .wrap{padding-left:18px;padding-right:18px}
+  .sec{padding-top:72px;padding-bottom:72px}
+  .hero{padding-top:16px;padding-bottom:64px}
+  .hero-img{border-radius:24px}
+  .hero-badge{width:74px;height:74px;top:12px;right:12px}.hero-badge b{font-size:21px}.hero-badge small{font-size:9px}
+  .zbadge{top:12px;left:12px;padding:4px 8px}.zbadge b{font-size:12px}
+  .lead{font-size:16.5px}
+  .ba{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step .vis{height:180px}
+  .strip{grid-auto-columns:44%}
+  .wall{columns:2;column-gap:10px}.wall > div{margin-bottom:10px}
+  .cta{padding:16px 24px;font-size:14px}
+  .faqbtn{font-size:16px}
+  .fin-img{display:none}
+  .kr-box{width:min(78%,300px) !important}
 }
 @media (max-width: 480px){
-  .pk-thumb{display:none !important}
+  .pk-thumb{display:none}
   .bnd{padding:14px 12px;gap:10px}
   .pk-chips .chip{white-space:nowrap}
   .sb-thumb{display:none !important}
   .pop-btns{grid-template-columns:1fr !important}
+  .stat{padding:20px}
 }
 </style>
 </helmet>
-<div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.55; min-height: 100vh">
+<div class="page">
 
 <!-- PROMO BAR -->
-<div style="background: #141310; color: #FAF7F0; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
+<div style="background: #000; color: var(--muted); overflow: hidden; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; padding: 10px 0; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--line)">
 <div class="track slow"><span><sc-for list="{{promo}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span><span aria-hidden="true"><sc-for list="{{promo}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span></div>
 </div>
 
 <!-- HEADER -->
 <dc-import name="Header" active="home" hint-size="100%,66px"></dc-import>
 
-<!-- TICKER -->
-<div style="background: #FF9F1C; color: #141310; overflow: hidden; padding: 8px 0; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap" aria-hidden="true">
-<div class="track"><span><sc-for list="{{ticker}}" as="t" hint-placeholder-count="24"><span>{{t}}</span></sc-for></span><span><sc-for list="{{ticker}}" as="t" hint-placeholder-count="24"><span>{{t}}</span></sc-for></span></div>
-</div>
-
 <!-- POPUST AKTIVAN -->
 <sc-if value="{{discount}}" hint-placeholder-val="{{ false }}">
-<div style="background: #FFF1DC; color: #141310; text-align: center; font-size: 14px; font-weight: 700; padding: 10px 16px; border-bottom: 1px solid #FFD6A0">Tvojih 10% je aktivno. Kod MINDS10 je poslat na {{email}} i već je uračunat u cene.</div>
+<div style="background: var(--grad2); color: #fff; text-align: center; font-size: 14px; font-weight: 600; padding: 10px 16px">Tvojih 10% je aktivno. Kod MINDS10 je poslat na {{email}} i već je uračunat u cene.</div>
 </sc-if>
 
-<!-- PROIZVOD: galerija + kupovina -->
-<section id="paket" class="hero" style="max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+<!-- HERO / PROIZVOD -->
+<section id="paket" class="hero">
+<div class="glow" style="width: 520px; height: 520px; left: -160px; top: -120px; background: #1F8F5F; opacity: 0.35"></div>
+<div class="glow" style="width: 560px; height: 560px; right: -180px; top: 80px; background: #7A2BD9; opacity: 0.4"></div>
+<div class="wrap rel">
+<div class="hero-grid">
 
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
-<div class="ph hero-img" style="aspect-ratio: 1 / 1; border-radius: 28px; position: relative; background: #FFF1DC; border-color: #FFC57A">[FOTO: {{shot}}]
-<span class="hero-badge" style="position: absolute; top: 16px; right: 16px; width: 92px; height: 92px; border-radius: 999px; background: #141310; color: #FF9F1C; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: Archivo, sans-serif; font-weight: 900; line-height: 1; text-transform: uppercase; transform: rotate(-8deg)"><span style="font-size: 28px">2+1</span><span style="font-size: 12px; color: #FAF7F0">gratis</span></span>
+<div class="gal">
+<div class="{{shotCls}}">
+<img src="{{shotSrc}}" alt="{{shotAlt}}" width="1600" height="1333" fetchpriority="high">
+<span class="hero-badge" aria-hidden="true"><b>2+1</b><small>gratis</small></span>
 </div>
-<div style="background: #141310; color: #FF9F1C; border-radius: 14px; padding: 12px 0; overflow: hidden; white-space: nowrap; font-family: Archivo, sans-serif; font-weight: 900; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase">
-<div class="track"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span><span aria-hidden="true"><sc-for list="{{band}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span></div>
+<div class="thumbs">
+<sc-for list="{{thumbs}}" as="g" hint-placeholder-count="4"><button type="button" class="thumb" onClick="{{g.pick}}" aria-label="Prikaži: {{g.label}}" aria-pressed="{{g.on}}"><img src="{{g.src}}" alt="" loading="lazy" style="{{g.fit}}"></button></sc-for>
 </div>
-<div class="thumbs" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
-<sc-for list="{{thumbs}}" as="g" hint-placeholder-count="6"><button type="button" class="thumb" onClick="{{g.pick}}" aria-label="Prikaži: {{g.label}}" aria-pressed="{{g.on}}" style="{{g.style}}">{{g.label}}</button></sc-for>
-</div>
-</div>
-
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip">Bez kofeina</span><span class="chip">[X] dana garancija</span><span class="chip" style="background: #141310; color: #FF9F1C">2+1 gratis</span></div>
-<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(32px, 4vw, 46px); line-height: 1; letter-spacing: -0.03em">Zynamik® Direct</h1>
-<div style="display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600"><span style="color: #E07A00; letter-spacing: 2px" aria-hidden="true">★★★★★</span><span>[Ocena i broj kupaca, samo stvarni]</span></div>
-<p style="margin: 0; font-size: 17px; color: #3A372F">Fokus bez kofeina. Kesica na jezik, za oko 30 minuta si u zoni i tu ostaješ do 5 sati.</p>
-<div style="display: flex; flex-direction: column; gap: 8px; font-size: 15px">
-<sc-for list="{{bullets}}" as="b" hint-placeholder-count="4"><div style="display: flex; gap: 10px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>{{b.k}}</strong> {{b.v}}</span></div></sc-for>
 </div>
 
-<div style="display: flex; flex-direction: column; gap: 10px; padding-top: 6px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</span><span style="font-size: 13px; font-weight: 700; color: #B35F00">Što više uzmeš, manje plaćaš</span></div>
+<div class="buy">
+<span class="eyebrow">Energy / Focus / Recovery</span>
+<h1 class="h1">Zynamik<sup>®</sup><span class="thin">Direct</span></h1>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 500; color: var(--muted)"><span class="stars" aria-hidden="true">★★★★★</span><span>[Ocena i broj kupaca, samo stvarni]</span></div>
+<p class="lead" style="color: #DCD9E6">Fokus bez kofeina. Kesica na jezik, za oko 30 minuta si u zoni i tu ostaješ do 5 sati.</p>
+<div class="ticks">
+<sc-for list="{{bullets}}" as="b" hint-placeholder-count="4"><div><span class="tick" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><path d="M5 12l5 5L20 7"></path></svg></span><span><strong style="color: #fff">{{b.k}}</strong> {{b.v}}</span></div></sc-for>
+</div>
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip">Bez kofeina</span><span class="chip">400 mg Zynamite®</span><span class="chip">10 kesica u kutiji</span></div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 4px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span class="eyebrow" style="color: #fff">Izaberi paket</span><span style="font-size: 13px; font-weight: 600" class="gtext">Što više uzmeš, manje plaćaš</span></div>
 <sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
 <button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
 <sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
 <span aria-hidden="true" style="{{p.radio}}"></span>
-<span class="ph pk-thumb" style="width: 52px; height: 52px; padding: 2px; border-radius: 10px; font-size: 11px; font-weight: 800; flex: none; border-width: 1px">{{p.boxes}}×</span>
-<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; text-align: left">
-<span style="font-weight: 800; font-size: 16px">{{p.name}}</span>
-<span style="font-size: 12px; color: #5E5A50">{{p.sub}}</span>
-<span class="pk-chips" style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span class="chip" style="font-size: 10px; padding: 3px 6px">{{c}}</span></sc-for></span>
+<span class="pk-thumb" aria-hidden="true"><img src="assets/box-thumb.webp" alt=""><span>{{p.boxes}}×</span></span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px; text-align: left">
+<span style="font-weight: 700; font-size: 16px; color: #fff">{{p.name}}</span>
+<span style="font-size: 12.5px; color: var(--muted)">{{p.sub}}</span>
+<span class="pk-chips"><sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span class="chip">{{c}}</span></sc-for></span>
 </span>
 <span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none">
-<span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">{{p.priceTxt}}</span>
-<sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 13px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if>
-<span style="font-size: 11px; color: #5E5A50">{{p.perTxt}}</span>
+<span class="wide" style="font-weight: 800; font-size: 19px; color: #fff">{{p.priceTxt}}</span>
+<sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 13px; color: var(--dim); font-weight: 500">{{p.oldTxt}}</s></sc-if>
+<span style="font-size: 11px; color: var(--muted)">{{p.perTxt}}</span>
 </span>
 </button>
 </sc-for>
 </div>
 
-<a href="Checkout.dc.html" class="cta alt" style="width: 100%; font-size: 17px">Poruči · {{sel.priceTxt}}</a>
-<div style="text-align: center; font-size: 13px; font-weight: 600; color: #3A372F">Plaćaš kuriru kad stigne · {{sel.shipTxt}}</div>
-<div style="display: flex; justify-content: center; gap: 8px 18px; flex-wrap: wrap; font-size: 12px; color: #5E5A50">
-<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem</span>
-<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Isporuka [1–3 dana]</span>
-<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>[X] dana garancija</span>
+<a href="Checkout.dc.html" class="cta" style="width: 100%; font-size: 16px">Poruči · {{sel.priceTxt}} <span class="arr" aria-hidden="true">→</span></a>
+<div style="text-align: center; font-size: 13px; font-weight: 500; color: #DCD9E6">Plaćaš kuriru kad stigne · {{sel.shipTxt}}</div>
+<div class="trust">
+<span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem</span>
+<span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Isporuka [1–3 dana]</span>
+<span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>[X] dana garancija</span>
+</div>
+</div>
+
 </div>
 </div>
 </section>
 
+<!-- BAND -->
+<div class="band" aria-hidden="true">
+<div class="track"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b class="{{t.c}}">{{t.t}}</b><i class="gtext">✦</i></sc-for></span><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b class="{{t.c}}">{{t.t}}</b><i class="gtext">✦</i></sc-for></span></div>
+</div>
+
 <!-- PROBLEM -->
-<section class="sec-top" style="max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; display: flex; flex-direction: column; gap: 20px">
+<section class="sec">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
 <span class="eyebrow">Zvuči poznato?</span>
-<h2 class="h2">U 14h čitaš istu rečenicu treći put.</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>Druga kafa u 11, treća u 14h</div>
-<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg></span>Ruke drhte, srce lupa</div>
-<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"></path></svg></span>U ponoć gledaš u plafon</div>
+<h2 class="h2" style="max-width: 820px">U 14h čitaš istu rečenicu <span class="gtext">treći put.</span></h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+<div class="card pill"><span class="dot" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>Druga kafa u 11, treća u 14h</div>
+<div class="card pill"><span class="dot" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.2"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg></span>Ruke drhte, srce lupa</div>
+<div class="card pill"><span class="dot" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF4D8D" stroke-width="2.2"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"></path></svg></span>U ponoć gledaš u plafon</div>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border-radius: 24px; overflow: hidden">
-<div class="ph dark" style="aspect-ratio: 4 / 3; border-radius: 0; position: relative"><span style="position: absolute; top: 14px; left: 14px; background: #FAF7F0; color: #141310; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px">BEZ ZYNAMIKA · 14H</span>[FOTO: ista osoba za stolom, umorna, treća šolja kafe]</div>
-<div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 14px; left: 14px; background: #FF9F1C; color: #141310; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px">SA ZYNAMIKOM · 14H</span>[FOTO: ista osoba, fokusirana, kesica na stolu]</div>
+<div class="ba">
+<div class="ph" style="background: #0A0A0E"><span class="tag" style="background: rgba(255,255,255,0.1); color: var(--muted)">BEZ ZYNAMIKA · 14H</span>[FOTO: ista osoba za stolom, umorna, treća šolja kafe]</div>
+<div class="ph"><span class="tag" style="background: var(--grad2); color: #fff">SA ZYNAMIKOM · 14H</span>[FOTO: ista osoba, fokusirana, kesica na stolu]</div>
 </div>
-<p style="margin: 0; font-size: 15px; color: #5E5A50">Problem nije što ti treba energija. Problem je što je jedino što znaš da uzmeš kofein.</p>
+<p class="lead">Problem nije što ti treba energija. Problem je što je jedino što znaš da uzmeš kofein.</p>
+</div>
 </section>
 
 <!-- KAKO RADI -->
-<section class="sec" style="background: #FFF1DC; padding: 80px 24px">
-<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
-<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
-<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<section class="sec" style="background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden">
+<div class="glow" style="width: 600px; height: 600px; right: -200px; top: -100px; background: #B0207A; opacity: 0.3"></div>
+<div class="wrap rel" style="display: flex; flex-direction: column; gap: 48px">
+<div class="two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 18px">
 <span class="eyebrow">Iz lista manga</span>
-<h2 class="h2">Mala kesica.<br>Merljiva razlika.</h2>
-<p style="margin: 0; color: #3A372F">U svakoj kesici je 400 mg Zynamite®-a, patentiranog ekstrakta lista manga španskog Nektiuma. U dvostruko slepoj studiji sa 119 studenata merena je brža obrada informacija i bolja mentalna fleksibilnost, od 30 minuta do 5 sati posle jedne doze.</p>
-<p style="margin: 0; font-weight: 700">Bez kofeina, pa bez drhtanja i bez stimulansa u krevetu.</p>
-<p style="margin: 0; font-size: 12px; color: #5E5A50">Studije su rađene na sastojku Zynamite® (Pharmaceuticals 2025; Nutrients 2020), ne na gotovom proizvodu. <a href="#studije">Sve studije</a></p>
+<h2 class="h2">Mala kesica.<br><span class="gtext">Merljiva razlika.</span></h2>
+<p class="lead">U svakoj kesici je 400 mg Zynamite®-a, patentiranog ekstrakta lista manga španskog Nektiuma. U dvostruko slepoj studiji sa 119 studenata merena je brža obrada informacija i bolja mentalna fleksibilnost, od 30 minuta do 5 sati posle jedne doze.</p>
+<p style="margin: 0; font-weight: 600; color: #fff">Bez kofeina, pa bez drhtanja i bez stimulansa u krevetu.</p>
+<p style="margin: 0; font-size: 12px; color: var(--dim)">Studije su rađene na sastojku Zynamite® (Pharmaceuticals 2025; Nutrients 2020), ne na gotovom proizvodu. <a href="#studije" style="color: var(--muted)">Sve studije</a></p>
 </div>
-<div class="ph" style="flex: 1 1 400px; aspect-ratio: 4 / 3; background: #FFFFFF; border-color: #FFC57A">[FOTO: kesica + list manga, makro]</div>
+<div style="position: relative; display: flex; justify-content: center">
+<div class="glow" style="width: 70%; height: 70%; left: 15%; top: 15%; background: #8B5CF6; opacity: 0.45; filter: blur(70px)"></div>
+<img src="assets/box-front.webp" alt="Zynamik Direct kutija, prednja strana: ekstrakt lista manga i vitamini B2, B6, B12, 10 kesica" width="1000" height="1260" loading="lazy" class="kr-box" style="position: relative; width: min(100%, 440px); border-radius: 18px; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08); transform: rotate(2deg)">
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">30′</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">Do prvog efekta.</strong> Brže nego što stigneš do kafića.</span></div>
-<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">5h</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">Trajanje u studiji.</strong> Druga kesica posle ručka pokriva popodne.</span></div>
-<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">B</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">B2, B6, B12.</strong> Doprinose smanjenju umora i iscrpljenosti.</span></div>
 </div>
-<a href="#paket" class="cta" style="align-self: center">Probaj Zynamik</a>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
+<div class="card stat"><span class="n gtext">30′</span><p><strong>Do prvog efekta.</strong> Brže nego što stigneš do kafića.</p></div>
+<div class="card stat"><span class="n gtext">5h</span><p><strong>Trajanje u studiji.</strong> Druga kesica posle ručka pokriva popodne.</p></div>
+<div class="card stat"><span class="n gtext">B2·B6·B12</span><p><strong>Vitamini B grupe.</strong> Doprinose smanjenju umora i iscrpljenosti.</p></div>
+</div>
+<a href="#paket" class="cta" style="align-self: center">Probaj Zynamik <span class="arr" aria-hidden="true">→</span></a>
 </div>
 </section>
 
 <!-- ULIČNA ANKETA -->
-<section class="sec" style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 20px">
+<section class="sec">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 640px">
 <span class="eyebrow">Ulična anketa</span>
-<h2 class="h2">Dali smo kesicu ljudima na ulici.</h2>
-<p style="margin: 0; color: #5E5A50">Bez scenarija. Vratili smo se posle 30 minuta i pitali kako su. Svi snimci na <a href="#instagram">Instagramu</a>.</p>
+<h2 class="h2">Dali smo kesicu <span class="gtext">ljudima na ulici.</span></h2>
+<p class="lead">Bez scenarija. Vratili smo se posle 30 minuta i pitali kako su.</p>
+</div>
+<a href="#instagram" class="cta ghostc" style="padding: 14px 22px; min-height: 48px; font-size: 13px">Svi snimci na Instagramu <span class="arr" aria-hidden="true">↗</span></a>
+</div>
 <div class="strip">
-<sc-for list="{{street}}" as="s" hint-placeholder-count="8"><div class="ph dark" style="aspect-ratio: 9 / 16; border-radius: 16px; font-size: 12px; position: relative"><span aria-hidden="true" style="position: absolute; top: 10px; left: 10px; width: 26px; height: 26px; border-radius: 999px; background: #FAF7F0; display: flex; align-items: center; justify-content: center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#141310"><path d="M7 4l13 8-13 8z"></path></svg></span>{{s}}</div></sc-for>
+<sc-for list="{{street}}" as="s" hint-placeholder-count="8"><div class="vcard"><span class="play" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4l13 8-13 8z"></path></svg></span><span class="loc">{{s}}</span><span class="s">[video uskoro]</span></div></sc-for>
+</div>
 </div>
 </section>
 
 <!-- POREĐENJE -->
-<section class="sec" style="background: #F1ECE0; padding: 80px 24px">
-<div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
-<span class="eyebrow">Poređenje</span>
-<h2 class="h2">Zynamik vs. kafa i energetska pića</h2>
-<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; text-align: left; align-items: center">
-<div style="background: #141310; color: #FAF7F0; border-radius: 24px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(20,19,16,0.25)">
-<div style="display: flex; gap: 12px; align-items: center"><span class="ph" style="width: 48px; height: 48px; padding: 2px; border-radius: 12px; font-size: 9px; border-width: 1px">[kutija]</span><span style="display: flex; flex-direction: column"><span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: #FF9F1C">NAŠ IZBOR</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 20px">Zynamik® Direct</span></span></div>
-<sc-for list="{{usList}}" as="u" hint-placeholder-count="6"><div style="display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 15px"><span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 999px; background: #FF9F1C; display: flex; align-items: center; justify-content: center; flex: none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="4"><path d="M5 12l5 5L20 7"></path></svg></span>{{u}}</div></sc-for>
+<section class="sec" style="background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line)">
+<div class="wrap" style="max-width: 980px; display: flex; flex-direction: column; gap: 36px; align-items: center; text-align: center">
+<span class="eyebrow center">Poređenje</span>
+<h2 class="h2">Zynamik vs. <span class="gtext">kafa i energetska pića</span></h2>
+<div class="vs" style="width: 100%; text-align: left">
+<div class="gborder" style="border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 30px 80px -20px rgba(255,77,141,0.35)">
+<div class="row"><img src="assets/box-thumb.webp" alt="" width="52" height="65" style="width: 52px; height: auto; border-radius: 8px"><span style="display: flex; flex-direction: column"><span class="gtext" style="font-size: 11px; font-weight: 800; letter-spacing: 0.14em">NAŠ IZBOR</span><span class="wide" style="font-weight: 900; font-size: 22px; text-transform: uppercase">Zynamik® Direct</span></span></div>
+<sc-for list="{{usList}}" as="u" hint-placeholder-count="6"><div class="row" style="font-weight: 500; font-size: 15.5px; color: #fff"><span class="tick" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><path d="M5 12l5 5L20 7"></path></svg></span>{{u}}</div></sc-for>
 </div>
-<div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
-<div style="display: flex; gap: 12px; align-items: center"><span class="ph" style="width: 44px; height: 44px; padding: 2px; border-radius: 12px; font-size: 9px; border-width: 1px">[šolja]</span><span style="display: flex; flex-direction: column"><span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: #5E5A50">OBIČNO REŠENJE</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">Kafa i energetska pića</span></span></div>
-<sc-for list="{{themList}}" as="t" hint-placeholder-count="6"><div style="display: flex; gap: 10px; align-items: center; font-size: 14px; color: #5E5A50"><span aria-hidden="true" style="width: 20px; height: 20px; border-radius: 999px; background: #F6DCD6; display: flex; align-items: center; justify-content: center; flex: none"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#A3260F" stroke-width="4"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>{{t}}</div></sc-for>
+<div class="card" style="padding: 26px; display: flex; flex-direction: column; gap: 13px; background: #0D0C12">
+<div class="row"><span style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9A5B8" stroke-width="2"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"></path><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"></path><path d="M8 3v2M12 3v2"></path></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: var(--dim)">OBIČNO REŠENJE</span><span style="font-weight: 700; font-size: 18px; color: var(--muted)">Kafa i energetska pića</span></span></div>
+<sc-for list="{{themList}}" as="t" hint-placeholder-count="6"><div class="row" style="font-size: 14.5px; color: var(--muted)"><span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 999px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; flex: none"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6F6B80" stroke-width="4"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>{{t}}</div></sc-for>
 </div>
 </div>
-<p style="margin: 0; font-size: 12px; color: #5E5A50">Poređenje se odnosi na kategorije proizvoda, ne na konkretne brendove. [Šećer proveriti po deklaraciji.]</p>
+<p style="margin: 0; font-size: 12px; color: var(--dim)">Poređenje se odnosi na kategorije proizvoda, ne na konkretne brendove.</p>
 </div>
 </section>
 
 <!-- KAKO SE UZIMA -->
-<section class="sec" style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
-<span class="eyebrow">Kako se koristi</span>
-<h2 class="h2">Deset sekundi do fokusa.</h2>
-<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; text-align: left">
-<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">01</span>[FOTO: kesica iz džepa]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Pocepaj</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Kesica stoji u džepu, torbi ili rancu za teretanu.</p></div></div>
-<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">02</span>[FOTO: prah na jeziku]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Na jezik</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Prah sa ukusom manga se topi u ustima. Ne treba ti voda.</p></div></div>
-<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">03</span>[FOTO: laptop, 14h]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Dve dnevno</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Jedna ujutru uz doručak, druga posle ručka. Treniraš? Jedna 60 minuta pre.</p></div></div>
+<section class="sec">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center">
+<span class="eyebrow center">Kako se koristi</span>
+<h2 class="h2">Deset sekundi <span class="gtext">do fokusa.</span></h2>
+</div>
+<div class="steps">
+<div class="card step"><div class="vis"><span class="num">01</span><img src="assets/stick.webp" alt="Zynamik Direct kesica sa oznakom Otvori" width="334" height="1325" loading="lazy" style="height: 300px; width: auto; transform: rotate(-62deg) translateY(10px); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7))"></div><div class="body"><h3>Pocepaj</h3><p>Kesica stoji u džepu, torbi ili rancu za teretanu. Cepa se na oznaci „Otvori".</p></div></div>
+<div class="card step"><div class="vis" style="background: radial-gradient(70% 80% at 50% 100%, rgba(255,77,141,0.28), transparent 70%), #0B0A11"><span class="num">02</span><svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5A524"></stop><stop offset=".5" stop-color="#FF4D8D"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs><circle cx="60" cy="60" r="44" stroke="url(#g2)" stroke-width="3" stroke-dasharray="4 7"></circle><path d="M38 52c6 18 38 18 44 0" stroke="#fff" stroke-width="5" stroke-linecap="round"></path><path d="M50 60c0 14 20 14 20 0" fill="url(#g2)"></path><circle cx="36" cy="34" r="3" fill="#F5A524"></circle><circle cx="86" cy="30" r="2.5" fill="#FF4D8D"></circle><circle cx="92" cy="80" r="3" fill="#8B5CF6"></circle></svg></div><div class="body"><h3>Na jezik</h3><p>Prah sa ukusom manga se topi u ustima. Ne treba ti voda.</p></div></div>
+<div class="card step"><div class="vis" style="background: radial-gradient(70% 80% at 50% 100%, rgba(245,165,36,0.22), transparent 70%), #0B0A11"><span class="num">03</span><svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5A524"></stop><stop offset=".5" stop-color="#FF4D8D"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs><circle cx="60" cy="60" r="42" stroke="rgba(255,255,255,0.15)" stroke-width="6"></circle><path d="M60 18a42 42 0 0 1 36.4 63" stroke="url(#g3)" stroke-width="6" stroke-linecap="round"></path><path d="M60 36v24l15 9" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="body"><h3>Dve dnevno</h3><p>Jedna ujutru uz doručak, druga posle ručka. Treniraš? Jedna 60 minuta pre.</p></div></div>
+</div>
 </div>
 </section>
 
 <!-- RUTINA -->
-<section class="sec" style="background: #141310; color: #FAF7F0; padding: 80px 24px">
-<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
-<span class="eyebrow" style="color: #FF9F1C">Šta da očekuješ</span>
-<h2 class="h2">Od prve kesice do navike.</h2>
-<div style="display: flex; flex-direction: column; gap: 18px">
-<sc-for list="{{timeline}}" as="m" hint-placeholder-count="4"><div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 999px; background: #FF9F1C; flex: none; margin-top: 2px"></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 17px">{{m.k}}</span><span style="font-size: 14px; color: #C9C4B6">{{m.v}}</span></span></div></sc-for>
+<section class="sec" style="background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden">
+<div class="glow" style="width: 520px; height: 520px; left: -200px; bottom: -160px; background: #1F8F5F; opacity: 0.25"></div>
+<div class="wrap rel two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 26px">
+<span class="eyebrow">Šta da očekuješ</span>
+<h2 class="h2">Od prve kesice <span class="gtext">do navike.</span></h2>
+<div class="tl">
+<sc-for list="{{timeline}}" as="m" hint-placeholder-count="4"><div><span class="b" aria-hidden="true"></span><span style="display: flex; flex-direction: column; gap: 3px"><span class="wide" style="font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 0.02em">{{m.k}}</span><span style="font-size: 14.5px; color: var(--muted)">{{m.v}}</span></span></div></sc-for>
 </div>
-<a href="#paket" class="cta alt" style="align-self: flex-start">Uzmi 2+1 gratis</a>
+<a href="#paket" class="cta" style="align-self: flex-start">Uzmi 2+1 gratis <span class="arr" aria-hidden="true">→</span></a>
 </div>
-<div class="ph dark" style="flex: 1 1 420px; aspect-ratio: 4 / 3; border-radius: 28px">[FOTO: kutija + kesice na stolu, slušalice, laptop]</div>
+<div style="border-radius: 32px; overflow: hidden; background: #0D0C10; border: 1px solid var(--line)"><img src="assets/sticks.webp" alt="Kesica Zynamik Direct, prednja i zadnja strana" width="1100" height="1269" loading="lazy" style="width: 100%; height: auto"></div>
 </div>
 </section>
 
 <!-- UTISCI -->
-<section class="sec" style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 24px; align-items: center; text-align: center">
-<span class="eyebrow">Utisci</span>
-<h2 class="h2">Šta nam pišu posle prve kutije.</h2>
-<p style="margin: 0; color: #5E5A50">Prave poruke kupaca. Bez filtera i bez dorađivanja.</p>
+<section class="sec">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
+<span class="eyebrow center">Utisci</span>
+<h2 class="h2">Šta nam pišu <span class="gtext">posle prve kutije.</span></h2>
+<p class="lead">Prave poruke kupaca. Bez filtera i bez dorađivanja.</p>
 <div class="wall" style="width: 100%; text-align: left">
-<sc-for list="{{wall}}" as="w" hint-placeholder-count="9"><div><div class="ph dark" style="aspect-ratio: {{w.r}}; border-radius: 18px; font-size: 12px">[SCREENSHOT: {{w.t}}]</div></div></sc-for>
+<sc-for list="{{wall}}" as="w" hint-placeholder-count="9"><div><div class="ph" style="aspect-ratio: {{w.r}}; border-radius: 20px; font-size: 12px"><span>[SCREENSHOT: {{w.t}}]</span></div></div></sc-for>
 </div>
-<a href="#paket" class="cta">I ja hoću da probam</a>
+<a href="#paket" class="cta">I ja hoću da probam <span class="arr" aria-hidden="true">→</span></a>
+</div>
 </section>
 
-<!-- FINALNI CTA sa paketima -->
-<section class="sec" style="background: #141310; color: #FAF7F0; padding: 80px 24px">
-<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
-<span class="eyebrow" style="color: #FF9F1C">Sutra u 14h</span>
-<h2 class="h2">U zoni ili u magli?</h2>
-<p style="margin: 0; color: #C9C4B6">Plaćaš kad stigne. Ako ne osetiš razliku za [X] dana, vraćamo ti novac.</p>
-<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px">
-<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Fokus do 5 sati, bez kofeina</div>
-<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>2+1 gratis, dostava besplatna</div>
-<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem, isporuka [1–3 dana]</div>
-<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Garancija prazne kutije, [X] dana</div>
+<!-- FINALNI CTA -->
+<section class="sec" style="overflow: hidden; border-top: 1px solid var(--line)">
+<div class="glow" style="width: 600px; height: 600px; left: -120px; top: 0; background: #7A2BD9; opacity: 0.35"></div>
+<div class="glow" style="width: 520px; height: 520px; right: -140px; bottom: -120px; background: #E0338A; opacity: 0.3"></div>
+<div class="wrap rel two" style="display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<span class="eyebrow">Sutra u 14h</span>
+<h2 class="h2" style="font-size: clamp(36px, 5.4vw, 68px)">U zoni<br>ili <span class="gtext">u magli?</span></h2>
+<p class="lead">Plaćaš kad stigne. Ako ne osetiš razliku za [X] dana, vraćamo ti novac.</p>
+<img class="fin-img" src="assets/hero-sm.webp" alt="Zynamik Direct kutija i dve kesice" width="800" height="667" loading="lazy" style="width: 100%; max-width: 560px; border-radius: 24px; border: 1px solid var(--line)">
 </div>
-</div>
-<div style="flex: 1 1 420px; min-width: 0; background: #FAF7F0; color: #141310; border-radius: 26px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
-<div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</div>
+<div class="card" style="background: rgba(17,16,24,0.85); backdrop-filter: blur(12px); border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<div class="eyebrow" style="color: #fff">Izaberi paket</div>
 <sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
 <button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
 <sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
 <span aria-hidden="true" style="{{p.radio}}"></span>
-<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: left"><span style="font-weight: 800; font-size: 16px">{{p.name}}</span><span style="font-size: 12px; color: #5E5A50">{{p.sub}}</span></span>
-<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">{{p.priceTxt}}</span><sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 13px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if></span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: left"><span style="font-weight: 700; font-size: 16px; color: #fff">{{p.name}}</span><span style="font-size: 12.5px; color: var(--muted)">{{p.sub}}</span></span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none"><span class="wide" style="font-weight: 800; font-size: 18px; color: #fff">{{p.priceTxt}}</span><sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 12.5px; color: var(--dim)">{{p.oldTxt}}</s></sc-if></span>
 </button>
 </sc-for>
-<a href="Checkout.dc.html" class="cta alt" style="width: 100%">Poruči · {{sel.priceTxt}}</a>
-<div style="text-align: center; font-size: 12px; color: #5E5A50">Plaćaš kad stigne · {{sel.shipTxt}} · [X] dana garancija</div>
+<a href="Checkout.dc.html" class="cta" style="width: 100%">Poruči · {{sel.priceTxt}} <span class="arr" aria-hidden="true">→</span></a>
+<div class="trust" style="font-size: 12px">
+<span>Plaćaš kad stigne</span><span>·</span><span>{{sel.shipTxt}}</span><span>·</span><span>[X] dana garancija</span>
+</div>
 </div>
 </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="sec" style="max-width: 760px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 16px">
-<h2 class="h2" style="text-align: center">Česta pitanja</h2>
+<section id="faq" class="sec" style="background: var(--bg2); border-top: 1px solid var(--line)">
+<div class="wrap" style="max-width: 820px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center"><span class="eyebrow center">FAQ</span><h2 class="h2">Česta pitanja</h2></div>
 <div>
 <sc-for list="{{faq}}" as="f" hint-placeholder-count="10">
-<div style="border-bottom: 1px solid #E4DED0">
-<button type="button" class="faqbtn" onClick="{{f.toggle}}" aria-expanded="{{f.open}}"><span>{{f.q}}</span><span aria-hidden="true" style="color: #E07A00; font-size: 24px; line-height: 1">{{f.sign}}</span></button>
-<sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}"><p style="margin: 0 4px 20px; color: #3A372F; font-size: 15px">{{f.a}}</p></sc-if>
+<div style="border-bottom: 1px solid var(--line)">
+<button type="button" class="faqbtn" onClick="{{f.toggle}}" aria-expanded="{{f.open}}"><span>{{f.q}}</span><span class="pm" aria-hidden="true">{{f.sign}}</span></button>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}"><p style="margin: 0 4px 22px; color: var(--muted); font-size: 15.5px">{{f.a}}</p></sc-if>
 </div>
 </sc-for>
+</div>
 </div>
 </section>
 
@@ -310,44 +456,44 @@ a{color:#141310}a:hover{color:#5E5A50}
 <dc-import name="Footer" hint-size="100%,480px"></dc-import>
 
 <!-- STICKY BAR -->
-<div class="stickybar" style="position: sticky; bottom: 0; z-index: 10; background: #FFFFFF; border-top: 1px solid #E4DED0; box-shadow: 0 -8px 24px rgba(20,19,16,0.10)">
-<div style="max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px">
-<div style="display: flex; gap: 12px; align-items: center; min-width: 0"><span class="ph sb-thumb" style="width: 44px; height: 44px; padding: 2px; border-radius: 10px; font-size: 9px; border-width: 1px; flex: none">[kutija]</span><span style="display: flex; flex-direction: column; line-height: 1.25; min-width: 0"><span class="sb-line" style="font-weight: 800; font-size: 14px">Zynamik® Direct · {{sel.name}}</span><span class="sb-line" style="font-size: 13px; color: #5E5A50">{{sel.priceTxt}} · plaćaš kad stigne</span></span></div>
-<a href="Checkout.dc.html" class="cta alt" style="padding: 12px 22px; font-size: 14px; flex: none">Poruči</a>
+<div class="stickybar">
+<div class="wrap" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; gap: 12px; align-items: center; min-width: 0"><img class="sb-thumb" src="assets/box-thumb.webp" alt="" width="36" height="45" style="width: 36px; height: auto; border-radius: 6px; flex: none"><span style="display: flex; flex-direction: column; line-height: 1.25; min-width: 0"><span class="sb-line" style="font-weight: 700; font-size: 14px; color: #fff">Zynamik® Direct · {{sel.name}}</span><span class="sb-line" style="font-size: 13px; color: var(--muted)">{{sel.priceTxt}} · plaćaš kad stigne</span></span></div>
+<a href="Checkout.dc.html" class="cta" style="padding: 12px 24px; min-height: 46px; font-size: 13px; flex: none">Poruči</a>
 </div>
 </div>
 
 <!-- GREBALICA -->
 <sc-if value="{{scratch}}" hint-placeholder-val="{{ false }}">
-<div role="dialog" aria-modal="true" aria-labelledby="scr-title" style="position: fixed; inset: 0; z-index: 50; background: rgba(20,19,16,0.72); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
-<div class="card-in" style="width: 100%; max-width: 440px; background: #FAF7F0; border-radius: 28px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 80px rgba(0,0,0,0.35)">
+<div role="dialog" aria-modal="true" aria-labelledby="scr-title" style="position: fixed; inset: 0; z-index: 50; background: rgba(3,2,6,0.78); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
+<div class="card-in" style="width: 100%; max-width: 440px; background: #0F0E15; border: 1px solid var(--line2); border-radius: 28px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 100px -10px rgba(139,92,246,0.45)">
 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
 <span class="eyebrow">Poklon za nove kupce</span>
-<button type="button" class="xbtn" aria-label="Zatvori, ne želim popust" onClick="{{decline}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<button type="button" class="xbtn" aria-label="Zatvori, ne želim popust" onClick="{{decline}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
 </div>
-<h2 id="scr-title" style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: 32px; line-height: 1; letter-spacing: -0.02em">{{scrTitle}}</h2>
-<div style="position: relative; border-radius: 20px; overflow: hidden; background: #141310; aspect-ratio: 16 / 7">
-<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #FAF7F0; text-align: center">
-<span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 56px; line-height: 1; color: #FF9F1C">10%</span>
-<span style="font-weight: 700; font-size: 15px">popusta na celu porudžbinu</span>
+<h2 id="scr-title" class="wide" style="margin: 0; font-weight: 900; font-size: 28px; line-height: 1.02; letter-spacing: -0.01em">{{scrTitle}}</h2>
+<div style="position: relative; border-radius: 20px; overflow: hidden; background: #050409; border: 1px solid var(--line); aspect-ratio: 16 / 7">
+<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center">
+<span class="wide gtext" style="font-weight: 900; font-size: 60px; line-height: 1">10%</span>
+<span style="font-weight: 600; font-size: 15px; color: #fff">popusta na celu porudžbinu</span>
 </div>
 <sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
 <canvas ref="{{setCanvas}}" width="640" height="280" aria-hidden="true" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerLeave="{{onUp}}" style="position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab"></canvas>
 </sc-if>
 </div>
 <sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
-<p style="margin: 0; font-size: 15px; color: #3A372F; text-align: center">Prevuci prstom ili mišem preko kartice.</p>
+<p style="margin: 0; font-size: 15px; color: var(--muted); text-align: center">Prevuci prstom ili mišem preko kartice.</p>
 <button type="button" class="linkbtn" onClick="{{reveal}}">Otkrij bez grebanja</button>
 </sc-if>
 <sc-if value="{{revealed}}" hint-placeholder-val="{{ false }}">
-<p style="margin: 0; font-size: 16px; color: #3A372F">Ostavi mejl i šaljemo ti kod. Jedna kutija je onda <strong style="color: #141310">1.899 RSD umesto 2.110 RSD</strong>, a važi i na 2+1 i 4+2.</p>
+<p style="margin: 0; font-size: 16px; color: var(--muted)">Ostavi mejl i šaljemo ti kod. Jedna kutija je onda <strong style="color: #fff">1.899 RSD umesto 2.110 RSD</strong>, a važi i na 2+1 i 4+2.</p>
 <label class="fld">Tvoj mejl<input type="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
-<sc-if value="{{err}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 700; color: #A3260F">{{err}}</div></sc-if>
+<sc-if value="{{err}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #FF6B8E">{{err}}</div></sc-if>
 <div class="pop-btns" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
-<button type="button" class="cta alt" onClick="{{accept}}" style="padding: 14px 16px; font-size: 15px">Želim popust</button>
+<button type="button" class="cta" onClick="{{accept}}" style="padding: 14px 16px; font-size: 14px">Želim popust</button>
 <button type="button" class="ghost" onClick="{{decline}}">Ne želim popust</button>
 </div>
-<p style="margin: 0; font-size: 12px; color: #5E5A50">Povremeno ti šaljemo ponude i savete. Odjava jednim klikom. [Link na politiku privatnosti]</p>
+<p style="margin: 0; font-size: 12px; color: var(--dim)">Povremeno ti šaljemo ponude i savete. Odjava jednim klikom. [Link na politiku privatnosti]</p>
 </sc-if>
 </div>
 </div>
@@ -355,7 +501,7 @@ a{color:#141310}a:hover{color:#5E5A50}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"scratchOnLoad":{"editor":"boolean","default":true,"section":"Grebalica"},"$preview":{"width":1440,"height":8400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"scratchOnLoad":{"editor":"boolean","default":true,"section":"Grebalica"},"$preview":{"width":1440,"height":9000}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -386,13 +532,18 @@ class Component extends DCLogic {
     var c = this.cv; if (!c) return;
     var x = c.getContext('2d'); if (!x) return;
     var g = x.createLinearGradient(0, 0, c.width, c.height);
-    g.addColorStop(0, '#CFCAC0'); g.addColorStop(0.5, '#ECE8DF'); g.addColorStop(1, '#B9B3A6');
+    g.addColorStop(0, '#2A1650'); g.addColorStop(0.5, '#4A1A5E'); g.addColorStop(1, '#6A1844');
     x.globalCompositeOperation = 'source-over';
     x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
-    x.fillStyle = 'rgba(20,19,16,0.08)';
-    for (var i = 0; i < 260; i++) { x.fillRect(Math.random() * c.width, Math.random() * c.height, 3, 3); }
-    x.fillStyle = '#3A372F';
-    x.font = '900 46px Archivo, sans-serif';
+    var cols = ['#F5A524', '#FF4D8D', '#8B5CF6', '#4F6BFF', '#22C58B', '#FFFFFF'];
+    for (var i = 0; i < 320; i++) {
+      x.globalAlpha = 0.25 + Math.random() * 0.6;
+      x.fillStyle = cols[i % cols.length];
+      x.beginPath(); x.arc(Math.random() * c.width, Math.random() * c.height, Math.random() * 2.6 + 0.6, 0, Math.PI * 2); x.fill();
+    }
+    x.globalAlpha = 1;
+    x.fillStyle = '#FFFFFF';
+    x.font = '900 44px Archivo, sans-serif';
     x.textAlign = 'center'; x.textBaseline = 'middle';
     x.fillText('IZGREBI OVDE', c.width / 2, c.height / 2);
   }
@@ -414,48 +565,59 @@ class Component extends DCLogic {
   renderVals() {
     var self = this;
     var BASE = 2110;
+    var PER_BOX = 10, PER_DAY = 2;
     var disc = this.state.discount;
     function fmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' RSD'; }
-    var tb = ['2+1 gratis', '•', 'Bez kofeina', '•', 'Plaćaš kad stigne', '•', '400 mg Zynamite®', '•', '4+2 gratis i −15%', '•', 'Šaljemo iz Beograda', '•'];
-    var ticker = tb.concat(tb);
-    var pb = ['2+1 gratis', '•', 'Plaćaš kad stigne', '•', 'Šaljemo iz Beograda za [1–3 dana]', '•'];
+    function days(boxes) { return Math.round(boxes * PER_BOX / PER_DAY); }
+    var pb = ['2+1 gratis', '✦', 'Plaćaš kad stigne', '✦', 'Šaljemo iz Beograda za [1–3 dana]', '✦', 'Bez kofeina', '✦'];
     var promo = pb.concat(pb, pb);
-    var bb = ['Bez kofeina', '•', '400 mg Zynamite®', '•', 'Na jezik, bez vode', '•'];
-    var band = bb.concat(bb, bb);
-    var badgeBase = 'position: absolute; top: -10px; right: 14px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 6px; ';
+    var band = [
+      { t: 'Bez kofeina', c: '' }, { t: '400 mg Zynamite®', c: 'o' }, { t: 'Na jezik, bez vode', c: '' }, { t: 'Energy / Focus / Recovery', c: 'o' },
+      { t: 'Bez kofeina', c: '' }, { t: '400 mg Zynamite®', c: 'o' }, { t: 'Na jezik, bez vode', c: '' }, { t: 'Energy / Focus / Recovery', c: 'o' }
+    ];
+    var badgeBase = 'position: absolute; top: -11px; right: 16px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 5px 10px; border-radius: 999px; ';
     var defs = [
-      { name: '1 kutija', boxes: 1, pay: 1, off: 0, sub: '[XX] kesica · [XX] dana', chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
-      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, sub: '3 kutije · [XX] dana · dodatnih −5%', chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: #FF9F1C; color: #141310;' },
-      { name: '4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, sub: '6 kutija · [XX] dana · dodatnih −15%', chips: ['Dostava gratis', '−15%'], badge: 'NAJVEĆA UŠTEDA', badgeStyle: badgeBase + 'background: #141310; color: #FF9F1C;' }
+      { name: '1 kutija', boxes: 1, pay: 1, off: 0, chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
+      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: linear-gradient(100deg,#FF4D8D,#8B5CF6); color: #fff; box-shadow: 0 6px 20px -4px rgba(255,77,141,0.6);' },
+      { name: '4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, chips: ['Dostava gratis', '−15%'], badge: 'NAJVEĆA UŠTEDA', badgeStyle: badgeBase + 'background: #fff; color: #050409;' }
     ];
     var packages = defs.map(function (p, i) {
       var price = p.pay * BASE * (1 - p.off) * (disc ? 0.9 : 1);
       var full = p.boxes * BASE;
       var sel = self.state.pkg === i;
+      var sub = (p.boxes === 1 ? '' : p.boxes + ' kutije · ').replace('6 kutije', '6 kutija') + (p.boxes * PER_BOX) + ' kesica · ' + days(p.boxes) + ' dana' + (p.off ? ' · dodatnih −' + Math.round(p.off * 100) + '%' : '');
       return Object.assign({}, p, {
+        sub: sub,
         on: sel,
         priceTxt: fmt(price),
         oldTxt: price < full - 1 ? fmt(full) : '',
         perTxt: fmt(price / p.boxes) + ' / kutija',
         shipTxt: p.boxes >= 3 ? 'dostava gratis' : 'dostava [X] RSD',
-        style: sel ? 'border: 2px solid #141310; background: #FFF8EE;' : 'border: 1.5px solid #E4DED0;',
-        radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #141310; background: #FFFFFF;' : 'border: 2px solid #B9B3A3;'),
+        style: sel
+          ? 'border: 1.5px solid transparent; background: linear-gradient(#17151F,#17151F) padding-box, linear-gradient(100deg,#F5A524,#FF4D8D 50%,#8B5CF6) border-box; box-shadow: 0 14px 40px -14px rgba(255,77,141,0.45);'
+          : 'border: 1.5px solid rgba(255,255,255,0.10); background: #0E0D14;',
+        radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #FF4D8D; background: #FFFFFF;' : 'border: 2px solid rgba(255,255,255,0.3);'),
         pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} }
       });
     });
-    var shots = ['Kutija + kesica', 'Na jeziku', 'Kancelarija 14h', 'Teretana', 'Deklaracija', 'Ulična anketa'];
+    var shots = [
+      { label: 'Kutija i kesice', src: 'assets/hero.webp', alt: 'Zynamik Direct kutija sa 10 kesica i dve kesice', cls: 'hero-img' },
+      { label: 'Prednja strana kutije', src: 'assets/box-front.webp', alt: 'Prednja strana kutije Zynamik Direct', cls: 'hero-img contain' },
+      { label: 'Kesica, prednja i zadnja', src: 'assets/sticks.webp', alt: 'Kesica Zynamik Direct, prednja i zadnja strana', cls: 'hero-img contain' },
+      { label: 'Jedna kesica', src: 'assets/stick.webp', alt: 'Kesica Zynamik Direct', cls: 'hero-img contain' }
+    ];
+    var cur = shots[this.state.shot];
     var thumbs = shots.map(function (s, i) {
-      var on = self.state.shot === i;
-      return { label: s, on: on, style: on ? 'border: 2px solid #141310;' : 'border: 2px solid transparent;', pick: function () { self.setState({ shot: i }); } };
+      return { label: s.label, src: s.src, fit: i === 0 ? '' : 'object-fit: contain; padding: 6px; box-sizing: border-box;', on: self.state.shot === i ? 'true' : 'false', pick: function () { self.setState({ shot: i }); } };
     });
     var faqRaw = [
       { q: 'Da li stvarno radi?', a: 'Zynamite® je ispitan u dvostruko slepim studijama, efekat je meren od 30 minuta do 5 sati. Ali ne moraš da veruješ nama: imaš [X] dana garancije. Ako ne osetiš razliku, vraćamo ti novac.' },
       { q: 'Kako funkcioniše 2+1 i 4+2?', a: 'Plaćaš 2 kutije, dobijaš 3, uz dodatnih 5% popusta. Ili plaćaš 4, dobijaš 6, uz dodatnih 15%. Dostava je u oba slučaja gratis.' },
-      { q: 'Koliko kesica ima u kutiji i koliko traje?', a: 'U kutiji je [XX] kesica. Uz preporučenu dozu od 2 kesice dnevno, jedna kutija traje [XX] dana.' },
+      { q: 'Koliko kesica ima u kutiji i koliko traje?', a: 'U kutiji je 10 kesica. Uz preporučenu dozu od 2 kesice dnevno, jedna kutija traje 5 dana, 2+1 paket 15 dana, a 4+2 ceo mesec.' },
       { q: 'Kakav je ukus?', a: 'Mango. Prah se topi na jeziku, ne treba ti voda. [Dodati iskren opis teksture.]' },
       { q: 'Kada ću osetiti efekat?', a: 'Kod većine ljudi za oko 30 minuta. U studijama na Zynamite®-u efekat je meren do 5 sati posle uzimanja.' },
       { q: 'Mogu li ga uzimati uz kafu?', a: 'Zynamik nema kofein, pa mnogi njime menjaju drugu i treću kafu. Ako si osetljiv na stimulanse, prvi put ga probaj bez kafe.' },
-      { q: 'Da li ima šećera?', a: '[Proveriti po deklaraciji: šećer, zaslađivač, kalorije, alergeni.]' },
+      { q: 'Da li ima šećera?', a: 'Zynamik je dodatak ishrani sa zaslađivačem. [Tačna količina šećera, kalorije i alergeni po deklaraciji.]' },
       { q: 'Smem li da ga koristim na takmičenjima?', a: '[Navesti konkretan anti-doping sertifikat, npr. Informed Sport. Bez sertifikata ne tvrditi ovo.]' },
       { q: 'Ko ne bi trebalo da ga koristi?', a: 'Trudnice, dojilje i osobe mlađe od [X] godina. Ako koristiš terapiju, prvo pitaj lekara.' },
       { q: 'Kako ide dostava i plaćanje?', a: '[Kurirska služba], isporuka [1–3 radna dana] iz Beograda. Plaćaš pouzećem kad paket stigne. Od 2+1 dostava je gratis.' }
@@ -465,13 +627,14 @@ class Component extends DCLogic {
       return Object.assign({}, f, { open: isOpen, sign: isOpen ? '−' : '+', toggle: function () { self.setState({ open: isOpen ? -1 : i }); } });
     });
     return {
-      ticker: ticker,
       promo: promo,
       band: band,
       packages: packages,
       sel: packages[this.state.pkg],
       thumbs: thumbs,
-      shot: shots[this.state.shot],
+      shotSrc: cur.src,
+      shotAlt: cur.alt,
+      shotCls: cur.cls,
       bullets: [
         { k: 'Fokus za ~30 minuta,', v: 'traje do 5 sati' },
         { k: 'Bez kofeina,', v: 'pa bez drhtanja i lupanja srca' },
@@ -484,7 +647,7 @@ class Component extends DCLogic {
       timeline: [
         { k: 'Dan 1', v: 'Prva kesica ujutru uz doručak, druga posle ručka. Obrati pažnju kako ti je u 14h.' },
         { k: 'Prva nedelja', v: 'Druga i treća kafa postaju opcija, ne potreba.' },
-        { k: '30 dana', v: 'Kesica ide u džep kao ključevi. Toliko traje jedna 2+1 tura. [Uskladiti sa brojem kesica]' },
+        { k: '30 dana', v: 'Kesica ide u džep kao ključevi. Toliko traje jedan 4+2 paket.' },
         { k: 'Garancija', v: 'Ako za [X] dana ne osetiš razliku, pošalješ praznu kutiju i vraćamo ti novac.' }
       ],
       wall: [
