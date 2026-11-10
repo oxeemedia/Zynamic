@@ -537,49 +537,75 @@ var ZL_SPRITES = {};
 function zlSprite(color, L, blur, dpr, dark) {
   var key = color + '|' + L + '|' + blur + '|' + dpr + (dark ? '|d' : '');
   if (ZL_SPRITES[key]) return ZL_SPRITES[key];
-  var W = L * 0.42, pad = Math.ceil(L * 0.28 + blur * 3);
-  var cw = Math.ceil(W * 2 + pad * 2), ch = Math.ceil(L + pad * 2);
+  /* list manga: kopljast, uzan (oko 1:4.5), najširi malo ispod sredine, dug zašiljen vrh, kratka peteljka */
+  var W = L * 0.115, pad = Math.ceil(L * 0.16 + blur * 3), stem = L * 0.07;
+  var cw = Math.ceil(W * 2 + L * 0.08 + pad * 2), ch = Math.ceil(L + stem + pad * 2);
   var c = document.createElement('canvas'); c.width = Math.ceil(cw * dpr); c.height = Math.ceil(ch * dpr);
   var x = c.getContext('2d'); x.scale(dpr, dpr); x.translate(cw / 2, pad + L / 2);
   if (blur && 'filter' in x) x.filter = 'blur(' + blur + 'px)';
   var col = ZL_COLORS[color] || ZL_COLORS.pink;
-  function shape() {
-    x.beginPath(); x.moveTo(0, L / 2);
-    x.bezierCurveTo(W * 1.12, L * 0.22, W * 0.82, -L * 0.3, 0, -L / 2);
-    x.bezierCurveTo(-W * 0.82, -L * 0.3, -W * 1.12, L * 0.22, 0, L / 2); x.closePath();
+  var h = 0; for (var q = 0; q < key.length; q++) h = (h * 31 + key.charCodeAt(q)) % 997;
+  var bend = L * (0.025 + (h % 7) * 0.006) * (h % 2 ? 1 : -1);
+  var A = 0.6, B = 0.95, tm = A / (A + B), norm = Math.pow(tm, A) * Math.pow(1 - tm, B);
+  function cxAt(t) { return bend * Math.sin(Math.PI * t * 0.9) * t; }
+  function yAt(t) { return L / 2 - t * L; }
+  function wAt(t) { if (t <= 0 || t >= 1) return 0; return W * Math.pow(t, A) * Math.pow(1 - t, B) / norm * (1 + 0.02 * Math.sin(t * 31)); }
+  var N = 48, R = [], Lf = [];
+  for (var i = 0; i <= N; i++) { var t = i / N; R.push([cxAt(t) + wAt(t), yAt(t)]); Lf.push([cxAt(t) - wAt(t) * 0.94, yAt(t)]); }
+  function path(pts) {
+    x.moveTo(pts[0][0], pts[0][1]);
+    for (var j = 1; j < pts.length - 1; j++) { var mx = (pts[j][0] + pts[j + 1][0]) / 2, my = (pts[j][1] + pts[j + 1][1]) / 2; x.quadraticCurveTo(pts[j][0], pts[j][1], mx, my); }
+    x.lineTo(pts[pts.length - 1][0], pts[pts.length - 1][1]);
   }
-  shape(); x.shadowColor = col[0]; x.shadowBlur = L * (dark ? 0.16 : 0.24);
-  var g = x.createLinearGradient(-W, L / 2, W, -L / 2);
-  if (dark) { g.addColorStop(0, '#120E1C'); g.addColorStop(0.6, '#1C1530'); g.addColorStop(1, col[0] + '66'); }
-  else { g.addColorStop(0, col[0] + 'F0'); g.addColorStop(0.55, col[0] + 'C0'); g.addColorStop(1, col[1] + 'A8'); }
+  function shape() { x.beginPath(); path(R.concat(Lf.slice().reverse())); x.closePath(); }
+  function half(side) { x.beginPath(); var p = side > 0 ? R : Lf, mid = []; for (var j = 0; j <= N; j++) mid.push([cxAt(j / N), yAt(j / N)]); path(p.concat(mid.reverse())); x.closePath(); }
+  /* peteljka */
+  x.strokeStyle = dark ? '#2A1E40' : col[0]; x.lineWidth = Math.max(1.2, L / 110); x.lineCap = 'round';
+  x.beginPath(); x.moveTo(0, L / 2); x.quadraticCurveTo(-bend * 0.3, L / 2 + stem * 0.6, -bend * 0.5, L / 2 + stem); x.stroke();
+  /* telo lista */
+  shape(); x.shadowColor = col[0]; x.shadowBlur = L * (dark ? 0.1 : 0.14);
+  var g = x.createLinearGradient(0, L / 2, 0, -L / 2);
+  if (dark) { g.addColorStop(0, '#140E22'); g.addColorStop(0.55, '#1D1430'); g.addColorStop(1, col[0] + '55'); }
+  else { g.addColorStop(0, col[0] + 'F2'); g.addColorStop(0.5, col[0] + 'E6'); g.addColorStop(1, col[1] + 'D0'); }
   x.fillStyle = g; x.fill(); x.shadowBlur = 0;
-  if (dark) { x.save(); shape(); x.clip(); var eg = x.createRadialGradient(0, 0, L * 0.12, 0, 0, L * 0.62); eg.addColorStop(0, 'rgba(0,0,0,0)'); eg.addColorStop(1, col[0] + '99'); x.fillStyle = eg; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2); x.restore(); }
   x.save(); shape(); x.clip();
-  var r = x.createRadialGradient(W * 0.3, -L * 0.18, 0, W * 0.3, -L * 0.18, L * 0.62);
-  r.addColorStop(0, 'rgba(255,255,255,0.26)'); r.addColorStop(1, 'rgba(255,255,255,0)');
-  x.fillStyle = r; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2);
-  var sh = x.createLinearGradient(0, L / 2, 0, -L / 2);
-  sh.addColorStop(0, 'rgba(7,5,13,0.35)'); sh.addColorStop(0.5, 'rgba(7,5,13,0)');
-  x.fillStyle = sh; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2);
-  var n = Math.round(L / 6), s = L / 220;
-  for (var i = 0; i < n; i++) {
-    x.globalAlpha = 0.45 + Math.random() * 0.55; x.fillStyle = ZL_DOTS[i % ZL_DOTS.length];
-    x.beginPath(); x.arc((Math.random() - 0.5) * W * 1.8, (Math.random() - 0.5) * L, (0.7 + Math.random() * 2.2) * s, 0, 6.283); x.fill();
+  /* list je blago presavijen duž glavnog nerva: jedna polovina na svetlu, druga u senci */
+  half(1); x.fillStyle = dark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.13)'; x.fill();
+  half(-1); x.fillStyle = 'rgba(7,5,13,' + (dark ? 0.25 : 0.2) + ')'; x.fill();
+  if (dark) { var eg = x.createRadialGradient(0, 0, L * 0.05, 0, 0, L * 0.5); eg.addColorStop(0, 'rgba(0,0,0,0)'); eg.addColorStop(1, col[0] + '88'); x.fillStyle = eg; x.fillRect(-L, -L, L * 2, L * 2); }
+  var r = x.createLinearGradient(-W, 0, W, 0);
+  r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(0.62, 'rgba(255,255,255,' + (dark ? 0.04 : 0.16) + ')'); r.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = r; x.fillRect(-L, -L, L * 2, L * 2);
+  /* bočni nervi: gusti, paralelni, lukom ka vrhu */
+  x.strokeStyle = dark ? col[1] + '55' : 'rgba(255,246,250,0.34)'; x.lineWidth = Math.max(0.6, L / 380);
+  for (var k = 0; k < 19; k++) {
+    var t0 = 0.07 + k * 0.045, t1 = Math.min(0.97, t0 + 0.085), t2 = t0 + 0.03;
+    [1, -1].forEach(function (s) {
+      var w1 = wAt(t1) * 0.9 * (s < 0 ? 0.94 : 1), w2 = wAt(t2) * 0.55;
+      x.beginPath(); x.moveTo(cxAt(t0), yAt(t0));
+      x.quadraticCurveTo(cxAt(t2) + s * w2, yAt(t2), cxAt(t1) + s * w1, yAt(t1)); x.stroke();
+    });
+  }
+  /* glavni nerv: svetao, deblji pri dnu */
+  for (var m = 0; m < 3; m++) {
+    var ta = m / 3, tb = (m + 1) / 3 * 0.97;
+    x.strokeStyle = dark ? col[1] + 'AA' : 'rgba(255,240,248,' + (0.85 - m * 0.18) + ')';
+    x.lineWidth = Math.max(0.8, L / 120 * (1 - m * 0.3));
+    x.beginPath(); x.moveTo(cxAt(ta), yAt(ta)); x.quadraticCurveTo(cxAt((ta + tb) / 2), yAt((ta + tb) / 2), cxAt(tb), yAt(tb)); x.stroke();
+  }
+  var n = Math.round(L / 16), s2 = L / 260;
+  for (var d = 0; d < n; d++) {
+    var tt = 0.1 + Math.random() * 0.8, side = Math.random() < 0.5 ? -1 : 1;
+    x.globalAlpha = 0.3 + Math.random() * 0.45; x.fillStyle = ZL_DOTS[d % ZL_DOTS.length];
+    x.beginPath(); x.arc(cxAt(tt) + side * Math.random() * wAt(tt) * 0.8, yAt(tt), (0.5 + Math.random() * 1.4) * s2, 0, 6.283); x.fill();
   }
   x.globalAlpha = 1;
-  x.strokeStyle = dark ? col[1] + 'C0' : 'rgba(255,255,255,0.8)'; x.lineCap = 'round'; x.lineWidth = Math.max(1, L / 170);
-  x.setLineDash([L / 160, L / 55]);
-  x.beginPath(); x.moveTo(0, L / 2); x.lineTo(0, -L * 0.47); x.stroke();
-  for (var k = 1; k <= 7; k++) {
-    var y = L / 2 - k * (L / 8.2), prof = Math.sin(Math.PI * (k / 8.2)) * W * 0.86;
-    x.beginPath(); x.moveTo(0, y); x.quadraticCurveTo(prof * 0.5, y - L * 0.05, prof, y - L * 0.12); x.stroke();
-    x.beginPath(); x.moveTo(0, y); x.quadraticCurveTo(-prof * 0.5, y - L * 0.05, -prof, y - L * 0.12); x.stroke();
-  }
   x.restore();
-  if (dark) { x.setLineDash([]); x.strokeStyle = col[0] + 'CC'; x.lineWidth = Math.max(1.2, L / 140); x.shadowColor = col[0]; x.shadowBlur = L * 0.08; }
-  else { x.setLineDash([L / 160, L / 70]); x.strokeStyle = 'rgba(255,255,255,0.6)'; x.lineWidth = Math.max(1, L / 220); }
-  shape(); x.stroke();
-  var sp = { c: c, w: cw, h: ch, px: cw / 2, py: pad + L };
+  /* rub */
+  if (dark) { x.strokeStyle = col[0] + 'BB'; x.lineWidth = Math.max(1, L / 170); x.shadowColor = col[0]; x.shadowBlur = L * 0.06; }
+  else { x.strokeStyle = 'rgba(255,255,255,0.35)'; x.lineWidth = Math.max(0.8, L / 300); }
+  shape(); x.stroke(); x.shadowBlur = 0;
+  var sp = { c: c, w: cw, h: ch, px: cw / 2, py: pad + L + stem * 0.6 };
   ZL_SPRITES[key] = sp;
   return sp;
 }
@@ -935,7 +961,7 @@ function zlEdgeCanopy(front) {
       ];
     }
     var reach = mob ? 70 : Math.max(130, Math.min(300, margin + 80));
-    var L = (mob ? 74 : Math.max(110, Math.min(200, reach * 0.78))) * 1.33;
+    var L = (mob ? 74 : Math.max(110, Math.min(200, reach * 0.78))) * 1.5;
     var N = mob ? 9 : 7, span = H;
     var gap = span / N;
     [-1, 1].forEach(function (side) {
@@ -946,11 +972,15 @@ function zlEdgeCanopy(front) {
         var tilt = (r % 2 ? 0.14 : -0.1) * side;
         var depth = r % 2 ? 0.7 : 0.45;
         var c = PAL[(r * 3) % PAL.length], c2 = PAL[(r * 3 + 1) % PAL.length];
+        /* rozeta na vrhu grane, kako mango list stvarno raste */
         var fan = [
-          { da: -0.64 * side, s: 0.8, col: c2, dark: true, blur: mob ? 7 : 5 },
-          { da: 0.62 * side, s: 0.76, col: c2, dark: true, blur: mob ? 7 : 5 },
-          { da: 0, s: 1, col: c, dark: r % 3 === 1, blur: mob ? 6 : 0 }
+          { da: -0.95 * side, s: 0.78, col: c2, dark: true, blur: mob ? 7 : 5 },
+          { da: 0.9 * side, s: 0.74, col: c2, dark: true, blur: mob ? 7 : 5 },
+          { da: -0.42 * side, s: 0.92, col: c2, dark: r % 2 === 0, blur: mob ? 6 : 2 },
+          { da: 0.4 * side, s: 0.88, col: c, dark: r % 2 === 1, blur: mob ? 6 : 2 },
+          { da: 0.02 * side, s: 1, col: c, dark: r % 3 === 1, blur: mob ? 6 : 0 }
         ];
+        if (mob) fan.splice(2, 1);
         fan.forEach(function (fl, k) {
           var a = dirA + fl.da + tilt, len = L * fl.s;
           var cx = x + Math.sin(a) * len * 0.5, cy = y - Math.cos(a) * len * 0.5;
