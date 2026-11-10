@@ -13,25 +13,37 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./responsive.css">
 <style>
 body{margin:0}
 </style>
 </helmet>
-<header style="background: #FAF7F0; border-bottom: 1px solid #E4DED0; font-family: Inter, system-ui, sans-serif; color: #141310">
+<header style="background: #FAF7F0; border-bottom: 1px solid #E4DED0; font-family: Inter, system-ui, sans-serif; color: #141310; position: relative">
 <div class="hdr-row" style="max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 4px 20px; flex-wrap: nowrap">
 <a href="Main.dc.html" aria-label="TheMinds, početna" style="flex: none; font-family: Archivo, sans-serif; font-weight: 900; font-size: 24px; letter-spacing: -0.02em; text-decoration: none; color: #141310; min-height: 44px; display: inline-flex; align-items: center">TheMinds</a>
-<nav class="hdr-nav" aria-label="Glavna navigacija" style="flex: 1 1 0; min-width: 0; display: flex; gap: 22px; flex-wrap: nowrap; white-space: nowrap; overflow-x: auto; justify-content: safe center">
+<nav id="hdr-nav" class="{{navCls}}" aria-label="Glavna navigacija">
 <sc-for list="{{items}}" as="n" hint-placeholder-count="5"><a href="{{n.href}}" target="{{n.target}}" rel="{{n.rel}}" aria-current="{{n.current}}" style="{{n.style}}">{{n.label}}</a></sc-for>
 </nav>
-<a href="Checkout.dc.html" style="flex: none; display: inline-flex; align-items: center; justify-content: center; background: #FF9F1C; color: #141310; text-decoration: none; font-family: Archivo, sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; padding: 0 20px; min-height: 44px; border-radius: 999px">Poruči</a>
+<div style="flex: none; display: flex; align-items: center; gap: 8px">
+<a href="Checkout.dc.html" class="hdr-cta" style="display: inline-flex; align-items: center; justify-content: center; background: #FF9F1C; color: #141310; text-decoration: none; font-family: Archivo, sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; padding: 0 20px; min-height: 44px; border-radius: 999px">Poruči</a>
+<button type="button" class="hdr-burger" aria-controls="hdr-nav" aria-expanded="{{open}}" aria-label="{{burgerLabel}}" onClick="{{toggle}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="{{burgerPath}}"></path></svg>
+</button>
+</div>
 </div>
 </header>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["home","b2b","prica","posiljka","kontakt"],"default":"home"},"$preview":{"width":1440,"height":72}}'>
 class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: false };
+  }
   renderVals() {
+    var self = this;
+    var open = this.state.open;
     var active = this.props.active || 'home';
-    var base = 'display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; box-sizing: border-box; border-bottom: 2px solid ';
+    var base = 'text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; box-sizing: border-box; border-bottom: 2px solid ';
     var defs = [
       { id: 'home', label: 'Zynamik® Direct', href: 'Main.dc.html' },
       { id: 'b2b', label: 'B2B', href: 'B2B.dc.html' },
@@ -40,6 +52,11 @@ class Component extends DCLogic {
       { id: 'kontakt', label: 'Kontakt', href: 'Kontakt.dc.html' }
     ];
     return {
+      open: open ? 'true' : 'false',
+      navCls: 'hdr-nav' + (open ? ' is-open' : ''),
+      burgerLabel: open ? 'Zatvori meni' : 'Otvori meni',
+      burgerPath: open ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16',
+      toggle: function () { self.setState({ open: !self.state.open }); },
       items: defs.map(function (d) {
         var on = d.id === active;
         return {

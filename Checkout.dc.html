@@ -39,6 +39,16 @@ a{color:#141310}a:hover{color:#5E5A50}
 .track{display:flex;width:max-content;animation:tick 60s linear infinite}
 .track > span{display:flex;gap:32px;padding-right:32px;flex:none}
 @media (max-width: 900px){.sum{order:-1}}
+@media (max-width: 600px){
+  main{padding:20px 16px 64px !important}
+  .card{padding:18px 16px}
+}
+@media (max-width: 480px){
+  .pk-thumb{display:none !important}
+  .bnd{padding:14px 12px;gap:10px}
+  .chip{white-space:nowrap}
+  .cta{font-size:15px !important;letter-spacing:0.02em;padding:16px 18px}
+}
 </style>
 </helmet>
 <div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.5; min-height: 100vh">
@@ -108,7 +118,7 @@ a{color:#141310}a:hover{color:#5E5A50}
 <button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
 <sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
 <span aria-hidden="true" style="{{p.radio}}"></span>
-<span class="ph" style="width: 44px; height: 44px; flex: none">{{p.boxes}}×</span>
+<span class="ph pk-thumb" style="width: 44px; height: 44px; flex: none">{{p.boxes}}×</span>
 <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; text-align: left"><span style="font-weight: 800; font-size: 15px">{{p.name}}</span><span style="display: flex; gap: 4px; flex-wrap: wrap"><sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span class="chip">{{c}}</span></sc-for></span></span>
 <span style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex: none"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 17px">{{p.priceTxt}}</span><sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 12px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if></span>
 </button>
