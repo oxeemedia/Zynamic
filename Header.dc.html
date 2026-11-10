@@ -18,14 +18,14 @@
 body{margin:0}
 </style>
 </helmet>
-<header style="background: rgba(5,4,9,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.09); font-family: Inter, system-ui, sans-serif; color: #F4F2F8; position: relative; z-index: 30">
+<header style="background: rgba(7,5,13,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.09); font-family: Inter, system-ui, sans-serif; color: #F5F2FA; position: relative; z-index: 30">
 <div class="hdr-row" style="max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 4px 20px; flex-wrap: nowrap">
 <a href="Main.dc.html" aria-label="TheMinds, početna" style="flex: none; font-family: Archivo, sans-serif; font-stretch: 112%; font-weight: 900; font-size: 22px; letter-spacing: -0.01em; text-decoration: none; color: #FFFFFF; min-height: 44px; display: inline-flex; align-items: center">TheMinds</a>
 <nav id="hdr-nav" class="{{navCls}}" aria-label="Glavna navigacija">
 <sc-for list="{{items}}" as="n" hint-placeholder-count="5"><a href="{{n.href}}" target="{{n.target}}" rel="{{n.rel}}" aria-current="{{n.current}}" style="{{n.style}}">{{n.label}}</a></sc-for>
 </nav>
 <div style="flex: none; display: flex; align-items: center; gap: 8px">
-<a href="Checkout.dc.html" class="hdr-cta" style="display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(100deg,#FF4D8D,#8B5CF6); color: #FFFFFF; text-decoration: none; font-family: Archivo, sans-serif; font-stretch: 115%; font-weight: 800; font-size: 12.5px; letter-spacing: 0.08em; box-shadow: 0 8px 24px -8px rgba(255,77,141,0.6); text-transform: uppercase; padding: 0 20px; min-height: 44px; border-radius: 999px">Poruči</a>
+<a href="Checkout.dc.html" class="hdr-cta" style="display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(100deg,#D92D7A,#7436E0); color: #FFFFFF; text-decoration: none; font-family: Archivo, sans-serif; font-stretch: 115%; font-weight: 800; font-size: 12.5px; letter-spacing: 0.08em; box-shadow: 0 8px 24px -8px rgba(217,45,122,0.6); text-transform: uppercase; padding: 0 20px; min-height: 44px; border-radius: 999px">Poruči</a>
 <button type="button" class="hdr-burger" aria-controls="hdr-nav" aria-expanded="{{open}}" aria-label="{{burgerLabel}}" onClick="{{toggle}}">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="{{burgerPath}}"></path></svg>
 </button>
@@ -65,7 +65,7 @@ class Component extends DCLogic {
           target: '_self',
           rel: '',
           current: on ? 'page' : 'false',
-          style: base + (on ? '#FF4D8D; color: #FFFFFF;' : 'transparent; color: #A9A5B8;')
+          style: base + (on ? '#D92D7A; color: #FFFFFF;' : 'transparent; color: #ABA4BF;')
         };
       })
     };

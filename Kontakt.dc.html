@@ -13,30 +13,38 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wdth,wght@62..125,300..900&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#FAF7F0}
-a{color:#141310}a:hover{color:#5E5A50}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#141310;color:#FAF7F0;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 30px;border-radius:999px;min-height:52px;box-sizing:border-box;border:0;cursor:pointer}
-.cta:hover{background:#2E2B24;color:#FAF7F0}
-.cta.alt{background:#FF9F1C;color:#141310}
-.cta.alt:hover{background:#FFB54D;color:#141310}
-.cta:focus-visible,.chipbtn:focus-visible{outline:3px solid #FF9F1C;outline-offset:3px}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#B35F00}
+body{margin:0;background:#07050D}
+a{color:#F5F2FA}a:hover{color:#ABA4BF}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#1A1330;color:#F5F2FA;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 30px;border-radius:999px;min-height:52px;box-sizing:border-box;border:0;cursor:pointer}
+.cta:hover{background:#241A40;color:#F5F2FA}
+.cta.alt{background:linear-gradient(100deg,#D92D7A,#7436E0);color:#F5F2FA}
+.cta.alt:hover{background:linear-gradient(100deg,#E64A8E,#8650EA);color:#F5F2FA}
+.cta:focus-visible,.chipbtn:focus-visible{outline:3px solid #D92D7A;outline-offset:3px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#E063A3}
 .fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
-.fld input,.fld textarea{font:inherit;font-weight:500;font-size:16px;padding:13px 14px;border:1.5px solid #E4DED0;border-radius:12px;background:#FAF7F0;color:#141310;min-height:48px;box-sizing:border-box;width:100%}
-.fld input:focus,.fld textarea:focus{outline:3px solid #FF9F1C;outline-offset:1px;border-color:#141310;background:#FFFFFF}
+.fld input,.fld textarea{font:inherit;font-weight:500;font-size:16px;padding:13px 14px;border:1.5px solid rgba(255,255,255,0.09);border-radius:12px;background:#07050D;color:#F5F2FA;min-height:48px;box-sizing:border-box;width:100%}
+.fld input:focus,.fld textarea:focus{outline:3px solid #D92D7A;outline-offset:1px;border-color:#D92D7A;background:#120D1E}
 .chipbtn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:700}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .track{display:flex;width:max-content;animation:tick 60s linear infinite}
 .track > span{display:flex;gap:32px;padding-right:32px;flex:none}
-.info{background:#FFFFFF;border:1px solid #E4DED0;border-radius:20px;padding:18px;display:flex;gap:14px;align-items:flex-start}
-.ico{width:40px;height:40px;border-radius:999px;background:#FFF1DC;display:flex;align-items:center;justify-content:center;flex:none}
+.info{background:#120D1E;border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+.ico{width:40px;height:40px;border-radius:999px;background:rgba(217,45,122,0.10);display:flex;align-items:center;justify-content:center;flex:none}
+
+/* tema: paleta sa pakovanja */
+body{background:#07050D;color:#F5F2FA;-webkit-font-smoothing:antialiased}
+::selection{background:#D92D7A;color:#fff}
+.cta{background:linear-gradient(100deg,#D92D7A,#7436E0);color:#FFFFFF;box-shadow:0 10px 36px -10px rgba(217,45,122,0.6)}
+.cta:hover{background:linear-gradient(100deg,#E64A8E,#8650EA);color:#FFFFFF}
+[style*="Archivo"]{font-stretch:112%}
+input::placeholder,textarea::placeholder{color:#6E6784}
 </style>
 </helmet>
-<div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.55; min-height: 100vh">
+<div style="background: #07050D; color: #F5F2FA; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.55; min-height: 100vh">
 
-<div style="background: #141310; color: #FAF7F0; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
+<div style="background: #1A1330; color: #F5F2FA; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
 <div class="track"><span><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span></span><span aria-hidden="true"><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>2+1 gratis</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span></span></div>
 </div>
 <dc-import name="Header" active="kontakt" hint-size="100%,66px"></dc-import>
@@ -45,13 +53,13 @@ a{color:#141310}a:hover{color:#5E5A50}
 
 <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
 <span class="eyebrow">Kontakt</span>
-<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(36px, 5vw, 60px); line-height: 1; letter-spacing: -0.03em">Tu smo.<br><span style="color: #E07A00">Odgovara čovek, ne bot.</span></h1>
-<p style="margin: 0; font-size: 17px; color: #3A372F">Pitanje o porudžbini, garanciji ili samom proizvodu? Piši nam i javljamo se u roku od [24h] radnim danima.</p>
+<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(36px, 5vw, 60px); line-height: 1; letter-spacing: -0.03em">Tu smo.<br><span style="background: linear-gradient(100deg,#D9973A 0%,#D92D7A 48%,#7436E0 100%); -webkit-background-clip: text; background-clip: text; color: transparent">Odgovara čovek, ne bot.</span></h1>
+<p style="margin: 0; font-size: 17px; color: #DED8EA">Pitanje o porudžbini, garanciji ili samom proizvodu? Piši nam i javljamo se u roku od [24h] radnim danima.</p>
 <div style="display: flex; flex-direction: column; gap: 10px">
-<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Mejl</strong><a href="mailto:info@d-minds.com">info@d-minds.com</a></span></div>
-<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Telefon</strong><span>[Broj telefona podrške]</span></span></div>
-<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg></span><span style="display: flex; flex-direction: column"><strong>Adresa</strong><span>Delighted Minds d.o.o., Zmajeva 12v, 11080 Zemun, Beograd</span></span></div>
-<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Radno vreme</strong><span>[Ponedeljak – petak, 09–17h]</span></span></div>
+<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Mejl</strong><a href="mailto:info@d-minds.com">info@d-minds.com</a></span></div>
+<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Telefon</strong><span>[Broj telefona podrške]</span></span></div>
+<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg></span><span style="display: flex; flex-direction: column"><strong>Adresa</strong><span>Delighted Minds d.o.o., Zmajeva 12v, 11080 Zemun, Beograd</span></span></div>
+<div class="info"><span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D92D7A" stroke-width="2.5"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><span style="display: flex; flex-direction: column"><strong>Radno vreme</strong><span>[Ponedeljak – petak, 09–17h]</span></span></div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; font-weight: 700">
 <a href="PratiPosiljku.dc.html">Prati pošiljku</a>
@@ -60,11 +68,11 @@ a{color:#141310}a:hover{color:#5E5A50}
 </div>
 </div>
 
-<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<div style="flex: 1 1 520px; min-width: 0; background: #120D1E; border: 1px solid rgba(255,255,255,0.09); border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
 <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 0">
 <div style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">Poruka je stigla.</div>
-<p style="margin: 0; color: #3A372F">Javljamo se u roku od [24h] radnim danima. Ako je hitno i tiče se paketa koji je na putu, pogledaj i <a href="PratiPosiljku.dc.html">praćenje pošiljke</a>.</p>
+<p style="margin: 0; color: #DED8EA">Javljamo se u roku od [24h] radnim danima. Ako je hitno i tiče se paketa koji je na putu, pogledaj i <a href="PratiPosiljku.dc.html">praćenje pošiljke</a>.</p>
 </div>
 </sc-if>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
@@ -79,12 +87,12 @@ a{color:#141310}a:hover{color:#5E5A50}
 <label class="fld">Ime i prezime *<input type="text" autocomplete="name" placeholder="Marko Marković" required></label>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
 <label class="fld">Mejl *<input type="email" autocomplete="email" placeholder="ime@primer.com" required></label>
-<label class="fld"><span>Telefon <span style="font-weight: 500; color: #5E5A50">(opciono)</span></span><input type="tel" autocomplete="tel" placeholder="06x xxx xxxx"></label>
+<label class="fld"><span>Telefon <span style="font-weight: 500; color: #ABA4BF">(opciono)</span></span><input type="tel" autocomplete="tel" placeholder="06x xxx xxxx"></label>
 </div>
-<sc-if value="{{orderTopic}}" hint-placeholder-val="{{ false }}"><label class="fld"><span>Broj porudžbine <span style="font-weight: 500; color: #5E5A50">(ako ga imaš)</span></span><input type="text" placeholder="#[BROJ]"></label></sc-if>
+<sc-if value="{{orderTopic}}" hint-placeholder-val="{{ false }}"><label class="fld"><span>Broj porudžbine <span style="font-weight: 500; color: #ABA4BF">(ako ga imaš)</span></span><input type="text" placeholder="#[BROJ]"></label></sc-if>
 <label class="fld">Poruka *<textarea rows="5" placeholder="Kako možemo da pomognemo?" required></textarea></label>
 <button type="submit" class="cta alt" style="width: 100%">Pošalji poruku</button>
-<p style="margin: 0; font-size: 12px; color: #5E5A50; text-align: center">Podatke koristimo samo da ti odgovorimo. <a href="#privatnost">Politika privatnosti</a></p>
+<p style="margin: 0; font-size: 12px; color: #ABA4BF; text-align: center">Podatke koristimo samo da ti odgovorimo. <a href="#privatnost">Politika privatnosti</a></p>
 </form>
 </sc-if>
 </div>
@@ -105,7 +113,7 @@ class Component extends DCLogic {
     return {
       topics: labels.map(function (l, i) {
         var on = self.state.topic === i;
-        return { label: l, on: on, style: on ? 'background: #141310; color: #FAF7F0; border: 1.5px solid #141310;' : 'background: #FFFFFF; color: #141310; border: 1.5px solid #CFC8B8;', pick: function () { self.setState({ topic: i }); } };
+        return { label: l, on: on, style: on ? 'background: #1A1330; color: #F5F2FA; border: 1.5px solid #D92D7A;' : 'background: #120D1E; color: #F5F2FA; border: 1.5px solid rgba(255,255,255,0.16);', pick: function () { self.setState({ topic: i }); } };
       }),
       orderTopic: this.state.topic < 2,
       sent: this.state.sent,
