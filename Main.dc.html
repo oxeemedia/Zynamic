@@ -947,28 +947,29 @@ function zlEdgeCanopy(front) {
         { x: W + 20, y: -10, L: B, a: Math.PI + 0.55, color: 'violet', dark: true, depth: 1, alpha: 0.85, blur: 3, delay: 1000, k: 0.6, part: 1 }
       ];
     }
-    var reach = mob ? 62 : Math.max(130, Math.min(300, margin + 80));
+    var reach = mob ? 70 : Math.max(130, Math.min(300, margin + 80));
     var L = (mob ? 74 : Math.max(110, Math.min(200, reach * 0.78))) * 1.33;
-    var N = mob ? 4 : 7, span = mob ? H * 0.42 : H;
+    var N = mob ? 7 : 7, span = H;
     var gap = span / N;
     [-1, 1].forEach(function (side) {
       var dirA = side < 0 ? Math.PI / 2 : -Math.PI / 2;
       for (var r = 0; r < N; r++) {
-        var y = gap * (r + (side < 0 ? 0.35 : 0.85));
+        var y = gap * (r + (mob ? (side < 0 ? 0.3 : 0.7) : (side < 0 ? 0.35 : 0.85)));
         var x = side < 0 ? -12 : W + 12;
         var tilt = (r % 2 ? 0.14 : -0.1) * side;
         var depth = r % 2 ? 0.7 : 0.45;
         var c = PAL[(r * 3 + (side > 0 ? 2 : 0)) % PAL.length], c2 = PAL[(r * 3 + (side > 0 ? 2 : 0) + 1) % PAL.length];
         var fan = [
-          { da: -0.64 * side, s: 0.8, col: c2, dark: true, blur: mob ? 2 : 5 },
-          { da: 0.62 * side, s: 0.76, col: c2, dark: true, blur: mob ? 2 : 5 },
-          { da: 0, s: 1, col: c, dark: r % 3 === 1, blur: 0 }
+          { da: -0.64 * side, s: 0.8, col: c2, dark: true, blur: mob ? 7 : 5 },
+          { da: 0.62 * side, s: 0.76, col: c2, dark: true, blur: mob ? 7 : 5 },
+          { da: 0, s: 1, col: c, dark: r % 3 === 1, blur: mob ? 6 : 0 }
         ];
         fan.forEach(function (fl, k) {
           var a = dirA + fl.da + tilt, len = L * fl.s;
           var cx = x + Math.sin(a) * len * 0.5, cy = y - Math.cos(a) * len * 0.5;
           var alpha = fl.dark ? 0.95 : 0.88;
-          if (rb && cx > rb.l - 20 && cx < rb.r + 20 && cy > rb.t - 20 && cy < rb.b + 20) alpha *= 0.35;
+          if (mob) alpha *= 0.6;
+          else if (rb && cx > rb.l - 20 && cx < rb.r + 20 && cy > rb.t - 20 && cy < rb.b + 20) alpha *= 0.35;
           out.push({ x: x, y: y, L: len, a: a, color: fl.col, dark: fl.dark, depth: fl.blur ? depth - 0.2 : depth + 0.1, alpha: alpha, blur: fl.blur,
             delay: 200 + r * 110 + (side > 0 ? 70 : 0) + k * 60, k: 1, part: 1 });
         });
