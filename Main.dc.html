@@ -311,8 +311,8 @@ img{display:block;max-width:100%;height:auto}
 
 <!-- BAND -->
 <div class="bands" aria-hidden="true">
-<div class="band b2"><div class="track" data-speed="0.9"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b class="o">{{t.t}}</b><i class="gtext">✦</i></sc-for></span><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b class="o">{{t.t}}</b><i class="gtext">✦</i></sc-for></span></div></div>
-<div class="band b1"><div class="track" data-speed="-1.2"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b>{{t.t}}</b><i>✦</i></sc-for></span><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b>{{t.t}}</b><i>✦</i></sc-for></span></div></div>
+<div class="band b2"><div class="track" data-speed="0.9"><span><sc-for list="{{band2}}" as="t" hint-placeholder-count="8"><b class="o">{{t}}</b><i class="gtext">✦</i></sc-for></span><span><sc-for list="{{band2}}" as="t" hint-placeholder-count="8"><b class="o">{{t}}</b><i class="gtext">✦</i></sc-for></span></div></div>
+<div class="band b1"><div class="track" data-speed="-1.2"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b>{{t}}</b><i>✦</i></sc-for></span><span><sc-for list="{{band}}" as="t" hint-placeholder-count="8"><b>{{t}}</b><i>✦</i></sc-for></span></div></div>
 </div>
 
 <!-- KAKO SE KORISTI -->
@@ -1136,12 +1136,10 @@ class Component extends DCLogic {
     var disc = this.state.discount;
     function fmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' RSD'; }
     function days(boxes) { return Math.round(boxes * PER_BOX / PER_DAY); }
-    var pb = ['2+1 gratis', '✦', 'Plaćaš kad stigne', '✦', 'Šaljemo iz Beograda za [1–3 dana]', '✦', 'Bez kofeina', '✦'];
+    var pb = ['2+1 gratis', '✦', 'Plaćaš tek kad paket stigne', '✦', 'Proizvedeno u Srbiji, bez carine i čekanja', '✦', 'Dostava gratis od 2+1', '✦', 'Topi se na jeziku, bez vode', '✦'];
     var promo = pb.concat(pb, pb);
-    var band = [
-      { t: 'Bez kofeina', c: '' }, { t: '400 mg Zynamite®', c: 'o' }, { t: 'Na jezik, bez vode', c: '' }, { t: 'Energy / Focus / Recovery', c: 'o' },
-      { t: 'Bez kofeina', c: '' }, { t: '400 mg Zynamite®', c: 'o' }, { t: 'Na jezik, bez vode', c: '' }, { t: 'Energy / Focus / Recovery', c: 'o' }
-    ];
+    var band = ['Bez vode', 'Bez šejkera', 'Bez kofeina', 'Bez reda u kafiću', 'Bez vode', 'Bez šejkera', 'Bez kofeina', 'Bez reda u kafiću'];
+    var band2 = ['Kancelarija u 14h', 'Pre treninga', 'Noć pred rok', 'Energy / Focus / Recovery', 'Kancelarija u 14h', 'Pre treninga', 'Noć pred rok', 'Energy / Focus / Recovery'];
     var badgeBase = 'position: absolute; top: -11px; right: 16px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 5px 10px; border-radius: 999px; ';
     var defs = [
       { name: 'Proba · 5 dana', boxes: 1, pay: 1, off: 0, chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
@@ -1188,7 +1186,7 @@ class Component extends DCLogic {
       { q: 'Da li stvara naviku?', a: 'Prema deklaraciji, upotreba ne dovodi do stvaranja navike i zavisnosti.' },
       { q: 'Da li je registrovan?', a: 'Da. Upisan je u bazu dodataka ishrani Ministarstva zdravlja pod brojem 17932/2026. Proizvodi ga Phytonet d.o.o. u Šimanovcima.' },
       { q: 'Gde mogu da pročitam studije?', a: 'Wightman i saradnici, Nutrients 2020 (doi.org/10.3390/nu12082194) i López-Ríos i saradnici, Journal of Ethnopharmacology 2020 (doi.org/10.1016/j.jep.2020.112996). Studije je finansirao Nektium i odnose se na sastojak, ne na gotov proizvod.' },
-      { q: 'Kako ide dostava i plaćanje?', a: '[KURIR], isporuka za [X RADNIH DANA] iz Beograda. Plaćanje: [NAČIN PLAĆANJA]. Od paketa 2+1 dostava je gratis.' },
+      { q: 'Kako ide dostava i plaćanje?', a: 'Proizvedeno je u Srbiji, pa paket ne čeka carinu. [KURIR], isporuka za [X RADNIH DANA]. Plaćanje: [NAČIN PLAĆANJA]. Od paketa 2+1 dostava je gratis.' },
       { q: 'Šta ako mi ne prija?', a: '[X DANA] garancija prazne kutije, uz [USLOVI POVRAĆAJA].' }
     ];
     var faq = faqRaw.map(function (f, i) {
@@ -1198,6 +1196,7 @@ class Component extends DCLogic {
     return {
       promo: promo,
       band: band,
+      band2: band2,
       packages: packages,
       sel: packages[this.state.pkg],
       thumbs: thumbs,
