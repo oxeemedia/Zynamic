@@ -956,7 +956,7 @@ function zlEdgeCanopy(front) {
           var alpha = front ? 0.95 : (dark ? 0.95 : 0.8);
           if (rb && cx > rb.l - 20 && cx < rb.r + 20 && cy > rb.t - 20 && cy < rb.b + 20) alpha *= 0.35;
           out.push({ x: px, y: py, L: L, a: a, color: ZL_PAL[(rnd() * ZL_PAL.length) | 0], dark: dark,
-            depth: front ? 0.95 : 0.35 + rnd() * 0.4, alpha: alpha, blur: front ? 2 : (rnd() < 0.2 ? 4 : 0), bake: !front && rnd() < 0.25,
+            depth: front ? 0.95 : 0.35 + rnd() * 0.4, alpha: alpha, blur: front ? 2 : (rnd() < 0.2 ? 4 : 0), bake: false,
             delay: 250 + (side < 0 ? 0 : 120) + b * 60 + k * 70, k: front ? 0.7 : 1, part: 1 });
         }
       }
@@ -1070,7 +1070,7 @@ class Component extends DCLogic {
         self.lv[key] = el ? { el: el, eng: zlEngine(el, layout, opts) } : null;
       };
     }
-    this.setLeavesBack = leafRef('back', zlEdgeCanopy(false), { light: true, motes: 22, bake: true });
+    this.setLeavesBack = leafRef('back', zlEdgeCanopy(false), { light: true, motes: 22 });
     this.setLeavesIntro = leafRef('intro', zlIntro, { light: true, motes: 70 });
     this.setLeavesFront = leafRef('front', zlEdgeCanopy(true), { motes: 0 });
     this.setLeavesPop = leafRef('pop', zlWreath, { light: true, motes: 40, breathe: true, watch: '.card-in' });
