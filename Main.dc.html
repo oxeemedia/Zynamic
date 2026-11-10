@@ -65,6 +65,9 @@ img{display:block;max-width:100%;height:auto}
 .ph{border:1.5px dashed rgba(255,255,255,0.16);border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--dim);font-size:12px;letter-spacing:0.02em;padding:16px;box-sizing:border-box;background:radial-gradient(120% 90% at 20% 0%,rgba(139,92,246,0.14),transparent 60%),radial-gradient(120% 90% at 100% 100%,rgba(255,77,141,0.10),transparent 60%),#0D0C13}
 
 /* hero */
+.leaves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block}
+.leaves-back{z-index:0}.leaves-front{z-index:3}.leaves-pop{z-index:0}
+.hero .wrap{position:relative;z-index:1}
 .hero{position:relative;padding-top:36px;padding-bottom:96px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:56px;align-items:start}
 .gal{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
@@ -216,6 +219,7 @@ img{display:block;max-width:100%;height:auto}
 
 <!-- HERO / PROIZVOD -->
 <section id="paket" class="hero">
+<canvas class="leaves leaves-back" ref="{{setLeavesBack}}" aria-hidden="true"></canvas>
 <div class="glow" style="width: 520px; height: 520px; left: -160px; top: -120px; background: #1F8F5F; opacity: 0.35"></div>
 <div class="glow" style="width: 560px; height: 560px; right: -180px; top: 80px; background: #7A2BD9; opacity: 0.4"></div>
 <div class="wrap rel">
@@ -274,6 +278,7 @@ img{display:block;max-width:100%;height:auto}
 
 </div>
 </div>
+<canvas class="leaves leaves-front" ref="{{setLeavesFront}}" aria-hidden="true"></canvas>
 </section>
 
 <!-- BAND -->
@@ -463,7 +468,8 @@ img{display:block;max-width:100%;height:auto}
 <!-- GREBALICA -->
 <sc-if value="{{scratch}}" hint-placeholder-val="{{ false }}">
 <div role="dialog" aria-modal="true" aria-labelledby="scr-title" style="position: fixed; inset: 0; z-index: 50; background: rgba(3,2,6,0.78); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
-<div class="card-in" style="width: 100%; max-width: 440px; background: #0F0E15; border: 1px solid var(--line2); border-radius: 28px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 100px -10px rgba(139,92,246,0.45)">
+<canvas class="leaves leaves-pop" ref="{{setLeavesPop}}" aria-hidden="true"></canvas>
+<div class="card-in" style="position: relative; z-index: 1; width: 100%; max-width: 440px; background: #0F0E15; border: 1px solid var(--line2); border-radius: 28px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 100px -10px rgba(139,92,246,0.45)">
 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
 <span class="eyebrow">Poklon za nove kupce</span>
 <button type="button" class="xbtn" aria-label="Zatvori, ne želim popust" onClick="{{decline}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
@@ -499,6 +505,223 @@ img{display:block;max-width:100%;height:auto}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"scratchOnLoad":{"editor":"boolean","default":true,"section":"Grebalica"},"$preview":{"width":1440,"height":9000}}'>
+/* ---------- Interaktivno lišće (canvas) ---------- */
+var ZL_COLORS = {
+  amber: ['#F5A524', '#FFD27A'], orange: ['#FF7A45', '#FFB38F'], pink: ['#FF4D8D', '#FF9CC0'],
+  magenta: ['#E0338A', '#FF7FC0'], violet: ['#8B5CF6', '#C4B0FF'], blue: ['#4F6BFF', '#9DB0FF'], green: ['#22C58B', '#8FF0CC']
+};
+var ZL_DOTS = ['#F5A524', '#FF4D8D', '#8B5CF6', '#4F6BFF', '#22C58B', '#FFFFFF'];
+var ZL_SPRITES = {};
+function zlSprite(color, L, blur, dpr) {
+  var key = color + '|' + L + '|' + blur + '|' + dpr;
+  if (ZL_SPRITES[key]) return ZL_SPRITES[key];
+  var W = L * 0.42, pad = Math.ceil(L * 0.28 + blur * 3);
+  var cw = Math.ceil(W * 2 + pad * 2), ch = Math.ceil(L + pad * 2);
+  var c = document.createElement('canvas'); c.width = cw * dpr; c.height = ch * dpr;
+  var x = c.getContext('2d'); x.scale(dpr, dpr); x.translate(cw / 2, pad + L / 2);
+  if (blur && 'filter' in x) x.filter = 'blur(' + blur + 'px)';
+  var col = ZL_COLORS[color] || ZL_COLORS.pink;
+  function shape() {
+    x.beginPath(); x.moveTo(0, L / 2);
+    x.bezierCurveTo(W * 1.12, L * 0.22, W * 0.82, -L * 0.3, 0, -L / 2);
+    x.bezierCurveTo(-W * 0.82, -L * 0.3, -W * 1.12, L * 0.22, 0, L / 2); x.closePath();
+  }
+  // sjaj + telo lista
+  shape(); x.shadowColor = col[0]; x.shadowBlur = L * 0.22;
+  var g = x.createLinearGradient(-W, L / 2, W, -L / 2);
+  g.addColorStop(0, col[0] + 'F2'); g.addColorStop(0.55, col[0] + 'C8'); g.addColorStop(1, col[1] + 'B0');
+  x.fillStyle = g; x.fill(); x.shadowBlur = 0;
+  x.save(); shape(); x.clip();
+  var r = x.createRadialGradient(W * 0.25, -L * 0.15, 0, W * 0.25, -L * 0.15, L * 0.6);
+  r.addColorStop(0, 'rgba(255,255,255,0.22)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = r; x.fillRect(-W * 1.2, -L, W * 2.4, L * 2);
+  // čestice
+  var n = Math.round(L / 7), s = L / 220;
+  for (var i = 0; i < n; i++) {
+    x.globalAlpha = 0.45 + Math.random() * 0.55; x.fillStyle = ZL_DOTS[i % ZL_DOTS.length];
+    x.beginPath(); x.arc((Math.random() - 0.5) * W * 1.8, (Math.random() - 0.5) * L, (0.7 + Math.random() * 2.2) * s, 0, 6.283); x.fill();
+  }
+  x.globalAlpha = 1;
+  // nervatura (tačkasta, kao na pakovanju)
+  x.strokeStyle = 'rgba(255,255,255,0.78)'; x.lineCap = 'round'; x.lineWidth = Math.max(1, L / 170);
+  x.setLineDash([L / 160, L / 55]);
+  x.beginPath(); x.moveTo(0, L / 2); x.lineTo(0, -L * 0.47); x.stroke();
+  for (var k = 1; k <= 7; k++) {
+    var y = L / 2 - k * (L / 8.2), prof = Math.sin(Math.PI * (k / 8.2)) * W * 0.86;
+    x.beginPath(); x.moveTo(0, y); x.quadraticCurveTo(prof * 0.5, y - L * 0.05, prof, y - L * 0.12); x.stroke();
+    x.beginPath(); x.moveTo(0, y); x.quadraticCurveTo(-prof * 0.5, y - L * 0.05, -prof, y - L * 0.12); x.stroke();
+  }
+  x.restore();
+  x.setLineDash([L / 160, L / 70]); x.strokeStyle = 'rgba(255,255,255,0.55)'; x.lineWidth = Math.max(1, L / 220);
+  shape(); x.stroke();
+  var sp = { c: c, w: cw, h: ch, px: cw / 2, py: pad + L };
+  ZL_SPRITES[key] = sp;
+  return sp;
+}
+
+function zlEngine(canvas, layout, opts) {
+  opts = opts || {};
+  var ctx = canvas.getContext('2d'); if (!ctx) return null;
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var leaves = [], W = 0, H = 0, t0 = performance.now(), last = t0, raf = 0, alive = true, visible = true;
+  var ptr = { x: -9999, y: -9999, px: 0, py: 0, tx: 0, ty: 0, has: false };
+  function relayout() {
+    var r = canvas.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    var defs = layout(W, H, canvas) || [];
+    leaves = defs.map(function (d, i) {
+      var L = Math.round(d.L);
+      var sp = zlSprite(d.color, L, d.blur || 0, dpr);
+      return { x: d.x, y: d.y, L: L, a0: d.a, a: d.a, av: 0, ox: 0, oy: 0, vx: 0, vy: 0, depth: d.depth == null ? 0.5 : d.depth,
+        alpha: d.alpha == null ? 1 : d.alpha, sp: sp, ph: Math.random() * 6.28, f: 0.0006 + Math.random() * 0.0007,
+        delay: d.delay || 0, grow: !!opts.grow, k: d.k || 1 };
+    });
+    t0 = performance.now();
+    if (reduce) draw(performance.now());
+  }
+  function onMove(e) {
+    var r = canvas.getBoundingClientRect();
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    if (ptr.has) {
+      var dx = x - ptr.x, dy = y - ptr.y;
+      if (Math.abs(dx) + Math.abs(dy) < 200) poke(x, y, dx, dy);
+    }
+    ptr.x = x; ptr.y = y; ptr.has = true;
+    ptr.tx = (e.clientX / window.innerWidth - 0.5) * 2; ptr.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+  }
+  function poke(x, y, dx, dy) {
+    for (var i = 0; i < leaves.length; i++) {
+      var l = leaves[i], sa = Math.sin(l.a), ca = Math.cos(l.a);
+      var cx = l.x + l.ox + sa * l.L * 0.5, cy = l.y + l.oy - ca * l.L * 0.5;
+      var R = l.L * 0.75 + 70, d = Math.hypot(x - cx, y - cy);
+      if (d > R) continue;
+      var f = (1 - d / R); f *= f;
+      var perp = dx * ca + dy * sa;
+      l.av += Math.max(-0.14, Math.min(0.14, perp / l.L * 1.4 * f * l.k));
+      l.vx += dx * 0.12 * f; l.vy += dy * 0.12 * f;
+    }
+  }
+  var lastScroll = window.scrollY;
+  function onScroll() {
+    var dy = window.scrollY - lastScroll; lastScroll = window.scrollY;
+    if (Math.abs(dy) > 120) return;
+    for (var i = 0; i < leaves.length; i++) { var l = leaves[i]; l.av += (i % 2 ? 1 : -1) * dy * 0.0009 * (0.5 + l.depth); }
+  }
+  function draw(now) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < leaves.length; i++) {
+      var l = leaves[i], s = 1, al = l.alpha;
+      if (l.grow && !reduce) {
+        var p = Math.max(0, Math.min(1, (now - t0 - l.delay) / 650));
+        var c1 = 1.70158, c3 = c1 + 1; s = p === 0 ? 0 : 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+        al *= Math.min(1, p * 2);
+      } else if (!reduce) {
+        al *= Math.max(0, Math.min(1, (now - t0 - l.delay) / 900));
+      }
+      if (al <= 0.01 || s <= 0.01) continue;
+      var par = l.depth * 22;
+      ctx.save(); ctx.globalAlpha = al;
+      ctx.translate(l.x + l.ox + ptr.px * par, l.y + l.oy + ptr.py * par);
+      ctx.rotate(l.a); if (s !== 1) ctx.scale(s, s);
+      ctx.drawImage(l.sp.c, -l.sp.px, -l.sp.py, l.sp.w, l.sp.h);
+      ctx.restore();
+    }
+  }
+  function tick(now) {
+    if (!alive) return;
+    if (!canvas.isConnected) { destroy(); return; }
+    var dt = Math.min(2.5, (now - last) / 16.67); last = now;
+    if (visible) {
+      ptr.px += (ptr.tx - ptr.px) * 0.05 * dt; ptr.py += (ptr.ty - ptr.py) * 0.05 * dt;
+      for (var i = 0; i < leaves.length; i++) {
+        var l = leaves[i];
+        var idle = Math.sin(now * l.f + l.ph) * 0.045 * (0.6 + l.depth);
+        l.av = (l.av + (l.a0 + idle - l.a) * 0.03 * dt) * Math.pow(0.93, dt); l.a += l.av * dt;
+        l.vx = (l.vx - l.ox * 0.045 * dt) * Math.pow(0.88, dt); l.vy = (l.vy - l.oy * 0.045 * dt) * Math.pow(0.88, dt);
+        l.ox += l.vx * dt; l.oy += l.vy * dt;
+      }
+      draw(now);
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  var ro = null, io = null;
+  function destroy() {
+    alive = false; cancelAnimationFrame(raf);
+    window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerdown', onMove);
+    window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', relayout);
+    if (ro) ro.disconnect(); if (io) io.disconnect();
+  }
+  relayout();
+  if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(function () { relayout(); }); ro.observe(canvas); var wt = opts.watch && canvas.parentElement && canvas.parentElement.querySelector(opts.watch); if (wt) ro.observe(wt); }
+  else window.addEventListener('resize', relayout);
+  if (typeof IntersectionObserver !== 'undefined') { io = new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }); io.observe(canvas); }
+  if (!reduce) {
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerdown', onMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    raf = requestAnimationFrame(tick);
+  }
+  return { destroy: destroy, relayout: relayout };
+}
+
+/* Raspored: hero (iza sadržaja) — lišće po ivicama, prigušeno iza teksta */
+function zlHeroBack(W, H, canvas) {
+  var hero = canvas.parentElement, buy = hero && hero.querySelector('.buy'), gal = hero && hero.querySelector('.hero-img');
+  var hr = canvas.getBoundingClientRect();
+  var rb = buy ? buy.getBoundingClientRect() : null, rg = gal ? gal.getBoundingClientRect() : null;
+  var mob = W < 700, base = mob ? Math.min(W * 0.36, 150) : Math.min(Math.max(W * 0.13, 150), 230);
+  var spots = mob ? [
+    [-0.04, 0.10, 1.0, 0.75, 'violet', 0.4], [1.04, 0.07, 0.95, -0.8, 'pink', 0.45], [1.05, 0.30, 0.9, -1.0, 'amber', 0.35],
+    [-0.05, 0.40, 1.1, 0.95, 'magenta', 0.5], [-0.03, 0.70, 1.0, 0.8, 'blue', 0.35], [1.04, 0.62, 1.05, -0.85, 'violet', 0.5],
+    [1.03, 0.92, 0.9, -0.7, 'orange', 0.4], [-0.04, 0.97, 0.95, 0.6, 'pink', 0.45]
+  ] : [
+    [0.015, 0.20, 1.15, 0.55, 'violet', 0.35], [0.05, 0.62, 1.3, 0.35, 'pink', 0.5], [-0.01, 0.95, 1.2, 0.95, 'amber', 0.4],
+    [0.10, 0.02, 0.85, 2.7, 'blue', 0.25], [0.26, 0.00, 0.75, 3.3, 'orange', 0.3], [0.47, 0.03, 0.7, 2.9, 'magenta', 0.25],
+    [0.985, 0.10, 1.2, -0.6, 'amber', 0.4], [0.995, 0.45, 1.05, -0.45, 'magenta', 0.5], [1.0, 0.82, 1.3, -0.8, 'violet', 0.45],
+    [0.80, 1.0, 0.95, 0.25, 'green', 0.3], [0.30, 1.0, 1.0, -0.3, 'pink', 0.4], [0.50, 0.98, 0.8, 0.15, 'blue', 0.3],
+    [0.73, 0.01, 0.8, 3.0, 'pink', 0.3]
+  ];
+  return spots.map(function (s, i) {
+    var L = base * s[2], x = s[0] * W, y = s[1] * H, a = s[3];
+    var cx = x + Math.sin(a) * L * 0.5, cy = y - Math.cos(a) * L * 0.5; // centar lista
+    var alpha = 0.55 + s[5] * 0.6, blur = s[5] < 0.3 ? 3 : 0;
+    function inside(r, pad) { return r && cx > r.left - hr.left - pad && cx < r.right - hr.left + pad && cy > r.top - hr.top - pad && cy < r.bottom - hr.top + pad; }
+    if (inside(rb, 30)) alpha *= 0.28;
+    return { x: x, y: y, L: L, a: a, color: s[4], depth: s[5], alpha: Math.min(1, alpha), blur: blur, delay: i * 70 };
+  });
+}
+/* Raspored: hero (ispred sadržaja) — par krupnih, mutnih listova samo na ivicama širokih ekrana */
+function zlHeroFront(W, H) {
+  if (W < 1280) return [];
+  var m = (W - 1200) / 2, base = Math.min(300, 140 + m * 0.7);
+  return [
+    { x: -m * 0.15, y: H * 0.98, L: base * 1.1, a: 0.32, color: 'pink', depth: 1, alpha: 0.95, blur: 2, delay: 300, k: 0.7 },
+    { x: W + m * 0.15, y: H * 0.70, L: base, a: -0.36, color: 'violet', depth: 1, alpha: 0.9, blur: 2, delay: 420, k: 0.7 },
+    { x: W + m * 0.1, y: 6, L: base * 0.75, a: -2.75, color: 'orange', depth: 0.9, alpha: 0.85, blur: 2, delay: 520, k: 0.7 }
+  ];
+}
+/* Raspored: venac oko kartice sa popustom */
+function zlWreath(W, H, canvas) {
+  var card = canvas.parentElement && canvas.parentElement.querySelector('.card-in');
+  var rc = card ? card.getBoundingClientRect() : { left: W / 2 - 220, top: H / 2 - 210, width: 440, height: 420 };
+  var hr = canvas.getBoundingClientRect();
+  var cx = rc.left - hr.left + rc.width / 2, cy = rc.top - hr.top + rc.height / 2;
+  var rx = rc.width / 2 - 24, ry = rc.height / 2 - 24, n = W < 600 ? 14 : 18;
+  var cols = ['pink', 'violet', 'amber', 'magenta', 'blue', 'orange', 'violet', 'green', 'pink'];
+  var out = [];
+  for (var i = 0; i < n; i++) {
+    var ang = (i / n) * Math.PI * 2 + (i % 2 ? 0.12 : -0.08);
+    var px = cx + Math.cos(ang) * rx, py = cy + Math.sin(ang) * ry;
+    var a = ang + Math.PI / 2 + (i % 3 - 1) * 0.28;
+    var L = (W < 600 ? 95 : 130) + ((i * 37) % 60);
+    out.push({ x: px, y: py, L: L, a: a, color: cols[i % cols.length], depth: 0.4 + (i % 4) * 0.15, alpha: 0.95, blur: i % 5 === 0 ? 2 : 0, delay: 80 + i * 45, k: 1.2 });
+  }
+  return out;
+}
+
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -524,6 +747,21 @@ class Component extends DCLogic {
     this.onDown = function (e) { self.drawing = true; self.scratchAt(e); };
     this.onMove = function (e) { if (self.drawing) self.scratchAt(e); };
     this.onUp = function () { self.drawing = false; };
+    this.lv = {};
+    function leafRef(key, layout, opts) {
+      return function (el) {
+        var cur = self.lv[key];
+        if (cur && cur.el === el) return;
+        if (cur && cur.eng) cur.eng.destroy();
+        self.lv[key] = el ? { el: el, eng: zlEngine(el, layout, opts) } : null;
+      };
+    }
+    this.setLeavesBack = leafRef('back', zlHeroBack);
+    this.setLeavesFront = leafRef('front', zlHeroFront);
+    this.setLeavesPop = leafRef('pop', zlWreath, { grow: true, watch: '.card-in' });
+  }
+  componentWillUnmount() {
+    for (var k in this.lv) { if (this.lv[k] && this.lv[k].eng) this.lv[k].eng.destroy(); }
   }
   paintCover() {
     var c = this.cv; if (!c) return;
@@ -661,6 +899,9 @@ class Component extends DCLogic {
       notRevealed: !this.state.revealed,
       scrTitle: this.state.revealed ? 'Čestitamo! Dobio si 10%.' : 'Izgrebi i vidi šta si dobio.',
       setCanvas: this.setCanvas,
+      setLeavesBack: this.setLeavesBack,
+      setLeavesFront: this.setLeavesFront,
+      setLeavesPop: this.setLeavesPop,
       onDown: this.onDown,
       onMove: this.onMove,
       onUp: this.onUp,
