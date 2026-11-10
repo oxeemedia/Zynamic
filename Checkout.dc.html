@@ -255,8 +255,8 @@ class Component extends DCLogic {
         fullTxt: fmt(full),
         saveTxt: full - pkgPrice > 0 ? '−' + fmt(full - pkgPrice) : '0 RSD',
         couponTxt: '−' + fmt(pkgPrice * 0.1),
-        shipTxt: freeShip ? 'Gratis' : '[X] RSD',
-        totalTxt: freeShip ? fmt(price) : fmt(price) + ' + dostava',
+        shipTxt: freeShip ? 'Gratis' : fmt(299),
+        totalTxt: freeShip ? fmt(price) : fmt(price + 299),
         style: sel ? 'border: 2px solid #D92D7A; background: #1B1430;' : 'border: 1.5px solid rgba(255,255,255,0.09);',
         radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #D92D7A; background: #120D1E;' : 'border: 2px solid rgba(255,255,255,0.22);'),
         pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} }
@@ -265,7 +265,7 @@ class Component extends DCLogic {
     var off = 'background: #120D1E; border: 1.5px solid rgba(255,255,255,0.09);';
     var payRaw = [
       { label: 'Pouzećem', hint: 'Plaćaš kuriru kad paket stigne' },
-      { label: '[Platna kartica]', hint: '[Samo ako je online plaćanje aktivno, inače obrisati]' }
+      { label: 'Karticom ili IPS', hint: 'Visa, Mastercard, Maestro, Amex, Dina ili IPS skeniranjem' }
     ];
     var pays = payRaw.map(function (m, i) {
       var on = self.state.pay === i;

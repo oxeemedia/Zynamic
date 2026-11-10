@@ -1158,7 +1158,7 @@ class Component extends DCLogic {
         priceTxt: fmt(price),
         oldTxt: price < full - 1 ? fmt(full) : '',
         perTxt: fmt(price / p.boxes) + ' / kutija',
-        shipTxt: p.boxes >= 3 ? 'dostava gratis' : 'dostava [CENA DOSTAVE]',
+        shipTxt: p.boxes >= 3 ? 'dostava gratis' : 'dostava 299 RSD',
         style: sel
           ? 'border: 1.5px solid transparent; background: linear-gradient(#18122A,#18122A) padding-box, linear-gradient(100deg,#D9973A,#D92D7A 50%,#7436E0) border-box; box-shadow: 0 14px 40px -14px rgba(217,45,122,0.45);'
           : 'border: 1.5px solid rgba(255,255,255,0.10); background: #100B1B;',
@@ -1186,7 +1186,7 @@ class Component extends DCLogic {
       { q: 'Da li stvara naviku?', a: 'Prema deklaraciji, upotreba ne dovodi do stvaranja navike i zavisnosti.' },
       { q: 'Da li je registrovan?', a: 'Da. Upisan je u bazu dodataka ishrani Ministarstva zdravlja pod brojem 17932/2026. Proizvodi ga Phytonet d.o.o. u Šimanovcima.' },
       { q: 'Gde mogu da pročitam studije?', a: 'Wightman i saradnici, Nutrients 2020 (doi.org/10.3390/nu12082194) i López-Ríos i saradnici, Journal of Ethnopharmacology 2020 (doi.org/10.1016/j.jep.2020.112996). Studije je finansirao Nektium i odnose se na sastojak, ne na gotov proizvod.' },
-      { q: 'Kako ide dostava i plaćanje?', a: 'Proizvedeno je u Srbiji, pa paket ne čeka carinu. Šaljemo BEX kurirskom službom, isporuka je 2–5 radnih dana. Plaćanje: [NAČIN PLAĆANJA]. Od paketa 2+1 dostava je gratis.' },
+      { q: 'Kako ide dostava i plaćanje?', a: 'Proizvedeno je u Srbiji, pa paket ne čeka carinu. Šaljemo BEX kurirskom službom, isporuka je 2–5 radnih dana. Plaćaš pouzećem, karticom (Visa, Mastercard, Maestro, Amex, Dina) ili IPS skeniranjem. Dostava je 299 RSD, a od 3 kutije gratis.' },
       { q: 'Šta ako mi ne prija?', a: '[X DANA] garancija prazne kutije, uz [USLOVI POVRAĆAJA].' }
     ];
     var faq = faqRaw.map(function (f, i) {
