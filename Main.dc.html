@@ -68,6 +68,16 @@ img{display:block;max-width:100%;height:auto}
 .leaves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block}
 .leaves-back{z-index:0}.leaves-front{z-index:3}.leaves-pop{z-index:0}
 .hero .wrap{position:relative;z-index:1}
+.hero-scrim{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60% 75% at 74% 46%,rgba(5,4,9,0.86) 0%,rgba(5,4,9,0.62) 45%,rgba(5,4,9,0) 75%),linear-gradient(180deg,rgba(5,4,9,0.55) 0%,rgba(5,4,9,0) 14%,rgba(5,4,9,0) 82%,rgba(5,4,9,0.9) 100%)}
+.intro{position:fixed;inset:0;z-index:90;background:#050409;cursor:pointer;transition:background-color .9s ease}
+.intro.out{background:rgba(5,4,9,0);pointer-events:none}
+.intro-mark{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;pointer-events:none;animation:introIn 1.1s .25s cubic-bezier(.2,.8,.2,1) both}
+.intro-h1{text-shadow:0 0 40px rgba(255,77,141,0.55),0 0 90px rgba(139,92,246,0.45)}
+.intro-h1 .thin{margin-left:auto;margin-right:0}
+.intro-skip{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin-top:10px;animation:introIn .8s 1.1s both}
+.intro.out .intro-mark{transition:opacity .45s ease,transform .7s cubic-bezier(.6,0,.4,1),filter .6s;opacity:0;transform:scale(1.18);filter:blur(10px)}
+@keyframes introIn{from{opacity:0;transform:scale(.92);filter:blur(12px)}to{opacity:1;transform:none;filter:none}}
+@media (max-width: 899px){.hero-scrim{background:linear-gradient(180deg,rgba(5,4,9,0.5) 0%,rgba(5,4,9,0) 10%,rgba(5,4,9,0) 38%,rgba(5,4,9,0.8) 52%,rgba(5,4,9,0.88) 100%)}}
 .hero{position:relative;padding-top:36px;padding-bottom:96px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:56px;align-items:start}
 .gal{position:sticky;top:20px;display:flex;flex-direction:column;gap:12px}
@@ -220,6 +230,7 @@ img{display:block;max-width:100%;height:auto}
 <!-- HERO / PROIZVOD -->
 <section id="paket" class="hero">
 <canvas class="leaves leaves-back" ref="{{setLeavesBack}}" aria-hidden="true"></canvas>
+<div class="hero-scrim" aria-hidden="true"></div>
 <div class="glow" style="width: 520px; height: 520px; left: -160px; top: -120px; background: #1F8F5F; opacity: 0.35"></div>
 <div class="glow" style="width: 560px; height: 560px; right: -180px; top: 80px; background: #7A2BD9; opacity: 0.4"></div>
 <div class="wrap rel">
@@ -465,6 +476,14 @@ img{display:block;max-width:100%;height:auto}
 </div>
 </div>
 
+<!-- UVOD -->
+<sc-if value="{{intro}}" hint-placeholder-val="{{ false }}">
+<div class="{{introCls}}" onClick="{{skipIntro}}" aria-hidden="true">
+<canvas class="leaves" ref="{{setLeavesIntro}}"></canvas>
+<div class="intro-mark"><span class="eyebrow center">Energy / Focus / Recovery</span><div class="h1 intro-h1">Zynamik<sup>®</sup><span class="thin">Direct</span></div><span class="intro-skip">Klikni za ulaz</span></div>
+</div>
+</sc-if>
+
 <!-- GREBALICA -->
 <sc-if value="{{scratch}}" hint-placeholder-val="{{ false }}">
 <div role="dialog" aria-modal="true" aria-labelledby="scr-title" style="position: fixed; inset: 0; z-index: 50; background: rgba(3,2,6,0.78); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
@@ -575,7 +594,7 @@ function zlEngine(canvas, layout, opts) {
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var leaves = [], motes = [], W = 0, H = 0, raf = 0, alive = true, visible = true, first = true, last = performance.now();
-  var center = { x: 0, y: 0 }, lightSp = null;
+  var center = { x: 0, y: 0 }, lightSp = null, baked = null, bakedBorn = 0;
   var ptr = { x: 0, y: 0, lx: 0, ly: 0, vx: 0, vy: 0, has: false, t: 0, on: 0, px: 0, py: 0, tx: 0, ty: 0 };
   function rnd(a, b) { return a + Math.random() * (b - a); }
   function newMote(x, y, temp) {
@@ -593,10 +612,10 @@ function zlEngine(canvas, layout, opts) {
     var now = performance.now();
     var old = leaves;
     leaves = defs.map(function (d, i) {
-      var L = Math.round(d.L), o = old[i];
+      var L = Math.max(20, Math.round(d.L / 8) * 8), o = old[i];
       var l = { x: d.x, y: d.y, L: L, a0: d.a, depth: d.depth == null ? 0.5 : d.depth, alpha: d.alpha == null ? 1 : d.alpha,
-        sp: zlSprite(d.color, L, d.blur || 0, dpr), k: d.k || 1, side: i % 2 ? 1 : -1, ph: rnd(0, 6.28) };
-      if (o) { l.a = o.a; l.av = o.av; l.fl = o.fl; l.flv = o.flv; l.ox = o.ox; l.oy = o.oy; l.vx = o.vx; l.vy = o.vy; l.born = o.born; }
+        sp: zlSprite(d.color, L, d.blur || 0, dpr), k: d.k || 1, bake: !!d.bake, side: i % 2 ? 1 : -1, ph: rnd(0, 6.28) };
+      if (o) { l.free = o.free; if (o.free) l.alpha = o.alpha; l.a = o.a; l.av = o.av; l.fl = o.fl; l.flv = o.flv; l.ox = o.ox; l.oy = o.oy; l.vx = o.vx; l.vy = o.vy; l.born = o.born; }
       else { l.a = d.a; l.av = 0; l.fl = rnd(-0.3, 0.3); l.flv = 0; l.ox = 0; l.oy = 0; l.vx = 0; l.vy = 0; l.born = now + (d.delay || 0); }
       return l;
     });
@@ -605,6 +624,17 @@ function zlEngine(canvas, layout, opts) {
       motes = []; for (var i = 0; i < n; i++) motes.push(newMote());
       ptr.lx = W * 0.7; ptr.ly = H * 0.3;
       first = false;
+    }
+    baked = null;
+    if (opts.bake) {
+      var far = leaves.filter(function (l) { return l.bake || l.depth < 0.2; });
+      leaves = leaves.filter(function (l) { return !(l.bake || l.depth < 0.2); });
+      if (far.length) {
+        baked = document.createElement('canvas'); baked.width = canvas.width; baked.height = canvas.height;
+        var bx = baked.getContext('2d'); bx.scale(dpr, dpr);
+        far.forEach(function (l) { bx.save(); bx.globalAlpha = l.alpha; bx.translate(l.x, l.y); bx.rotate(l.a); bx.drawImage(l.sp.c, -l.sp.px, -l.sp.py, l.sp.w, l.sp.h); bx.restore(); });
+        bakedBorn = now;
+      }
     }
     if (reduce) draw(now, 0);
   }
@@ -627,6 +657,16 @@ function zlEngine(canvas, layout, opts) {
   }
   function wind(x, t) {
     return Math.sin(t * 0.00042 + x * 0.0045) * 0.6 + Math.sin(t * 0.00105 + x * 0.011 + 1.3) * 0.28 + Math.sin(t * 0.00021 + 2.1) * 0.45;
+  }
+  function exit() {
+    for (var i = 0; i < leaves.length; i++) {
+      var l = leaves[i], dx = l.x - center.x, dy = l.y - center.y, d = Math.hypot(dx, dy) || 1, p = rnd(16, 30);
+      l.free = true; l.vx += dx / d * p + rnd(-3, 3); l.vy += dy / d * p - rnd(2, 6); l.av += rnd(-0.3, 0.3); l.flv += rnd(-0.6, 0.6);
+    }
+    for (var j = 0; j < 90; j++) {
+      var m = newMote(center.x + rnd(-120, 120), center.y + rnd(-60, 60), true), ang = rnd(0, 6.28), sp = rnd(4, 16);
+      m.vx = Math.cos(ang) * sp; m.vy = Math.sin(ang) * sp; m.r = rnd(1.5, 5); motes.push(m);
+    }
   }
   function burst() {
     for (var i = 0; i < leaves.length; i++) {
@@ -652,6 +692,10 @@ function zlEngine(canvas, layout, opts) {
       ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = ptr.on;
       ctx.drawImage(lightSp, ptr.lx - R, ptr.ly - R, R * 2, R * 2);
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    }
+    if (baked) {
+      var bp = reduce ? 1 : Math.max(0, Math.min(1, (now - bakedBorn - 150) / 1400));
+      if (bp > 0) { ctx.globalAlpha = bp; ctx.drawImage(baked, ptr.px * 4, ptr.py * 4, W, H); ctx.globalAlpha = 1; }
     }
     drawMotes(now, 0, 0.5);
     for (var i = 0; i < leaves.length; i++) {
@@ -724,7 +768,8 @@ function zlEngine(canvas, layout, opts) {
       l.av += (ta - l.a) * 0.026 * dt; l.av *= Math.pow(0.935, dt); l.a += l.av * dt;
       l.flv += (tf - l.fl) * 0.018 * dt; l.flv *= Math.pow(0.95, dt); l.fl += l.flv * dt;
       if (l.fl > 1.25) { l.fl = 1.25; l.flv *= -0.4; } if (l.fl < -1.25) { l.fl = -1.25; l.flv *= -0.4; }
-      l.vx += -l.ox * 0.04 * dt; l.vy += -l.oy * 0.04 * dt; l.vx *= Math.pow(0.88, dt); l.vy *= Math.pow(0.88, dt);
+      if (l.free) { l.vx *= Math.pow(0.99, dt); l.vy *= Math.pow(0.99, dt); l.alpha *= Math.pow(0.975, dt); }
+      else { l.vx += -l.ox * 0.04 * dt; l.vy += -l.oy * 0.04 * dt; l.vx *= Math.pow(0.88, dt); l.vy *= Math.pow(0.88, dt); }
       l.ox += l.vx * dt; l.oy += l.vy * dt;
     }
     for (var j = motes.length - 1; j >= 0; j--) {
@@ -771,7 +816,7 @@ function zlEngine(canvas, layout, opts) {
     window.addEventListener('scroll', onScroll, { passive: true });
     raf = requestAnimationFrame(tick);
   }
-  return { destroy: destroy, relayout: relayout, burst: reduce ? function () {} : burst };
+  return { destroy: destroy, relayout: relayout, burst: reduce ? function () {} : burst, exit: exit };
 }
 
 /* Raspored: hero, sloj iza sadržaja (daleki mutni + srednji oštri listovi) */
@@ -801,6 +846,51 @@ function zlHeroBack(W, H, canvas) {
     var dx = cx - W / 2, dy = cy - H / 2;
     return { x: x, y: y, L: L, a: a, color: s[4], depth: s[5], alpha: Math.min(1, alpha), blur: far ? 6 : 0, delay: 150 + Math.sqrt(dx * dx + dy * dy) * 0.9 };
   });
+}
+function zlRand(seed) { var s = seed % 2147483647; if (s <= 0) s += 2147483646; return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
+var ZL_PAL = ['pink', 'violet', 'amber', 'magenta', 'blue', 'orange', 'violet', 'pink', 'green'];
+/* Raspored: hero kao krošnja — guste listove preko cele pozadine, 3 sloja dubine */
+function zlCanopy(W, H, canvas) {
+  var hero = canvas.parentElement, buy = hero && hero.querySelector('.buy'), gal = hero && hero.querySelector('.hero-img');
+  var hr = canvas.getBoundingClientRect();
+  function rel(el) { if (!el) return null; var r = el.getBoundingClientRect(); return { l: r.left - hr.left, t: r.top - hr.top, r: r.right - hr.left, b: r.bottom - hr.top }; }
+  var rb = rel(buy), rg = rel(gal);
+  var mob = W < 700, cell = mob ? 110 : 158, base = mob ? 120 : 185;
+  var rnd = zlRand(7919), out = [];
+  var cols = Math.ceil(W / cell) + 1, rows = Math.ceil(H / cell) + 1;
+  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+    var x = (c + rnd() * 0.9 - 0.2) * cell, y = (r + rnd() * 0.9 - 0.2) * cell;
+    var z = rnd(), a = (rnd() - 0.5) * 2.4 + (x < W / 2 ? 0.35 : -0.35);
+    var layer = z < 0.45 ? 0 : (z < 0.85 ? 1 : 2);
+    var edge = x < W * 0.16 || x > W * 0.84 || y > H * 0.86 || y < H * 0.06;
+    if (layer === 2 && !edge) layer = 1;
+    var L = base * (layer === 0 ? 0.55 + rnd() * 0.3 : layer === 1 ? 0.8 + rnd() * 0.35 : 1.15 + rnd() * 0.4);
+    var cx = x + Math.sin(a) * L * 0.5, cy = y - Math.cos(a) * L * 0.5;
+    if (rg && cx > rg.l + 30 && cx < rg.r - 30 && cy > rg.t + 30 && cy < rg.b - 30) continue;
+    var alpha = layer === 0 ? 0.42 : layer === 1 ? 0.78 : 0.95;
+    var dim = false;
+    if (rb && cx > rb.l - 20 && cx < rb.r + 20 && cy > rb.t - 20 && cy < rb.b + 20) { if (layer === 2) layer = 1; alpha *= 0.5; dim = true; }
+    var dx = cx - W * 0.5, dy = cy - H * 0.45;
+    out.push({ x: x, y: y, L: L, a: a, color: ZL_PAL[(rnd() * ZL_PAL.length) | 0], depth: layer === 0 ? 0.12 : layer === 1 ? 0.5 : 0.95,
+      alpha: alpha, blur: layer === 0 ? 7 : 0, delay: 200 + Math.sqrt(dx * dx + dy * dy) * 0.8, k: layer === 2 ? 0.8 : 1, bake: layer === 0 || dim });
+  }
+  out.sort(function (p, q) { return p.depth - q.depth; });
+  return out;
+}
+/* Raspored: uvodna sekvenca — pun ekran lišća oko znaka */
+function zlIntro(W, H) {
+  var mob = W < 700, cell = mob ? 98 : 150, base = mob ? 130 : 210, rnd = zlRand(104729), out = [];
+  var cx = W / 2, cy = H / 2, cols = Math.ceil(W / cell) + 1, rows = Math.ceil(H / cell) + 1;
+  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+    var x = (c + rnd() * 0.9 - 0.2) * cell, y = (r + rnd() * 0.9 - 0.1) * cell, z = rnd();
+    var dx = x - cx, dy = y - cy, d = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx);
+    var a = ang + Math.PI / 2 + (rnd() - 0.5) * 1.1;
+    var near = d < (mob ? 160 : 340);
+    out.push({ x: x, y: y, L: base * (0.65 + rnd() * 0.6), a: a, color: ZL_PAL[(rnd() * ZL_PAL.length) | 0],
+      depth: 0.2 + z * 0.8, alpha: near ? 0.18 : 0.92, blur: z < 0.25 ? 6 : 0, delay: d * 0.55, k: 1 });
+  }
+  out.sort(function (p, q) { return p.depth - q.depth; });
+  return { leaves: out, center: { x: cx, y: cy } };
 }
 /* Raspored: hero, prvi plan (krupni mutni listovi, samo ivice širokih ekrana) */
 function zlHeroFront(W, H) {
@@ -843,7 +933,11 @@ class Component extends DCLogic {
       var sp = parseInt(localStorage.getItem('zd_pkg'), 10);
       if (sp >= 0 && sp <= 2) pkg = sp;
     } catch (e) {}
-    this.state = { open: 0, pkg: pkg, shot: 0, scratch: (on === undefined ? true : !!on) && !seen && !disc, revealed: false, discount: disc, email: mail, err: '' };
+    var wantScratch = (on === undefined ? true : !!on) && !seen && !disc;
+    var introOn = false;
+    try { introOn = sessionStorage.getItem('zd_intro') !== '1' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    this.pendingScratch = introOn && wantScratch;
+    this.state = { open: 0, pkg: pkg, shot: 0, scratch: wantScratch && !introOn, intro: introOn, introOut: false, revealed: false, discount: disc, email: mail, err: '' };
     this.cv = null;
     this.drawing = false;
     this.moves = 0;
@@ -865,12 +959,27 @@ class Component extends DCLogic {
         self.lv[key] = el ? { el: el, eng: zlEngine(el, layout, opts) } : null;
       };
     }
-    this.setLeavesBack = leafRef('back', zlHeroBack, { light: true });
+    this.setLeavesBack = leafRef('back', zlCanopy, { light: true, bake: true });
+    this.setLeavesIntro = leafRef('intro', zlIntro, { light: true, motes: 70 });
     this.setLeavesFront = leafRef('front', zlHeroFront, { motes: 0 });
     this.setLeavesPop = leafRef('pop', zlWreath, { light: true, motes: 40, breathe: true, watch: '.card-in' });
     this.burst = function () { var p = self.lv.pop; if (p && p.eng) p.eng.burst(); };
   }
+  componentDidMount() {
+    var self = this;
+    if (!this.state.intro) return;
+    this.introTimers = [setTimeout(function () { self.introExit(); }, 2000)];
+  }
+  introExit() {
+    var self = this;
+    if (this.state.introOut) return;
+    var e = this.lv.intro; if (e && e.eng) e.eng.exit();
+    this.setState({ introOut: true });
+    try { sessionStorage.setItem('zd_intro', '1'); } catch (er) {}
+    this.introTimers.push(setTimeout(function () { self.setState({ intro: false, scratch: self.pendingScratch }); }, 1100));
+  }
   componentWillUnmount() {
+    (this.introTimers || []).forEach(clearTimeout);
     for (var k in this.lv) { if (this.lv[k] && this.lv[k].eng) this.lv[k].eng.destroy(); }
   }
   paintCover() {
@@ -1012,6 +1121,10 @@ class Component extends DCLogic {
       setLeavesBack: this.setLeavesBack,
       setLeavesFront: this.setLeavesFront,
       setLeavesPop: this.setLeavesPop,
+      setLeavesIntro: this.setLeavesIntro,
+      intro: this.state.intro,
+      introCls: 'intro' + (this.state.introOut ? ' out' : ''),
+      skipIntro: function () { self.introExit(); },
       onDown: this.onDown,
       onMove: this.onMove,
       onUp: this.onUp,
