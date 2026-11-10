@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Zynamik® Direct za firme, teretane, apoteke i klubove. Količinski popusti, plaćanje fakturom, dostava na adresu firme.">
+<title>Zynamik Direct — B2B za firme</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7F0}
+a{color:#141310}a:hover{color:#5E5A50}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#141310;color:#FAF7F0;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 30px;border-radius:999px;min-height:52px;box-sizing:border-box;border:0;cursor:pointer}
+.cta:hover{background:#2E2B24;color:#FAF7F0}
+.cta.alt{background:#FF9F1C;color:#141310}
+.cta.alt:hover{background:#FFB54D;color:#141310}
+.cta:focus-visible,.chipbtn:focus-visible{outline:3px solid #FF9F1C;outline-offset:3px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#B35F00}
+.h2{margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(30px,3.6vw,44px);line-height:1.02;letter-spacing:-0.025em}
+.ph{border:2px dashed #B9B3A3;border-radius:24px;display:flex;align-items:center;justify-content:center;text-align:center;color:#5E5A50;font-size:13px;padding:16px;box-sizing:border-box;background:#F1ECE0}
+.ph.dark{background:#24221D;border-color:#55524A;color:#C9C4B6}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.fld input,.fld textarea{font:inherit;font-weight:500;font-size:16px;padding:13px 14px;border:1.5px solid #E4DED0;border-radius:12px;background:#FAF7F0;color:#141310;min-height:48px;box-sizing:border-box;width:100%}
+.fld input:focus,.fld textarea:focus{outline:3px solid #FF9F1C;outline-offset:1px;border-color:#141310;background:#FFFFFF}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.track{display:flex;width:max-content;animation:tick 60s linear infinite}
+.track > span{display:flex;gap:32px;padding-right:32px;flex:none}
+.hdr-nav{scrollbar-width:none}.hdr-nav::-webkit-scrollbar{display:none}
+@media (max-width: 760px){.hdr-row{flex-wrap:wrap !important}.hdr-nav{order:3;flex:1 1 100% !important;justify-content:flex-start !important}}
+.chipbtn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:700}
+</style>
+</helmet>
+<div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.55; min-height: 100vh">
+
+<div style="background: #141310; color: #FAF7F0; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
+<div class="track"><span><span>B2B</span><span>•</span><span>Količinski popusti</span><span>•</span><span>Plaćanje fakturom</span><span>•</span><span>Dostava na adresu firme</span><span>•</span><span>B2B</span><span>•</span><span>Količinski popusti</span><span>•</span><span>Plaćanje fakturom</span><span>•</span><span>Dostava na adresu firme</span><span>•</span></span><span aria-hidden="true"><span>B2B</span><span>•</span><span>Količinski popusti</span><span>•</span><span>Plaćanje fakturom</span><span>•</span><span>Dostava na adresu firme</span><span>•</span><span>B2B</span><span>•</span><span>Količinski popusti</span><span>•</span><span>Plaćanje fakturom</span><span>•</span><span>Dostava na adresu firme</span><span>•</span></span></div>
+</div>
+<dc-import name="Header" active="b2b" hint-size="100%,66px"></dc-import>
+
+<!-- HERO -->
+<section style="background: #141310; color: #FAF7F0; padding: 72px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<span class="eyebrow" style="color: #FF9F1C">Za firme, teretane i timove</span>
+<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(36px, 5vw, 64px); line-height: 0.98; letter-spacing: -0.03em">Fokus za ceo tim.<br><span style="color: #FF9F1C">Bez treće runde kafe.</span></h1>
+<p style="margin: 0; font-size: 18px; color: #C9C4B6; max-width: 560px">Umor i pad koncentracije posle ručka plaćaš ti, ne samo tvoj tim. Ponudi zaposlenima prirodnu alternativu kofeinu koju nose u džepu i koriste kad im zatreba.</p>
+<div style="display: flex; gap: 12px 16px; flex-wrap: wrap; align-items: center">
+<a href="#upit" class="cta alt">Zatraži ponudu</a>
+<span style="font-size: 14px; color: #C9C4B6">Odgovaramo u roku od [24h] radnim danima</span>
+</div>
+</div>
+<div class="ph dark" style="flex: 1 1 420px; aspect-ratio: 4 / 3; border-radius: 28px">[FOTO: kutije Zynamika na stolu u kancelariji / healthy corner]</div>
+</div>
+</section>
+
+<!-- ZA KOGA -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 24px">
+<span class="eyebrow">Za koga je</span>
+<h2 class="h2">Gde Zynamik radi najbolje.</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 34px; color: #E07A00; line-height: 1">01</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Kancelarije i IT timovi</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Za dane sa pet sastanaka, rokove i rad pred ekranom. Kesica stoji u fioci, ne treba ti aparat.</p></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 34px; color: #E07A00; line-height: 1">02</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Teretane i fitnes centri</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Prodaja na recepciji, uz marže. Pred večernji trening, bez stimulansa u krevetu.</p></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 34px; color: #E07A00; line-height: 1">03</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Apoteke i radnje</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Veleprodajni uslovi za maloprodaju. Proizvod koji se lako objašnjava na kasi.</p></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 34px; color: #E07A00; line-height: 1">04</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Klubovi i timovi</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Za treninge, putovanja i turnire. [Anti-doping sertifikat navesti samo ako postoji.]</p></div>
+</div>
+</section>
+
+<!-- ZAŠTO -->
+<section style="background: #FFF1DC; padding: 80px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div class="ph" style="flex: 1 1 420px; aspect-ratio: 4 / 3; background: #FFFFFF; border-color: #FFC57A">[FOTO: tim u kancelariji, kutija na stolu, 14h]</div>
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<span class="eyebrow">Zašto Zynamik za tim</span>
+<h2 class="h2">Benefit koji ljudi stvarno koriste.</h2>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>Popodne bez pada.</strong> 400 mg Zynamite®-a, ekstrakta lista manga ispitanog u dvostruko slepim studijama. Efekat je meren od 30 minuta do 5 sati.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>Bez kofeina.</strong> Nema drhtanja, nervoze ni lupanja srca posle treće kafe.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>Manje umora.</strong> Vitamini B2, B6 i B12 doprinose smanjenju umora i iscrpljenosti.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>Nula logistike.</strong> Bez aparata, frižidera i šoljica. Kutija na stolu ili u healthy corneru i gotovo.</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- KAKO IDE -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 24px; align-items: center; text-align: center">
+<span class="eyebrow">Kako ide saradnja</span>
+<h2 class="h2">Od upita do isporuke za par dana.</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; text-align: left">
+<div style="background: #141310; color: #FAF7F0; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #FF9F1C; color: #141310; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Pošalješ upit</h3><p style="margin: 0; font-size: 14px; color: #C9C4B6">Kažeš nam koliko vas je i šta vam treba. Dve minute posla.</p></div>
+<div style="background: #141310; color: #FAF7F0; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #FF9F1C; color: #141310; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Dobiješ ponudu</h3><p style="margin: 0; font-size: 14px; color: #C9C4B6">Cena po količini, dinamika isporuke i [probni paket za tim]. Bez obaveze.</p></div>
+<div style="background: #141310; color: #FAF7F0; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #FF9F1C; color: #141310; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span><h3 style="margin: 0; font-size: 18px; font-weight: 800">Isporuka na adresu</h3><p style="margin: 0; font-size: 14px; color: #C9C4B6">Šaljemo iz Beograda na adresu firme. Plaćanje fakturom.</p></div>
+</div>
+</section>
+
+<!-- FORMA -->
+<section id="upit" style="background: #F1ECE0; padding: 80px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<span class="eyebrow">Zatraži ponudu</span>
+<h2 class="h2">Napravimo ponudu po meri tvog tima.</h2>
+<p style="margin: 0; color: #3A372F">Bilo da praviš wellness paket za zaposlene, sređuješ healthy corner ili spremaš tim za veliki rok, javi se. Ponudu dobijaš u roku od [24h].</p>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 15px">
+<span><strong>Mejl:</strong> <a href="mailto:info@d-minds.com">info@d-minds.com</a></span>
+<span><strong>Telefon:</strong> [B2B broj telefona]</span>
+</div>
+</div>
+<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 0">
+<div style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">Upit je poslat.</div>
+<p style="margin: 0; color: #3A372F">Javljamo se u roku od [24h] radnim danima sa ponudom za tvoj tim.</p>
+</div>
+</sc-if>
+<sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{send}}" style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700">Tip firme</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{types}}" as="t" hint-placeholder-count="4"><button type="button" class="chipbtn" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="{{t.style}}">{{t.label}}</button></sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<label class="fld">Ime firme *<input type="text" autocomplete="organization" placeholder="Firma d.o.o." required></label>
+<label class="fld">Broj zaposlenih / članova<input type="text" inputmode="numeric" placeholder="npr. 25"></label>
+</div>
+<label class="fld">Ime i prezime *<input type="text" autocomplete="name" placeholder="Marko Marković" required></label>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<label class="fld">Mejl *<input type="email" autocomplete="email" placeholder="ime@firma.rs" required></label>
+<label class="fld">Telefon *<input type="tel" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
+</div>
+<label class="fld">Poruka<textarea rows="4" placeholder="Npr. tim od 25 ljudi, želimo mesečnu isporuku za kancelariju"></textarea></label>
+<button type="submit" class="cta alt" style="width: 100%">Pošalji upit</button>
+<p style="margin: 0; font-size: 12px; color: #5E5A50; text-align: center">Podatke koristimo samo da ti pošaljemo ponudu. <a href="#privatnost">Politika privatnosti</a></p>
+</form>
+</sc-if>
+</div>
+</div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,480px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { type: 0, sent: false };
+  }
+  renderVals() {
+    var self = this;
+    var labels = ['Kancelarija', 'Teretana', 'Apoteka / radnja', 'Klub / tim'];
+    return {
+      types: labels.map(function (l, i) {
+        var on = self.state.type === i;
+        return { label: l, on: on, style: on ? 'background: #141310; color: #FAF7F0; border: 1.5px solid #141310;' : 'background: #FFFFFF; color: #141310; border: 1.5px solid #CFC8B8;', pick: function () { self.setState({ type: i }); } };
+      }),
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      send: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Zynamik® Direct: fokus bez kofeina. 400 mg Zynamite® u kesici, ide direktno na jezik. 2+1 gratis, plaćanje pouzećem, isporuka iz Beograda.">
+<title>Zynamik Direct — fokus bez kofeina</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7F0}
+a{color:#141310}a:hover{color:#5E5A50}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.track{display:flex;width:max-content;animation:tick 40s linear infinite}
+.track > span{display:flex;gap:32px;padding-right:32px;flex:none}
+.track.slow{animation-duration:60s}
+.hdr-nav{scrollbar-width:none}.hdr-nav::-webkit-scrollbar{display:none}
+@media (max-width: 760px){.hdr-row{flex-wrap:wrap !important}.hdr-nav{order:3;flex:1 1 100% !important;justify-content:flex-start !important}}
+@keyframes pop{from{transform:translateY(16px) scale(0.97);opacity:0}to{transform:none;opacity:1}}
+.card-in{animation:pop .35s ease-out}
+@media (prefers-reduced-motion: reduce){.card-in{animation:none}}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#141310;color:#FAF7F0;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 32px;border-radius:999px;min-height:48px;box-sizing:border-box;border:0;cursor:pointer}
+.cta:hover{background:#2E2B24;color:#FAF7F0}
+.cta.alt{background:#FF9F1C;color:#141310}
+.cta.alt:hover{background:#FFB54D;color:#141310}
+.cta:focus-visible,.bnd:focus-visible,.thumb:focus-visible,.faqbtn:focus-visible,.ghost:focus-visible,.xbtn:focus-visible,.linkbtn:focus-visible{outline:3px solid #FF9F1C;outline-offset:3px}
+.bnd{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:16px;background:#FFFFFF;min-height:72px}
+.thumb{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1/1;border-radius:12px;background:#F1ECE0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#5E5A50;text-align:center;padding:4px;line-height:1.2}
+.faqbtn{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 4px;cursor:pointer;font-weight:700;font-size:17px;color:#141310;min-height:44px}
+.ph{border:2px dashed #B9B3A3;border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:#5E5A50;font-size:13px;padding:16px;box-sizing:border-box;background:#F1ECE0}
+.ph.dark{background:#24221D;border-color:#55524A;color:#C9C4B6}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#B35F00}
+.h2{margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(30px,3.6vw,44px);line-height:1.02;letter-spacing:-0.025em}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:#FFF1DC;color:#8A4A00}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+.fld input{font:inherit;font-weight:500;font-size:17px;padding:14px 16px;border:1.5px solid #CFC8B8;border-radius:14px;background:#FFFFFF;color:#141310;min-height:48px;box-sizing:border-box;width:100%}
+.fld input:focus{outline:3px solid #FF9F1C;outline-offset:1px;border-color:#141310}
+.ghost{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 18px;border-radius:999px;border:1.5px solid #CFC8B8;font-weight:700;font-size:15px;color:#5E5A50;text-align:center}
+.ghost:hover{border-color:#141310;color:#141310}
+.xbtn{all:unset;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:999px}
+.linkbtn{all:unset;cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;color:#5E5A50;align-self:center;min-height:32px}
+.pill{display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E4DED0;border-radius:14px;padding:14px 16px;font-size:14px;color:#3A372F}
+.dot{width:32px;height:32px;border-radius:999px;background:#FFF1DC;display:flex;align-items:center;justify-content:center;flex:none}
+.wall{columns:3 240px;column-gap:16px}
+.wall > div{break-inside:avoid;margin-bottom:16px}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;padding-bottom:6px}
+</style>
+</helmet>
+<div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.55; min-height: 100vh">
+
+<!-- PROMO BAR -->
+<div style="background: #141310; color: #FAF7F0; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
+<div class="track slow"><span><sc-for list="{{promo}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span><span aria-hidden="true"><sc-for list="{{promo}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span></div>
+</div>
+
+<!-- HEADER -->
+<dc-import name="Header" active="home" hint-size="100%,66px"></dc-import>
+
+<!-- TICKER -->
+<div style="background: #FF9F1C; color: #141310; overflow: hidden; padding: 8px 0; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap" aria-hidden="true">
+<div class="track"><span><sc-for list="{{ticker}}" as="t" hint-placeholder-count="24"><span>{{t}}</span></sc-for></span><span><sc-for list="{{ticker}}" as="t" hint-placeholder-count="24"><span>{{t}}</span></sc-for></span></div>
+</div>
+
+<!-- POPUST AKTIVAN -->
+<sc-if value="{{discount}}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFF1DC; color: #141310; text-align: center; font-size: 14px; font-weight: 700; padding: 10px 16px; border-bottom: 1px solid #FFD6A0">Tvojih 10% je aktivno. Kod MINDS10 je poslat na {{email}} i već je uračunat u cene.</div>
+</sc-if>
+
+<!-- PROIZVOD: galerija + kupovina -->
+<section id="paket" style="max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div class="ph" style="aspect-ratio: 1 / 1; border-radius: 28px; position: relative; background: #FFF1DC; border-color: #FFC57A">[FOTO: {{shot}}]
+<span style="position: absolute; top: 16px; right: 16px; width: 92px; height: 92px; border-radius: 999px; background: #141310; color: #FF9F1C; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: Archivo, sans-serif; font-weight: 900; line-height: 1; text-transform: uppercase; transform: rotate(-8deg)"><span style="font-size: 28px">2+1</span><span style="font-size: 12px; color: #FAF7F0">gratis</span></span>
+</div>
+<div style="background: #141310; color: #FF9F1C; border-radius: 14px; padding: 12px 0; overflow: hidden; white-space: nowrap; font-family: Archivo, sans-serif; font-weight: 900; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase">
+<div class="track"><span><sc-for list="{{band}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span><span aria-hidden="true"><sc-for list="{{band}}" as="t" hint-placeholder-count="9"><span>{{t}}</span></sc-for></span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{thumbs}}" as="g" hint-placeholder-count="6"><button type="button" class="thumb" onClick="{{g.pick}}" aria-label="Prikaži: {{g.label}}" aria-pressed="{{g.on}}" style="{{g.style}}">{{g.label}}</button></sc-for>
+</div>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip">Bez kofeina</span><span class="chip">[X] dana garancija</span><span class="chip" style="background: #141310; color: #FF9F1C">2+1 gratis</span></div>
+<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(32px, 4vw, 46px); line-height: 1; letter-spacing: -0.03em">Zynamik® Direct</h1>
+<div style="display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600"><span style="color: #E07A00; letter-spacing: 2px" aria-hidden="true">★★★★★</span><span>[Ocena i broj kupaca, samo stvarni]</span></div>
+<p style="margin: 0; font-size: 17px; color: #3A372F">Fokus bez kofeina. Kesica na jezik, za oko 30 minuta si u zoni i tu ostaješ do 5 sati.</p>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 15px">
+<sc-for list="{{bullets}}" as="b" hint-placeholder-count="4"><div style="display: flex; gap: 10px; align-items: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E07A00" stroke-width="3" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M5 12l5 5L20 7"></path></svg><span><strong>{{b.k}}</strong> {{b.v}}</span></div></sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; padding-top: 6px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</span><span style="font-size: 13px; font-weight: 700; color: #B35F00">Što više uzmeš, manje plaćaš</span></div>
+<sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
+<button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
+<sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
+<span aria-hidden="true" style="{{p.radio}}"></span>
+<span class="ph" style="width: 52px; height: 52px; padding: 2px; border-radius: 10px; font-size: 11px; font-weight: 800; flex: none; border-width: 1px">{{p.boxes}}×</span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; text-align: left">
+<span style="font-weight: 800; font-size: 16px">{{p.name}}</span>
+<span style="font-size: 12px; color: #5E5A50">{{p.sub}}</span>
+<span style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span class="chip" style="font-size: 10px; padding: 3px 6px">{{c}}</span></sc-for></span>
+</span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none">
+<span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">{{p.priceTxt}}</span>
+<sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 13px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if>
+<span style="font-size: 11px; color: #5E5A50">{{p.perTxt}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+
+<a href="Checkout.dc.html" class="cta alt" style="width: 100%; font-size: 17px">Poruči · {{sel.priceTxt}}</a>
+<div style="text-align: center; font-size: 13px; font-weight: 600; color: #3A372F">Plaćaš kuriru kad stigne · {{sel.shipTxt}}</div>
+<div style="display: flex; justify-content: center; gap: 8px 18px; flex-wrap: wrap; font-size: 12px; color: #5E5A50">
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem</span>
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Isporuka [1–3 dana]</span>
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>[X] dana garancija</span>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; display: flex; flex-direction: column; gap: 20px">
+<span class="eyebrow">Zvuči poznato?</span>
+<h2 class="h2">U 14h čitaš istu rečenicu treći put.</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
+<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>Druga kafa u 11, treća u 14h</div>
+<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg></span>Ruke drhte, srce lupa</div>
+<div class="pill"><span class="dot" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B35F00" stroke-width="2.5"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"></path></svg></span>U ponoć gledaš u plafon</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border-radius: 24px; overflow: hidden">
+<div class="ph dark" style="aspect-ratio: 4 / 3; border-radius: 0; position: relative"><span style="position: absolute; top: 14px; left: 14px; background: #FAF7F0; color: #141310; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px">BEZ ZYNAMIKA · 14H</span>[FOTO: ista osoba za stolom, umorna, treća šolja kafe]</div>
+<div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 14px; left: 14px; background: #FF9F1C; color: #141310; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px">SA ZYNAMIKOM · 14H</span>[FOTO: ista osoba, fokusirana, kesica na stolu]</div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #5E5A50">Problem nije što ti treba energija. Problem je što je jedino što znaš da uzmeš kofein.</p>
+</section>
+
+<!-- KAKO RADI -->
+<section style="background: #FFF1DC; padding: 80px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<span class="eyebrow">Iz lista manga</span>
+<h2 class="h2">Mala kesica.<br>Merljiva razlika.</h2>
+<p style="margin: 0; color: #3A372F">U svakoj kesici je 400 mg Zynamite®-a, patentiranog ekstrakta lista manga španskog Nektiuma. U dvostruko slepoj studiji sa 119 studenata merena je brža obrada informacija i bolja mentalna fleksibilnost, od 30 minuta do 5 sati posle jedne doze.</p>
+<p style="margin: 0; font-weight: 700">Bez kofeina, pa bez drhtanja i bez stimulansa u krevetu.</p>
+<p style="margin: 0; font-size: 12px; color: #5E5A50">Studije su rađene na sastojku Zynamite® (Pharmaceuticals 2025; Nutrients 2020), ne na gotovom proizvodu. <a href="#studije">Sve studije</a></p>
+</div>
+<div class="ph" style="flex: 1 1 400px; aspect-ratio: 4 / 3; background: #FFFFFF; border-color: #FFC57A">[FOTO: kesica + list manga, makro]</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
+<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">30′</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">Do prvog efekta.</strong> Brže nego što stigneš do kafića.</span></div>
+<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">5h</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">Trajanje u studiji.</strong> Druga kesica posle ručka pokriva popodne.</span></div>
+<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 30px; line-height: 1">B</span><span style="font-size: 14px; color: #3A372F"><strong style="color: #141310">B2, B6, B12.</strong> Doprinose smanjenju umora i iscrpljenosti.</span></div>
+</div>
+<a href="#paket" class="cta" style="align-self: center">Probaj Zynamik</a>
+</div>
+</section>
+
+<!-- ULIČNA ANKETA -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 20px">
+<span class="eyebrow">Ulična anketa</span>
+<h2 class="h2">Dali smo kesicu ljudima na ulici.</h2>
+<p style="margin: 0; color: #5E5A50">Bez scenarija. Vratili smo se posle 30 minuta i pitali kako su. Svi snimci na <a href="#instagram">Instagramu</a>.</p>
+<div class="strip">
+<sc-for list="{{street}}" as="s" hint-placeholder-count="8"><div class="ph dark" style="aspect-ratio: 9 / 16; border-radius: 16px; font-size: 12px; position: relative"><span aria-hidden="true" style="position: absolute; top: 10px; left: 10px; width: 26px; height: 26px; border-radius: 999px; background: #FAF7F0; display: flex; align-items: center; justify-content: center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#141310"><path d="M7 4l13 8-13 8z"></path></svg></span>{{s}}</div></sc-for>
+</div>
+</section>
+
+<!-- POREĐENJE -->
+<section style="background: #F1ECE0; padding: 80px 24px">
+<div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
+<span class="eyebrow">Poređenje</span>
+<h2 class="h2">Zynamik vs. kafa i energetska pića</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; text-align: left; align-items: center">
+<div style="background: #141310; color: #FAF7F0; border-radius: 24px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(20,19,16,0.25)">
+<div style="display: flex; gap: 12px; align-items: center"><span class="ph" style="width: 48px; height: 48px; padding: 2px; border-radius: 12px; font-size: 9px; border-width: 1px">[kutija]</span><span style="display: flex; flex-direction: column"><span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: #FF9F1C">NAŠ IZBOR</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 20px">Zynamik® Direct</span></span></div>
+<sc-for list="{{usList}}" as="u" hint-placeholder-count="6"><div style="display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 15px"><span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 999px; background: #FF9F1C; display: flex; align-items: center; justify-content: center; flex: none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="4"><path d="M5 12l5 5L20 7"></path></svg></span>{{u}}</div></sc-for>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 12px; align-items: center"><span class="ph" style="width: 44px; height: 44px; padding: 2px; border-radius: 12px; font-size: 9px; border-width: 1px">[šolja]</span><span style="display: flex; flex-direction: column"><span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: #5E5A50">OBIČNO REŠENJE</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">Kafa i energetska pića</span></span></div>
+<sc-for list="{{themList}}" as="t" hint-placeholder-count="6"><div style="display: flex; gap: 10px; align-items: center; font-size: 14px; color: #5E5A50"><span aria-hidden="true" style="width: 20px; height: 20px; border-radius: 999px; background: #F6DCD6; display: flex; align-items: center; justify-content: center; flex: none"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#A3260F" stroke-width="4"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>{{t}}</div></sc-for>
+</div>
+</div>
+<p style="margin: 0; font-size: 12px; color: #5E5A50">Poređenje se odnosi na kategorije proizvoda, ne na konkretne brendove. [Šećer proveriti po deklaraciji.]</p>
+</div>
+</section>
+
+<!-- KAKO SE UZIMA -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
+<span class="eyebrow">Kako se koristi</span>
+<h2 class="h2">Deset sekundi do fokusa.</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; text-align: left">
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">01</span>[FOTO: kesica iz džepa]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Pocepaj</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Kesica stoji u džepu, torbi ili rancu za teretanu.</p></div></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">02</span>[FOTO: prah na jeziku]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Na jezik</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Prah sa ukusom manga se topi u ustima. Ne treba ti voda.</p></div></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DED0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column"><div class="ph" style="aspect-ratio: 4 / 3; border-radius: 0; border-width: 0 0 2px 0; position: relative; background: #FFF1DC; border-color: #FFC57A"><span style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; border-radius: 999px; background: #141310; color: #FF9F1C; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">03</span>[FOTO: laptop, 14h]</div><div style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 17px; font-weight: 800">Dve dnevno</h3><p style="margin: 0; font-size: 14px; color: #5E5A50">Jedna ujutru uz doručak, druga posle ručka. Treniraš? Jedna 60 minuta pre.</p></div></div>
+</div>
+</section>
+
+<!-- RUTINA -->
+<section style="background: #141310; color: #FAF7F0; padding: 80px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<span class="eyebrow" style="color: #FF9F1C">Šta da očekuješ</span>
+<h2 class="h2">Od prve kesice do navike.</h2>
+<div style="display: flex; flex-direction: column; gap: 18px">
+<sc-for list="{{timeline}}" as="m" hint-placeholder-count="4"><div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 999px; background: #FF9F1C; flex: none; margin-top: 2px"></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 17px">{{m.k}}</span><span style="font-size: 14px; color: #C9C4B6">{{m.v}}</span></span></div></sc-for>
+</div>
+<a href="#paket" class="cta alt" style="align-self: flex-start">Uzmi 2+1 gratis</a>
+</div>
+<div class="ph dark" style="flex: 1 1 420px; aspect-ratio: 4 / 3; border-radius: 28px">[FOTO: kutija + kesice na stolu, slušalice, laptop]</div>
+</div>
+</section>
+
+<!-- UTISCI -->
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 24px; align-items: center; text-align: center">
+<span class="eyebrow">Utisci</span>
+<h2 class="h2">Šta nam pišu posle prve kutije.</h2>
+<p style="margin: 0; color: #5E5A50">Prave poruke kupaca. Bez filtera i bez dorađivanja.</p>
+<div class="wall" style="width: 100%; text-align: left">
+<sc-for list="{{wall}}" as="w" hint-placeholder-count="9"><div><div class="ph dark" style="aspect-ratio: {{w.r}}; border-radius: 18px; font-size: 12px">[SCREENSHOT: {{w.t}}]</div></div></sc-for>
+</div>
+<a href="#paket" class="cta">I ja hoću da probam</a>
+</section>
+
+<!-- FINALNI CTA sa paketima -->
+<section style="background: #141310; color: #FAF7F0; padding: 80px 24px">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<span class="eyebrow" style="color: #FF9F1C">Sutra u 14h</span>
+<h2 class="h2">U zoni ili u magli?</h2>
+<p style="margin: 0; color: #C9C4B6">Plaćaš kad stigne. Ako ne osetiš razliku za [X] dana, vraćamo ti novac.</p>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Fokus do 5 sati, bez kofeina</div>
+<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>2+1 gratis, dostava besplatna</div>
+<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem, isporuka [1–3 dana]</div>
+<div style="display: flex; gap: 10px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F1C" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Garancija prazne kutije, [X] dana</div>
+</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; background: #FAF7F0; color: #141310; border-radius: 26px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</div>
+<sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
+<button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
+<sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
+<span aria-hidden="true" style="{{p.radio}}"></span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: left"><span style="font-weight: 800; font-size: 16px">{{p.name}}</span><span style="font-size: 12px; color: #5E5A50">{{p.sub}}</span></span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 18px">{{p.priceTxt}}</span><sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 13px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if></span>
+</button>
+</sc-for>
+<a href="Checkout.dc.html" class="cta alt" style="width: 100%">Poruči · {{sel.priceTxt}}</a>
+<div style="text-align: center; font-size: 12px; color: #5E5A50">Plaćaš kad stigne · {{sel.shipTxt}} · [X] dana garancija</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="max-width: 760px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 class="h2" style="text-align: center">Česta pitanja</h2>
+<div>
+<sc-for list="{{faq}}" as="f" hint-placeholder-count="10">
+<div style="border-bottom: 1px solid #E4DED0">
+<button type="button" class="faqbtn" onClick="{{f.toggle}}" aria-expanded="{{f.open}}"><span>{{f.q}}</span><span aria-hidden="true" style="color: #E07A00; font-size: 24px; line-height: 1">{{f.sign}}</span></button>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}"><p style="margin: 0 4px 20px; color: #3A372F; font-size: 15px">{{f.a}}</p></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- FOOTER -->
+<dc-import name="Footer" hint-size="100%,480px"></dc-import>
+
+<!-- STICKY BAR -->
+<div style="position: sticky; bottom: 0; z-index: 10; background: #FFFFFF; border-top: 1px solid #E4DED0; box-shadow: 0 -8px 24px rgba(20,19,16,0.10)">
+<div style="max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; gap: 12px; align-items: center; min-width: 0"><span class="ph" style="width: 44px; height: 44px; padding: 2px; border-radius: 10px; font-size: 9px; border-width: 1px; flex: none">[kutija]</span><span style="display: flex; flex-direction: column; line-height: 1.25; min-width: 0"><span style="font-weight: 800; font-size: 14px">Zynamik® Direct · {{sel.name}}</span><span style="font-size: 13px; color: #5E5A50">{{sel.priceTxt}} · plaćaš kad stigne</span></span></div>
+<a href="Checkout.dc.html" class="cta alt" style="padding: 12px 22px; font-size: 14px; flex: none">Poruči</a>
+</div>
+</div>
+
+<!-- GREBALICA -->
+<sc-if value="{{scratch}}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-labelledby="scr-title" style="position: fixed; inset: 0; z-index: 50; background: rgba(20,19,16,0.72); display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box">
+<div class="card-in" style="width: 100%; max-width: 440px; background: #FAF7F0; border-radius: 28px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 80px rgba(0,0,0,0.35)">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span class="eyebrow">Poklon za nove kupce</span>
+<button type="button" class="xbtn" aria-label="Zatvori, ne želim popust" onClick="{{decline}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<h2 id="scr-title" style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: 32px; line-height: 1; letter-spacing: -0.02em">{{scrTitle}}</h2>
+<div style="position: relative; border-radius: 20px; overflow: hidden; background: #141310; aspect-ratio: 16 / 7">
+<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #FAF7F0; text-align: center">
+<span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 56px; line-height: 1; color: #FF9F1C">10%</span>
+<span style="font-weight: 700; font-size: 15px">popusta na celu porudžbinu</span>
+</div>
+<sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
+<canvas ref="{{setCanvas}}" width="640" height="280" aria-hidden="true" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerLeave="{{onUp}}" style="position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab"></canvas>
+</sc-if>
+</div>
+<sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 15px; color: #3A372F; text-align: center">Prevuci prstom ili mišem preko kartice.</p>
+<button type="button" class="linkbtn" onClick="{{reveal}}">Otkrij bez grebanja</button>
+</sc-if>
+<sc-if value="{{revealed}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 16px; color: #3A372F">Ostavi mejl i šaljemo ti kod. Jedna kutija je onda <strong style="color: #141310">1.899 RSD umesto 2.110 RSD</strong>, a važi i na 2+1 i 4+2.</p>
+<label class="fld">Tvoj mejl<input type="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
+<sc-if value="{{err}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 700; color: #A3260F">{{err}}</div></sc-if>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<button type="button" class="cta alt" onClick="{{accept}}" style="padding: 14px 16px; font-size: 15px">Želim popust</button>
+<button type="button" class="ghost" onClick="{{decline}}">Ne želim popust</button>
+</div>
+<p style="margin: 0; font-size: 12px; color: #5E5A50">Povremeno ti šaljemo ponude i savete. Odjava jednim klikom. [Link na politiku privatnosti]</p>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scratchOnLoad":{"editor":"boolean","default":true,"section":"Grebalica"},"$preview":{"width":1440,"height":8400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var on = props.scratchOnLoad;
+    var seen = false, disc = false, mail = '', pkg = 1;
+    try { seen = sessionStorage.getItem('zd_scratch_seen') === '1'; } catch (e) {}
+    try {
+      disc = localStorage.getItem('zd_disc') === '1';
+      mail = localStorage.getItem('zd_email') || '';
+      var sp = parseInt(localStorage.getItem('zd_pkg'), 10);
+      if (sp >= 0 && sp <= 2) pkg = sp;
+    } catch (e) {}
+    this.state = { open: 0, pkg: pkg, shot: 0, scratch: (on === undefined ? true : !!on) && !seen && !disc, revealed: false, discount: disc, email: mail, err: '' };
+    this.cv = null;
+    this.drawing = false;
+    this.moves = 0;
+    var self = this;
+    this.setCanvas = function (el) {
+      if (!el || el === self.cv) return;
+      self.cv = el;
+      self.paintCover();
+    };
+    this.onDown = function (e) { self.drawing = true; self.scratchAt(e); };
+    this.onMove = function (e) { if (self.drawing) self.scratchAt(e); };
+    this.onUp = function () { self.drawing = false; };
+  }
+  paintCover() {
+    var c = this.cv; if (!c) return;
+    var x = c.getContext('2d'); if (!x) return;
+    var g = x.createLinearGradient(0, 0, c.width, c.height);
+    g.addColorStop(0, '#CFCAC0'); g.addColorStop(0.5, '#ECE8DF'); g.addColorStop(1, '#B9B3A6');
+    x.globalCompositeOperation = 'source-over';
+    x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
+    x.fillStyle = 'rgba(20,19,16,0.08)';
+    for (var i = 0; i < 260; i++) { x.fillRect(Math.random() * c.width, Math.random() * c.height, 3, 3); }
+    x.fillStyle = '#3A372F';
+    x.font = '900 46px Archivo, sans-serif';
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.fillText('IZGREBI OVDE', c.width / 2, c.height / 2);
+  }
+  scratchAt(e) {
+    var c = this.cv; if (!c) return;
+    var r = c.getBoundingClientRect(); if (!r.width) return;
+    var px = (e.clientX - r.left) * (c.width / r.width);
+    var py = (e.clientY - r.top) * (c.height / r.height);
+    var x = c.getContext('2d');
+    x.globalCompositeOperation = 'destination-out';
+    x.beginPath(); x.arc(px, py, 34, 0, Math.PI * 2); x.fill();
+    this.moves++;
+    if (this.moves % 8 === 0) {
+      var d = x.getImageData(0, 0, c.width, c.height).data, clear = 0, n = 0;
+      for (var i = 3; i < d.length; i += 64) { n++; if (d[i] === 0) clear++; }
+      if (clear / n > 0.45) { this.drawing = false; this.cv = null; this.setState({ revealed: true }); }
+    }
+  }
+  renderVals() {
+    var self = this;
+    var BASE = 2110;
+    var disc = this.state.discount;
+    function fmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' RSD'; }
+    var tb = ['2+1 gratis', '•', 'Bez kofeina', '•', 'Plaćaš kad stigne', '•', '400 mg Zynamite®', '•', '4+2 gratis i −15%', '•', 'Šaljemo iz Beograda', '•'];
+    var ticker = tb.concat(tb);
+    var pb = ['2+1 gratis', '•', 'Plaćaš kad stigne', '•', 'Šaljemo iz Beograda za [1–3 dana]', '•'];
+    var promo = pb.concat(pb, pb);
+    var bb = ['Bez kofeina', '•', '400 mg Zynamite®', '•', 'Na jezik, bez vode', '•'];
+    var band = bb.concat(bb, bb);
+    var badgeBase = 'position: absolute; top: -10px; right: 14px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 6px; ';
+    var defs = [
+      { name: '1 kutija', boxes: 1, pay: 1, off: 0, sub: '[XX] kesica · [XX] dana', chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
+      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, sub: '3 kutije · [XX] dana · dodatnih −5%', chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: #FF9F1C; color: #141310;' },
+      { name: '4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, sub: '6 kutija · [XX] dana · dodatnih −15%', chips: ['Dostava gratis', '−15%'], badge: 'NAJVEĆA UŠTEDA', badgeStyle: badgeBase + 'background: #141310; color: #FF9F1C;' }
+    ];
+    var packages = defs.map(function (p, i) {
+      var price = p.pay * BASE * (1 - p.off) * (disc ? 0.9 : 1);
+      var full = p.boxes * BASE;
+      var sel = self.state.pkg === i;
+      return Object.assign({}, p, {
+        on: sel,
+        priceTxt: fmt(price),
+        oldTxt: price < full - 1 ? fmt(full) : '',
+        perTxt: fmt(price / p.boxes) + ' / kutija',
+        shipTxt: p.boxes >= 3 ? 'dostava gratis' : 'dostava [X] RSD',
+        style: sel ? 'border: 2px solid #141310; background: #FFF8EE;' : 'border: 1.5px solid #E4DED0;',
+        radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #141310; background: #FFFFFF;' : 'border: 2px solid #B9B3A3;'),
+        pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} }
+      });
+    });
+    var shots = ['Kutija + kesica', 'Na jeziku', 'Kancelarija 14h', 'Teretana', 'Deklaracija', 'Ulična anketa'];
+    var thumbs = shots.map(function (s, i) {
+      var on = self.state.shot === i;
+      return { label: s, on: on, style: on ? 'border: 2px solid #141310;' : 'border: 2px solid transparent;', pick: function () { self.setState({ shot: i }); } };
+    });
+    var faqRaw = [
+      { q: 'Da li stvarno radi?', a: 'Zynamite® je ispitan u dvostruko slepim studijama, efekat je meren od 30 minuta do 5 sati. Ali ne moraš da veruješ nama: imaš [X] dana garancije. Ako ne osetiš razliku, vraćamo ti novac.' },
+      { q: 'Kako funkcioniše 2+1 i 4+2?', a: 'Plaćaš 2 kutije, dobijaš 3, uz dodatnih 5% popusta. Ili plaćaš 4, dobijaš 6, uz dodatnih 15%. Dostava je u oba slučaja gratis.' },
+      { q: 'Koliko kesica ima u kutiji i koliko traje?', a: 'U kutiji je [XX] kesica. Uz preporučenu dozu od 2 kesice dnevno, jedna kutija traje [XX] dana.' },
+      { q: 'Kakav je ukus?', a: 'Mango. Prah se topi na jeziku, ne treba ti voda. [Dodati iskren opis teksture.]' },
+      { q: 'Kada ću osetiti efekat?', a: 'Kod većine ljudi za oko 30 minuta. U studijama na Zynamite®-u efekat je meren do 5 sati posle uzimanja.' },
+      { q: 'Mogu li ga uzimati uz kafu?', a: 'Zynamik nema kofein, pa mnogi njime menjaju drugu i treću kafu. Ako si osetljiv na stimulanse, prvi put ga probaj bez kafe.' },
+      { q: 'Da li ima šećera?', a: '[Proveriti po deklaraciji: šećer, zaslađivač, kalorije, alergeni.]' },
+      { q: 'Smem li da ga koristim na takmičenjima?', a: '[Navesti konkretan anti-doping sertifikat, npr. Informed Sport. Bez sertifikata ne tvrditi ovo.]' },
+      { q: 'Ko ne bi trebalo da ga koristi?', a: 'Trudnice, dojilje i osobe mlađe od [X] godina. Ako koristiš terapiju, prvo pitaj lekara.' },
+      { q: 'Kako ide dostava i plaćanje?', a: '[Kurirska služba], isporuka [1–3 radna dana] iz Beograda. Plaćaš pouzećem kad paket stigne. Od 2+1 dostava je gratis.' }
+    ];
+    var faq = faqRaw.map(function (f, i) {
+      var isOpen = self.state.open === i;
+      return Object.assign({}, f, { open: isOpen, sign: isOpen ? '−' : '+', toggle: function () { self.setState({ open: isOpen ? -1 : i }); } });
+    });
+    return {
+      ticker: ticker,
+      promo: promo,
+      band: band,
+      packages: packages,
+      sel: packages[this.state.pkg],
+      thumbs: thumbs,
+      shot: shots[this.state.shot],
+      bullets: [
+        { k: 'Fokus za ~30 minuta,', v: 'traje do 5 sati' },
+        { k: 'Bez kofeina,', v: 'pa bez drhtanja i lupanja srca' },
+        { k: 'Bez vode i šejkera,', v: 'kesica ide direktno na jezik' },
+        { k: 'Bez stimulansa u krevetu,', v: 'i posle večernjeg treninga' }
+      ],
+      street: ['Knez Mihailova', 'Ispred fakulteta', 'Ispred teretane', 'Poslovni centar, 14h', 'Ispitni rok', 'Gejming kafe', 'Kafić, 15h', 'Cowork prostor'],
+      usList: ['Bez kofeina', 'Bez drhtanja i lupanja srca', 'Ide na jezik, bez vode', 'Možeš i uveče pred trening', 'Ispitan sastojak, 400 mg', '[X] dana garancija'],
+      themList: ['Kofein, često u velikim dozama', 'Drhtanje i nervoza kod mnogih', 'Treba ti aparat, kafić ili frižider', 'Uveče ne spavaš', 'Energetska pića: puno šećera', 'Bez garancije'],
+      timeline: [
+        { k: 'Dan 1', v: 'Prva kesica ujutru uz doručak, druga posle ručka. Obrati pažnju kako ti je u 14h.' },
+        { k: 'Prva nedelja', v: 'Druga i treća kafa postaju opcija, ne potreba.' },
+        { k: '30 dana', v: 'Kesica ide u džep kao ključevi. Toliko traje jedna 2+1 tura. [Uskladiti sa brojem kesica]' },
+        { k: 'Garancija', v: 'Ako za [X] dana ne osetiš razliku, pošalješ praznu kutiju i vraćamo ti novac.' }
+      ],
+      wall: [
+        { r: '3 / 4', t: 'DM kupca, posle prve nedelje' }, { r: '1 / 1', t: 'story sa kesicom' }, { r: '3 / 5', t: 'poruka studenta, ispitni rok' },
+        { r: '4 / 3', t: 'komentar ispod reela' }, { r: '3 / 4', t: 'DM, ponovna porudžbina' }, { r: '1 / 1', t: 'foto kutije na stolu' },
+        { r: '3 / 5', t: 'poruka trenera' }, { r: '4 / 3', t: 'Google recenzija' }, { r: '3 / 4', t: 'DM, preporuka prijatelju' }
+      ],
+      faq: faq,
+      discount: disc,
+      email: this.state.email,
+      err: this.state.err,
+      scratch: this.state.scratch,
+      revealed: this.state.revealed,
+      notRevealed: !this.state.revealed,
+      scrTitle: this.state.revealed ? 'Čestitamo! Dobio si 10%.' : 'Izgrebi i vidi šta si dobio.',
+      setCanvas: this.setCanvas,
+      onDown: this.onDown,
+      onMove: this.onMove,
+      onUp: this.onUp,
+      reveal: function () { self.cv = null; self.setState({ revealed: true }); },
+      onEmail: function (e) { self.setState({ email: e.target.value, err: '' }); },
+      accept: function () {
+        var m = (self.state.email || '').trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { self.setState({ err: 'Upiši ispravan mejl da ti pošaljemo kod.' }); return; }
+        self.setState({ email: m, discount: true, scratch: false });
+        try { localStorage.setItem('zd_disc', '1'); localStorage.setItem('zd_email', m); sessionStorage.setItem('zd_scratch_seen', '1'); } catch (e) {}
+      },
+      decline: function () {
+        self.cv = null;
+        self.setState({ scratch: false });
+        try { sessionStorage.setItem('zd_scratch_seen', '1'); } catch (e) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

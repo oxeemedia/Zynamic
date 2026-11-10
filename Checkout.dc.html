@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Zynamik Direct — porudžbina</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Archivo:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAF7F0}
+a{color:#141310}a:hover{color:#5E5A50}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#141310;color:#FAF7F0;text-decoration:none;font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;padding:18px 28px;border-radius:999px;min-height:52px;box-sizing:border-box;border:0;cursor:pointer}
+.cta:hover{background:#2E2B24;color:#FAF7F0}
+.cta.alt{background:#FF9F1C;color:#141310}
+.cta.alt:hover{background:#FFB54D;color:#141310}
+.cta:focus-visible,.bnd:focus-visible,.opt:focus-visible,.small:focus-visible,.linkbtn:focus-visible{outline:3px solid #FF9F1C;outline-offset:3px}
+.card{background:#FFFFFF;border:1px solid #E4DED0;border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.step{display:flex;align-items:center;gap:10px;margin:0;font-size:16px;font-weight:800}
+.num{width:28px;height:28px;border-radius:999px;background:#141310;color:#FF9F1C;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.fld input,.fld textarea{font:inherit;font-weight:500;font-size:16px;padding:13px 14px;border:1.5px solid #E4DED0;border-radius:12px;background:#FAF7F0;color:#141310;min-height:48px;box-sizing:border-box;width:100%}
+.fld input:focus,.fld textarea:focus{outline:3px solid #FF9F1C;outline-offset:1px;border-color:#141310;background:#FFFFFF}
+.bnd{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:16px;background:#FFFFFF;min-height:68px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;min-height:56px;width:100%}
+.small{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 18px;min-height:48px;border-radius:12px;background:#141310;color:#FAF7F0;font-weight:700;font-size:14px}
+.linkbtn{all:unset;cursor:pointer;font-size:13px;font-weight:700;text-decoration:underline;color:#5E5A50}
+.chip{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;padding:3px 6px;border-radius:6px;background:#FFF1DC;color:#8A4A00}
+.ph{border:1px dashed #B9B3A3;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;color:#5E5A50;font-size:11px;font-weight:800;box-sizing:border-box;background:#F1ECE0}
+.row{display:flex;justify-content:space-between;gap:12px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.track{display:flex;width:max-content;animation:tick 60s linear infinite}
+.track > span{display:flex;gap:32px;padding-right:32px;flex:none}
+@media (max-width: 900px){.sum{order:-1}}
+</style>
+</helmet>
+<div style="background: #FAF7F0; color: #141310; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.5; min-height: 100vh">
+
+<div style="background: #141310; color: #FAF7F0; overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 9px 0; text-transform: uppercase; white-space: nowrap">
+<div class="track"><span><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span></span><span aria-hidden="true"><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span><span>Plaćaš kad stigne</span><span>•</span><span>[X] dana garancija</span><span>•</span><span>Šaljemo iz Beograda</span><span>•</span></span></div>
+</div>
+<header style="border-bottom: 1px solid #E4DED0; background: #FAF7F0">
+<div style="max-width: 1100px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+<a href="Main.dc.html" style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 24px; letter-spacing: -0.02em; text-decoration: none">TheMinds</a>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.4" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Sigurna porudžbina</div>
+</div>
+</header>
+
+<sc-if value="{{notDone}}" hint-placeholder-val="{{ true }}">
+<main style="max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.02; letter-spacing: -0.025em">Još jedan korak do fokusa.</h1>
+<p style="margin: 0; color: #5E5A50">Bez kartice i bez registracije. Kurir te pozove, ti platiš kad paket stigne.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+<!-- FORMA -->
+<form onSubmit="{{submit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div class="card">
+<h2 class="step"><span class="num">1</span>Kontakt</h2>
+<label class="fld">Telefon *<input type="tel" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
+<label class="fld"><span>Mejl <span style="font-weight: 500; color: #5E5A50">(opciono, za potvrdu i praćenje)</span></span><input type="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
+</div>
+
+<div class="card">
+<h2 class="step"><span class="num">2</span>Adresa za dostavu</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<label class="fld">Ime *<input type="text" autocomplete="given-name" placeholder="Marko" required></label>
+<label class="fld">Prezime *<input type="text" autocomplete="family-name" placeholder="Marković" required></label>
+</div>
+<label class="fld">Ulica i broj *<input type="text" autocomplete="street-address" placeholder="Zmajeva 12, stan 4" required></label>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<label class="fld">Grad *<input type="text" autocomplete="address-level2" placeholder="Beograd" required></label>
+<label class="fld">Poštanski broj *<input type="text" inputmode="numeric" autocomplete="postal-code" placeholder="11000" required pattern="[0-9]{5}" title="5 cifara, npr. 11000"></label>
+</div>
+<label class="fld"><span>Napomena za kurira <span style="font-weight: 500; color: #5E5A50">(opciono)</span></span><textarea rows="2" placeholder="Npr. interfon ne radi, zovi kad stigneš"></textarea></label>
+</div>
+
+<div class="card">
+<h2 class="step"><span class="num">3</span>Plaćanje</h2>
+<sc-for list="{{pays}}" as="m" hint-placeholder-count="2">
+<button type="button" class="opt" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="{{m.style}}"><span style="display: flex; gap: 12px; align-items: center"><span aria-hidden="true" style="{{m.dot}}"></span><span style="display: flex; flex-direction: column; text-align: left"><span style="font-weight: 800; font-size: 15px">{{m.label}}</span><span style="font-size: 13px; color: #5E5A50">{{m.hint}}</span></span></span></button>
+</sc-for>
+</div>
+
+<button type="submit" class="cta alt" style="width: 100%; font-size: 17px">Potvrdi porudžbinu · {{total}}</button>
+<div style="display: flex; justify-content: center; gap: 8px 18px; flex-wrap: wrap; font-size: 12px; color: #5E5A50">
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Plaćanje pouzećem</span>
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Isporuka [1–3 dana]</span>
+<span style="display: flex; gap: 6px; align-items: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>[X] dana garancija</span>
+</div>
+<p style="margin: 0; font-size: 12px; color: #5E5A50; text-align: center">Klikom na dugme prihvataš <a href="#uslovi">Uslove kupovine</a> i <a href="#privatnost">Politiku privatnosti</a>.</p>
+</form>
+
+<!-- PREGLED -->
+<aside class="sum" aria-label="Pregled porudžbine" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="card" style="gap: 12px">
+<div class="row" style="align-items: baseline"><h2 style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Izaberi paket</h2><span style="font-size: 12px; font-weight: 700; color: #B35F00">Što više, to jeftinije</span></div>
+<sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
+<button type="button" class="bnd" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">
+<sc-if value="{{p.badge}}" hint-placeholder-val="{{ false }}"><span style="{{p.badgeStyle}}">{{p.badge}}</span></sc-if>
+<span aria-hidden="true" style="{{p.radio}}"></span>
+<span class="ph" style="width: 44px; height: 44px; flex: none">{{p.boxes}}×</span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; text-align: left"><span style="font-weight: 800; font-size: 15px">{{p.name}}</span><span style="display: flex; gap: 4px; flex-wrap: wrap"><sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span class="chip">{{c}}</span></sc-for></span></span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex: none"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 17px">{{p.priceTxt}}</span><sc-if value="{{p.oldTxt}}" hint-placeholder-val="{{ false }}"><s style="font-size: 12px; color: #A3260F; font-weight: 600">{{p.oldTxt}}</s></sc-if></span>
+</button>
+</sc-for>
+
+<sc-if value="{{showUpsell}}" hint-placeholder-val="{{ true }}">
+<div style="background: #FFF1DC; border: 1.5px solid #FF9F1C; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 800">Treća kutija gratis za samo {{upsellDiff}} više.</div>
+<div style="font-size: 13px; color: #3A372F">Sa 2+1 dobijaš 3 kutije, dodatnih 5% i dostavu gratis. Jedna kutija traje [XX] dana, a navika se pravi za mesec.</div>
+<button type="button" class="small" onClick="{{upgrade}}" style="align-self: flex-start">Prebaci na 2+1</button>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px">
+<sc-if value="{{couponOn}}" hint-placeholder-val="{{ true }}">
+<div class="row" style="align-items: center; background: #F1ECE0; border-radius: 12px; padding: 10px 14px">
+<span style="font-weight: 700; font-size: 14px">Kod MINDS10 · −10%</span>
+<button type="button" class="linkbtn" onClick="{{removeCoupon}}">Ukloni</button>
+</div>
+</sc-if>
+<sc-if value="{{couponOff}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 8px; align-items: flex-end">
+<label class="fld" style="flex: 1 1 auto">Kod za popust<input type="text" placeholder="MINDS10" value="{{code}}" onChange="{{onCode}}" style="text-transform: uppercase"></label>
+<button type="button" class="small" onClick="{{applyCoupon}}">Primeni</button>
+</div>
+<sc-if value="{{codeErr}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 13px; font-weight: 700; color: #A3260F">{{codeErr}}</div></sc-if>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid #E4DED0; font-size: 14px">
+<div class="row"><span>Vrednost ({{sel.boxes}} kutija)</span><span>{{sel.fullTxt}}</span></div>
+<div class="row" style="color: #8A4A00; font-weight: 700"><span>Ušteda na paketu</span><span>{{sel.saveTxt}}</span></div>
+<sc-if value="{{couponOn}}" hint-placeholder-val="{{ true }}"><div class="row" style="color: #8A4A00; font-weight: 700"><span>Kod MINDS10</span><span>{{sel.couponTxt}}</span></div></sc-if>
+<div class="row"><span>Dostava</span><span>{{sel.shipTxt}}</span></div>
+<div class="row" style="align-items: baseline; padding-top: 10px; border-top: 1px solid #E4DED0"><span style="font-weight: 800; font-size: 16px">Ukupno</span><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 26px">{{total}}</span></div>
+<div style="font-size: 12px; color: #5E5A50">Plaćaš kuriru kad paket stigne. PDV uračunat.</div>
+</div>
+</div>
+
+<div style="background: #141310; color: #FAF7F0; border-radius: 22px; padding: 20px; display: flex; gap: 14px; align-items: flex-start">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: #FF9F1C; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141310" stroke-width="2.5"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"></path><path d="M8.5 12l2.5 2.5L16 10"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: Archivo, sans-serif; font-weight: 900; font-size: 16px; color: #FF9F1C; text-transform: uppercase">Garancija prazne kutije</span><span style="font-size: 14px; color: #C9C4B6">Uzimaj ga [X] dana. Ako ne osetiš razliku, pošalji praznu kutiju i vraćamo ti ceo iznos.</span></span>
+</div>
+
+<div class="card" style="gap: 8px">
+<span style="color: #E07A00; letter-spacing: 2px" aria-hidden="true">★★★★★</span>
+<div style="font-size: 14px; color: #3A372F">"[Kratak pravi citat kupca, jedna rečenica]"</div>
+<div style="font-size: 12px; font-weight: 700">[Ime, čime se bavi]</div>
+</div>
+</aside>
+
+</div>
+</main>
+</sc-if>
+
+<!-- HVALA -->
+<sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+<main style="max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="display: inline-flex; align-self: flex-start; background: #FF9F1C; color: #141310; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase">Porudžbina #[BROJ]</span>
+<h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(34px, 5vw, 54px); line-height: 1; letter-spacing: -0.03em">Primljeno.<br><span style="color: #E07A00">Fokus stiže.</span></h1>
+<p style="margin: 0; font-size: 17px; color: #3A372F">{{sel.name}} · {{total}} · plaćaš kuriru.</p>
+</div>
+<div class="card" style="gap: 16px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Šta se sad dešava</h2>
+<div style="display: flex; gap: 12px; align-items: flex-start"><span class="num">1</span><span>Zovemo te u roku od [X] sati da potvrdimo adresu. Javi se, inače ne možemo da pošaljemo.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start"><span class="num">2</span><span>Paket kreće iz Beograda i stiže za [1–3] radna dana preko [Kurirska služba].</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start"><span class="num">3</span><span>Platiš kuriru i kreneš sutradan ujutru.</span></div>
+</div>
+<div style="background: #141310; color: #FAF7F0; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: 20px; color: #FF9F1C">Kako da izvučeš maksimum prve nedelje</h2>
+<p style="margin: 0; color: #C9C4B6">Jedna kesica ujutru uz doručak, druga posle ručka. Prva tri dana preskoči drugu kafu i obrati pažnju kako ti je u 14h. Treniraš uveče? Kesica 60 minuta pre.</p>
+<p style="margin: 0; color: #C9C4B6">Za [X] dana ti pišemo da proverimo kako ide.</p>
+</div>
+<a href="Main.dc.html" style="font-weight: 700">Nazad na početnu</a>
+</main>
+</sc-if>
+
+<footer style="background: #FF9F1C; color: #141310; padding: 28px 24px; font-size: 12px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0"><strong>Delighted Minds d.o.o.</strong> · Zmajeva 12v, 11080 Zemun · MB 21161438 · PIB 109321906 · <a href="mailto:info@d-minds.com">info@d-minds.com</a></p>
+<p style="margin: 0"><a href="#uslovi">Uslovi kupovine</a> · <a href="#privatnost">Politika privatnosti</a></p>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"paket":{"editor":"enum","options":["1 kutija","2 + 1 gratis","4 + 2 gratis"],"default":"2 + 1 gratis","section":"Pregled"},"popust":{"editor":"boolean","default":false,"section":"Pregled"},"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var names = ['1 kutija', '2 + 1 gratis', '4 + 2 gratis'];
+    var idx = names.indexOf(props.paket);
+    var pkg = idx < 0 ? 1 : idx, coupon = props.popust === true, mail = '';
+    try {
+      var sp = parseInt(localStorage.getItem('zd_pkg'), 10);
+      if (sp >= 0 && sp <= 2) pkg = sp;
+      if (localStorage.getItem('zd_disc') === '1') coupon = true;
+      mail = localStorage.getItem('zd_email') || '';
+    } catch (e) {}
+    this.state = { pkg: pkg, coupon: coupon, pay: 0, done: false, email: mail, code: '', codeErr: '' };
+  }
+  renderVals() {
+    var self = this;
+    var BASE = 2110;
+    var c = this.state.coupon;
+    function fmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' RSD'; }
+    var badgeBase = 'position: absolute; top: -10px; right: 14px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 6px; ';
+    var defs = [
+      { name: '1 kutija', boxes: 1, pay: 1, off: 0, chips: ['Probaj prvo'], badge: '', badgeStyle: '' },
+      { name: '2 + 1 gratis', boxes: 3, pay: 2, off: 0.05, chips: ['Dostava gratis', '−5%'], badge: 'NAJPOPULARNIJE', badgeStyle: badgeBase + 'background: #FF9F1C; color: #141310;' },
+      { name: '4 + 2 gratis', boxes: 6, pay: 4, off: 0.15, chips: ['Dostava gratis', '−15%'], badge: 'NAJVEĆA UŠTEDA', badgeStyle: badgeBase + 'background: #141310; color: #FF9F1C;' }
+    ];
+    var packages = defs.map(function (p, i) {
+      var full = p.boxes * BASE;
+      var pkgPrice = p.pay * BASE * (1 - p.off);
+      var price = pkgPrice * (c ? 0.9 : 1);
+      var sel = self.state.pkg === i;
+      var freeShip = p.boxes >= 3;
+      return Object.assign({}, p, {
+        on: sel,
+        price: price,
+        priceTxt: fmt(price),
+        oldTxt: price < full - 1 ? fmt(full) : '',
+        fullTxt: fmt(full),
+        saveTxt: full - pkgPrice > 0 ? '−' + fmt(full - pkgPrice) : '0 RSD',
+        couponTxt: '−' + fmt(pkgPrice * 0.1),
+        shipTxt: freeShip ? 'Gratis' : '[X] RSD',
+        totalTxt: freeShip ? fmt(price) : fmt(price) + ' + dostava',
+        style: sel ? 'border: 2px solid #141310; background: #FFF8EE;' : 'border: 1.5px solid #E4DED0;',
+        radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #141310; background: #FFFFFF;' : 'border: 2px solid #B9B3A3;'),
+        pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} }
+      });
+    });
+    var off = 'background: #FFFFFF; border: 1.5px solid #E4DED0;';
+    var payRaw = [
+      { label: 'Pouzećem', hint: 'Plaćaš kuriru kad paket stigne' },
+      { label: '[Platna kartica]', hint: '[Samo ako je online plaćanje aktivno, inače obrisati]' }
+    ];
+    var pays = payRaw.map(function (m, i) {
+      var on = self.state.pay === i;
+      return Object.assign({}, m, {
+        on: on,
+        style: on ? 'background: #FFF8EE; border: 2px solid #141310;' : off,
+        dot: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (on ? 'border: 6px solid #141310; background: #FFFFFF;' : 'border: 2px solid #B9B3A3;'),
+        pick: function () { self.setState({ pay: i }); }
+      });
+    });
+    var sel = packages[this.state.pkg];
+    return {
+      packages: packages,
+      pays: pays,
+      sel: sel,
+      total: sel.totalTxt,
+      couponOn: c,
+      couponOff: !c,
+      showUpsell: this.state.pkg === 0,
+      upsellDiff: fmt(packages[1].price - packages[0].price),
+      upgrade: function () { self.setState({ pkg: 1 }); },
+      email: this.state.email,
+      onEmail: function (e) { self.setState({ email: e.target.value }); },
+      code: this.state.code,
+      codeErr: this.state.codeErr,
+      onCode: function (e) { self.setState({ code: e.target.value, codeErr: '' }); },
+      applyCoupon: function () {
+        if ((self.state.code || '').trim().toUpperCase() === 'MINDS10') self.setState({ coupon: true, codeErr: '' });
+        else self.setState({ codeErr: 'Ovaj kod ne važi.' });
+      },
+      removeCoupon: function () { self.setState({ coupon: false, code: '' }); },
+      done: this.state.done,
+      notDone: !this.state.done,
+      submit: function (e) {
+        if (e && e.preventDefault) e.preventDefault();
+        self.setState({ done: true });
+        try { window.scrollTo(0, 0); } catch (err) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
