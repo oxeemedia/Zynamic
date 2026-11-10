@@ -613,7 +613,7 @@ function zlEngine(canvas, layout, opts) {
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var leaves = [], motes = [], W = 0, H = 0, raf = 0, alive = true, visible = true, first = true, last = performance.now();
-  var center = { x: 0, y: 0 }, lightSp = null, baked = null, bakedBorn = 0;
+  var center = { x: 0, y: 0 }, lightSp = null, baked = null, bakedBorn = 0, scrollAcc = 0, sv = 0;
   var ptr = { x: 0, y: 0, lx: 0, ly: 0, vx: 0, vy: 0, has: false, t: 0, on: 0, px: 0, py: 0, tx: 0, ty: 0 };
   function rnd(a, b) { return a + Math.random() * (b - a); }
   function newMote(x, y, temp) {
@@ -670,9 +670,8 @@ function zlEngine(canvas, layout, opts) {
   var lastScroll = window.scrollY;
   function onScroll() {
     var dy = window.scrollY - lastScroll; lastScroll = window.scrollY;
-    if (Math.abs(dy) > 140) return;
-    for (var i = 0; i < leaves.length; i++) { var l = leaves[i]; l.av += l.side * dy * 0.0007 * (0.4 + l.depth); l.flv += dy * 0.0012 * l.side; }
-    for (var j = 0; j < motes.length; j++) motes[j].vy -= dy * 0.01 * motes[j].z;
+    if (Math.abs(dy) > 400) return;
+    scrollAcc += dy;
   }
   function wind(x, t) {
     return Math.sin(t * 0.00042 + x * 0.0045) * 0.6 + Math.sin(t * 0.00105 + x * 0.011 + 1.3) * 0.28 + Math.sin(t * 0.00021 + 2.1) * 0.45;
@@ -762,6 +761,9 @@ function zlEngine(canvas, layout, opts) {
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   }
   function step(now, dt) {
+    var tgt = Math.max(-60, Math.min(60, scrollAcc));
+    sv += (tgt - sv) * 0.06 * dt; scrollAcc *= Math.pow(0.82, dt);
+    var swing = Math.max(-1, Math.min(1, sv / 60));
     var idle = now - ptr.t;
     var target = ptr.has ? (idle < 2200 ? 1 : 0.35) : 0;
     ptr.on += (target - ptr.on) * 0.04 * dt;
@@ -783,7 +785,8 @@ function zlEngine(canvas, layout, opts) {
           tf += prox * 0.5 * l.part * (cr > 0 ? 1 : -1);
         }
       }
-      ta += ptr.px * 0.06 * l.depth;
+      ta += ptr.px * 0.06 * l.depth + l.side * swing * 0.14 * (0.4 + l.depth);
+      tf += swing * 0.35 * (0.3 + l.depth) * l.side;
       if (sp > 0.3) {
         var sa = Math.sin(l.a), ca = Math.cos(l.a);
         var cx = l.x + l.ox + sa * l.L * 0.5, cy = l.y + l.oy - ca * l.L * 0.5;
@@ -791,9 +794,9 @@ function zlEngine(canvas, layout, opts) {
         var g = Math.exp(-d2 / (2 * R * R));
         if (g > 0.01) {
           var perp = pvx * ca + pvy * sa;
-          l.av += Math.max(-0.05, Math.min(0.05, perp * 0.0016 * g * l.k)) * dt;
+          l.av += Math.max(-0.03, Math.min(0.03, perp * 0.0011 * g * l.k)) * dt;
           l.flv += (perp >= 0 ? 1 : -1) * Math.min(0.06, sp * 0.0022 * g) * dt;
-          l.vx += pvx * 0.035 * g * dt; l.vy += pvy * 0.035 * g * dt;
+          l.vx += pvx * 0.025 * g * dt; l.vy += pvy * 0.025 * g * dt;
         }
       }
       l.av += (ta - l.a) * 0.026 * dt; l.av *= Math.pow(0.935, dt); l.a += l.av * dt;
@@ -810,7 +813,7 @@ function zlEngine(canvas, layout, opts) {
         if (d < 160 * 160) { var gg = 1 - Math.sqrt(d) / 160; m.vx += (pvx * 0.05 + dx * 0.004) * gg * dt; m.vy += (pvy * 0.05 + dy * 0.004) * gg * dt; }
       }
       m.vx += (wm * 0.012 * (0.4 + m.z) - m.vx * 0.02) * dt;
-      var base = -0.18 * (0.5 + m.z);
+      var base = -0.18 * (0.5 + m.z) - swing * 0.5 * m.z;
       m.vy += (base - m.vy) * 0.02 * dt;
       m.x += m.vx * dt; m.y += m.vy * dt;
       if (m.life >= 0) { m.life -= 0.006 * dt; m.vx *= Math.pow(0.97, dt); if (m.life <= 0) { motes.splice(j, 1); continue; } }
@@ -1009,20 +1012,21 @@ function zlMarquee() {
   if (ro) items.forEach(function (it) { if (it.el.firstElementChild) ro.observe(it.el.firstElementChild); });
   var io = typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(function (en) { en.forEach(function (e) { items.forEach(function (it) { if (it.el === e.target) it.vis = e.isIntersecting; }); }); }) : null;
   if (io) items.forEach(function (it) { io.observe(it.el); });
-  var lastY = window.scrollY, vel = 0, dir = 1, boost = 0, skew = 0, last = performance.now(), raf = 0, alive = true;
+  var lastY = window.scrollY, vel = 0, dir = 1, dirS = 1, boost = 0, skew = 0, last = performance.now(), raf = 0, alive = true;
   function onScroll() { var y = window.scrollY, d = y - lastY; lastY = y; if (Math.abs(d) > 300) return; vel += d; if (d !== 0) dir = d > 0 ? 1 : -1; }
   window.addEventListener('scroll', onScroll, { passive: true });
   function tick(now) {
     if (!alive) return;
     if (!root.isConnected) { stop(); return; }
     var dt = Math.min(3, (now - last) / 16.67); last = now;
-    var target = reduce ? 0 : Math.min(14, Math.abs(vel) * 0.35);
-    boost += (target - boost) * 0.12 * dt; vel *= Math.pow(0.6, dt);
-    var sk = reduce ? 0 : Math.max(-9, Math.min(9, -dir * boost * 0.6));
-    skew += (sk - skew) * 0.15 * dt;
+    var target = reduce ? 0 : Math.min(4, Math.abs(vel) * 0.06);
+    boost += (target - boost) * 0.05 * dt; vel *= Math.pow(0.75, dt);
+    dirS += (dir - dirS) * 0.04 * dt;
+    var sk = reduce ? 0 : Math.max(-4, Math.min(4, -dirS * boost * 0.9));
+    skew += (sk - skew) * 0.06 * dt;
     for (var i = 0; i < items.length; i++) {
       var it = items[i]; if (!it.vis || !it.half) continue;
-      it.x += it.sp * (reduce ? 0.35 : 1) * dir * (1 + boost) * dt;
+      it.x += it.sp * (reduce ? 0.35 : 1) * dirS * (1 + boost) * dt;
       if (it.x <= -it.half) it.x += it.half; else if (it.x > 0) it.x -= it.half;
       it.el.style.transform = 'translate3d(' + it.x.toFixed(2) + 'px,0,0) skewX(' + skew.toFixed(2) + 'deg)';
     }
