@@ -6,7 +6,7 @@
   'use strict';
 
   // Ovde ide URL Apps Script web app-a (Deploy -> Web app -> URL koji se završava na /exec)
-  var ZD_ENDPOINT = '';
+  var ZD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzK4vu8dBevxebioJgjVa3ts8iQ9JTtVAZAYMZfud-bYwu1FkHbk-pVvCyX2mhJswOE/exec';
 
   var LS = window.localStorage, SS = window.sessionStorage;
   function get(store, k) { try { return store.getItem(k); } catch (e) { return null; } }
