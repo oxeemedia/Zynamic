@@ -8,6 +8,7 @@
 <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
 <script src="./support.js"></script>
+<script src="./zd-track.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -76,7 +77,8 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 </div>
 </sc-if>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
-<form onSubmit="{{send}}" style="display: flex; flex-direction: column; gap: 14px">
+<form onSubmit="{{send}}" style="display: flex; flex-direction: column; gap: 14px; position: relative">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
 <h2 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: 24px">Pošalji poruku</h2>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <span style="font-size: 13px; font-weight: 700">Tema</span>
@@ -84,13 +86,13 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <sc-for list="{{topics}}" as="t" hint-placeholder-count="4"><button type="button" class="chipbtn" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="{{t.style}}">{{t.label}}</button></sc-for>
 </div>
 </div>
-<label class="fld">Ime i prezime *<input type="text" autocomplete="name" placeholder="Marko Marković" required></label>
+<label class="fld">Ime i prezime *<input type="text" name="name" autocomplete="name" placeholder="Marko Marković" required></label>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<label class="fld">Mejl *<input type="email" autocomplete="email" placeholder="ime@primer.com" required></label>
-<label class="fld"><span>Telefon <span style="font-weight: 500; color: #ABA4BF">(opciono)</span></span><input type="tel" autocomplete="tel" placeholder="06x xxx xxxx"></label>
+<label class="fld">Mejl *<input type="email" name="email" autocomplete="email" placeholder="ime@primer.com" required></label>
+<label class="fld"><span>Telefon <span style="font-weight: 500; color: #ABA4BF">(opciono)</span></span><input type="tel" name="phone" autocomplete="tel" placeholder="06x xxx xxxx"></label>
 </div>
-<sc-if value="{{orderTopic}}" hint-placeholder-val="{{ false }}"><label class="fld"><span>Broj porudžbine <span style="font-weight: 500; color: #ABA4BF">(ako ga imaš)</span></span><input type="text" placeholder="#[BROJ]"></label></sc-if>
-<label class="fld">Poruka *<textarea rows="5" placeholder="Kako možemo da pomognemo?" required></textarea></label>
+<sc-if value="{{orderTopic}}" hint-placeholder-val="{{ false }}"><label class="fld"><span>Broj porudžbine <span style="font-weight: 500; color: #ABA4BF">(ako ga imaš)</span></span><input type="text" name="orderRef" placeholder="ZD…"></label></sc-if>
+<label class="fld">Poruka *<textarea name="message" rows="5" placeholder="Kako možemo da pomognemo?" required></textarea></label>
 <button type="submit" class="cta alt" style="width: 100%">Pošalji poruku</button>
 <p style="margin: 0; font-size: 12px; color: #ABA4BF; text-align: center">Podatke koristimo samo da ti odgovorimo. <a href="Privatnost.dc.html">Politika privatnosti</a></p>
 </form>
@@ -118,7 +120,7 @@ class Component extends DCLogic {
       orderTopic: this.state.topic < 2,
       sent: this.state.sent,
       notSent: !this.state.sent,
-      send: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ sent: true }); }
+      send: function (e) { if (e && e.preventDefault) e.preventDefault(); if (window.ZD) ZD.send('inquiry', Object.assign(ZD.form(e && e.target), { kind: 'kontakt', topic: labels[self.state.topic] })); self.setState({ sent: true }); }
     };
   }
 }

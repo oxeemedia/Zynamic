@@ -9,6 +9,7 @@
 <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
 <script src="./support.js"></script>
+<script src="./zd-track.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -1137,7 +1138,7 @@ class Component extends DCLogic {
     if (this.wantScratch) this.scrTimer = setTimeout(function () {
       var seen = false;
       try { seen = sessionStorage.getItem('zd_scratch_seen') === '1' || localStorage.getItem('zd_disc') === '1'; } catch (e) {}
-      if (!seen && !self.state.discount) self.setState({ scratch: true });
+      if (!seen && !self.state.discount) { self.setState({ scratch: true }); if (window.ZD) ZD.event('scratch_view'); }
     }, 15000);
   }
   componentWillUnmount() {
@@ -1213,7 +1214,7 @@ class Component extends DCLogic {
           ? 'border: 1.5px solid transparent; background: linear-gradient(#18122A,#18122A) padding-box, linear-gradient(100deg,#D9973A,#D92D7A 50%,#7436E0) border-box; box-shadow: 0 14px 40px -14px rgba(217,45,122,0.45);'
           : 'border: 1.5px solid rgba(255,255,255,0.10); background: #100B1B;',
         radio: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (sel ? 'border: 6px solid #D92D7A; background: #FFFFFF;' : 'border: 2px solid rgba(255,255,255,0.3);'),
-        pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} }
+        pick: function () { self.setState({ pkg: i }); try { localStorage.setItem('zd_pkg', String(i)); } catch (e) {} if (window.ZD) ZD.event('pkg_pick', { pkg: i }); }
       });
     });
     var shots = [
@@ -1302,11 +1303,13 @@ class Component extends DCLogic {
         var m = (self.state.email || '').trim();
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { self.setState({ err: 'Proveri mejl, nešto ne štima.' }); return; }
         self.setState({ email: m, discount: true, scratch: false });
+        if (window.ZD) ZD.send('lead', { email: m, form: 'grebalica', offer: 'FOKUS10' });
         try { localStorage.setItem('zd_disc', '1'); localStorage.setItem('zd_email', m); sessionStorage.setItem('zd_scratch_seen', '1'); } catch (e) {}
       },
       decline: function () {
         self.cv = null;
         self.setState({ scratch: false });
+        if (window.ZD) ZD.event('scratch_decline');
         try { sessionStorage.setItem('zd_scratch_seen', '1'); } catch (e) {}
       }
     };

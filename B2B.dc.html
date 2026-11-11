@@ -8,6 +8,7 @@
 <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
 <script src="./support.js"></script>
+<script src="./zd-track.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -126,7 +127,8 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 </div>
 </sc-if>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
-<form onSubmit="{{send}}" style="display: flex; flex-direction: column; gap: 14px">
+<form onSubmit="{{send}}" style="display: flex; flex-direction: column; gap: 14px; position: relative">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
 <div style="display: flex; flex-direction: column; gap: 8px">
 <span style="font-size: 13px; font-weight: 700">Tip firme</span>
 <div style="display: flex; gap: 8px; flex-wrap: wrap">
@@ -134,15 +136,15 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<label class="fld">Ime firme *<input type="text" autocomplete="organization" placeholder="Firma d.o.o." required></label>
-<label class="fld">Broj zaposlenih / članova<input type="text" inputmode="numeric" placeholder="npr. 25"></label>
+<label class="fld">Ime firme *<input type="text" name="company" autocomplete="organization" placeholder="Firma d.o.o." required></label>
+<label class="fld">Broj zaposlenih / članova<input type="text" name="size" inputmode="numeric" placeholder="npr. 25"></label>
 </div>
-<label class="fld">Ime i prezime *<input type="text" autocomplete="name" placeholder="Marko Marković" required></label>
+<label class="fld">Ime i prezime *<input type="text" name="name" autocomplete="name" placeholder="Marko Marković" required></label>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<label class="fld">Mejl *<input type="email" autocomplete="email" placeholder="ime@firma.rs" required></label>
-<label class="fld">Telefon *<input type="tel" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
+<label class="fld">Mejl *<input type="email" name="email" autocomplete="email" placeholder="ime@firma.rs" required></label>
+<label class="fld">Telefon *<input type="tel" name="phone" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
 </div>
-<label class="fld">Poruka<textarea rows="4" placeholder="Npr. tim od 25 ljudi, želimo mesečnu isporuku za kancelariju"></textarea></label>
+<label class="fld">Poruka<textarea name="message" rows="4" placeholder="Npr. tim od 25 ljudi, želimo mesečnu isporuku za kancelariju"></textarea></label>
 <button type="submit" class="cta alt" style="width: 100%">Pošalji upit</button>
 <p style="margin: 0; font-size: 12px; color: #ABA4BF; text-align: center">Podatke koristimo samo da ti pošaljemo ponudu. <a href="Privatnost.dc.html">Politika privatnosti</a></p>
 </form>
@@ -170,7 +172,7 @@ class Component extends DCLogic {
       }),
       sent: this.state.sent,
       notSent: !this.state.sent,
-      send: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ sent: true }); }
+      send: function (e) { if (e && e.preventDefault) e.preventDefault(); if (window.ZD) ZD.send('inquiry', Object.assign(ZD.form(e && e.target), { kind: 'b2b', topic: labels[self.state.type] })); self.setState({ sent: true }); }
     };
   }
 }

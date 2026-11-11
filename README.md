@@ -16,6 +16,10 @@ Statični sajt (bez build koraka) za Zynamik® Direct, TheMinds / Delighted Mind
 
 `index.html` prebacuje na `Main.dc.html`. `support.js` i `vendor/` su runtime koji renderuje stranice; ne brisati.
 
+## Tracking
+
+`zd-track.js` beleži: pregled stranice, klik na „Poruči“, izbor paketa, prikaz i odbijanje grebalice, mejl iz grebalice, porudžbinu, kontakt i B2B upit. Izvor (UTM / fbclid / referrer) pamti se kao prvi dodir i ide uz svaku porudžbinu. Iznos porudžbine računa server, ne browser.
+
 ## Lokalno
 
 ```
@@ -30,6 +34,6 @@ Settings → Pages → Deploy from a branch → `main` / root.
 ## Pre puštanja uživo
 
 - Popuniti sve `[ZAGRADE]`: cene 2+1 / 4+2 provera marže, broj kesica, dani garancije, telefon, radno vreme, citati, fotografije.
-- Forme (checkout, B2B, kontakt, mejl iz grebalice) trenutno samo prikazuju potvrdu. Povezati sa WooCommerce / CRM / email alatom.
+- Forme (checkout, B2B, kontakt, mejl iz grebalice) šalju podatke preko `zd-track.js` u Google Sheet (Apps Script). Upiši `ZD_ENDPOINT` u `zd-track.js`; dok je prazno, sajt je u demo modu i ništa ne šalje. Setup i dashboard: privatni repo `Zynamic-admin`.
 - Kod `MINDS10` napraviti kao kupon (jednom po mejlu).
 - Postaviti Meta pixel / GA4 za merenje konverzija.

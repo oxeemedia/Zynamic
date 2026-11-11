@@ -8,6 +8,7 @@
 <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
 <script src="./support.js"></script>
+<script src="./zd-track.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -82,25 +83,26 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
 
 <!-- FORMA -->
-<form onSubmit="{{submit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<form onSubmit="{{submit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px; position: relative">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
 <div class="card">
 <h2 class="step"><span class="num">1</span>Kontakt</h2>
-<label class="fld">Telefon *<input type="tel" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
-<label class="fld"><span>Mejl <span style="font-weight: 500; color: #ABA4BF">(opciono, za potvrdu i praćenje)</span></span><input type="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
+<label class="fld">Telefon *<input type="tel" name="phone" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
+<label class="fld"><span>Mejl <span style="font-weight: 500; color: #ABA4BF">(opciono, za potvrdu i praćenje)</span></span><input type="email" name="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
 </div>
 
 <div class="card">
 <h2 class="step"><span class="num">2</span>Adresa za dostavu</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<label class="fld">Ime *<input type="text" autocomplete="given-name" placeholder="Marko" required></label>
-<label class="fld">Prezime *<input type="text" autocomplete="family-name" placeholder="Marković" required></label>
+<label class="fld">Ime *<input type="text" name="first" autocomplete="given-name" placeholder="Marko" required></label>
+<label class="fld">Prezime *<input type="text" name="last" autocomplete="family-name" placeholder="Marković" required></label>
 </div>
-<label class="fld">Ulica i broj *<input type="text" autocomplete="street-address" placeholder="Zmajeva 12, stan 4" required></label>
+<label class="fld">Ulica i broj *<input type="text" name="street" autocomplete="street-address" placeholder="Zmajeva 12, stan 4" required></label>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
-<label class="fld">Grad *<input type="text" autocomplete="address-level2" placeholder="Beograd" required></label>
-<label class="fld">Poštanski broj *<input type="text" inputmode="numeric" autocomplete="postal-code" placeholder="11000" required pattern="[0-9]{5}" title="5 cifara, npr. 11000"></label>
+<label class="fld">Grad *<input type="text" name="city" autocomplete="address-level2" placeholder="Beograd" required></label>
+<label class="fld">Poštanski broj *<input type="text" inputmode="numeric" name="zip" autocomplete="postal-code" placeholder="11000" required pattern="[0-9]{5}" title="5 cifara, npr. 11000"></label>
 </div>
-<label class="fld"><span>Napomena za kurira <span style="font-weight: 500; color: #ABA4BF">(opciono)</span></span><textarea rows="2" placeholder="Npr. interfon ne radi, zovi kad stigneš"></textarea></label>
+<label class="fld"><span>Napomena za kurira <span style="font-weight: 500; color: #ABA4BF">(opciono)</span></span><textarea name="note" rows="2" placeholder="Npr. interfon ne radi, zovi kad stigneš"></textarea></label>
 </div>
 
 <div class="card">
@@ -187,7 +189,7 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
 <main style="max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; display: flex; flex-direction: column; gap: 22px">
 <div style="display: flex; flex-direction: column; gap: 10px">
-<span style="display: inline-flex; align-self: flex-start; background: linear-gradient(100deg,#D92D7A,#7436E0); color: #F5F2FA; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase">Porudžbina #[BROJ]</span>
+<span style="display: inline-flex; align-self: flex-start; background: linear-gradient(100deg,#D92D7A,#7436E0); color: #F5F2FA; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase">Porudžbina #{{orderId}}</span>
 <h1 style="margin: 0; font-family: Archivo, sans-serif; font-weight: 900; font-size: clamp(34px, 5vw, 54px); line-height: 1; letter-spacing: -0.03em">Primljeno.<br><span style="background: linear-gradient(100deg,#D9973A 0%,#D92D7A 48%,#7436E0 100%); -webkit-background-clip: text; background-clip: text; color: transparent">Kesice stižu.</span></h1>
 <p style="margin: 0; font-size: 17px; color: #DED8EA">{{sel.name}} · {{total}} · plaćaš kuriru.</p>
 </div>
@@ -228,7 +230,7 @@ class Component extends DCLogic {
       if (localStorage.getItem('zd_disc') === '1') coupon = true;
       mail = localStorage.getItem('zd_email') || '';
     } catch (e) {}
-    this.state = { pkg: pkg, coupon: coupon, pay: 0, done: false, email: mail, code: '', codeErr: '' };
+    this.state = { pkg: pkg, coupon: coupon, pay: 0, done: false, email: mail, code: '', codeErr: '', orderId: '' };
   }
   renderVals() {
     var self = this;
@@ -299,9 +301,22 @@ class Component extends DCLogic {
       removeCoupon: function () { self.setState({ coupon: false, code: '' }); },
       done: this.state.done,
       notDone: !this.state.done,
+      orderId: this.state.orderId,
       submit: function (e) {
         if (e && e.preventDefault) e.preventDefault();
-        self.setState({ done: true });
+        if (self.state.done) return;
+        var z = window.ZD;
+        var id = z ? z.orderId() : 'ZD-' + Date.now();
+        if (z) {
+          var f = z.form(e && e.target);
+          z.send('order', Object.assign(f, {
+            orderId: id, pkgIndex: self.state.pkg, pkgName: sel.name, boxes: sel.boxes,
+            coupon: c, code: (self.state.code || '').trim().toUpperCase(),
+            pay: payRaw[self.state.pay].label, totalShown: sel.totalTxt
+          }));
+        }
+        try { localStorage.setItem('zd_last_order', id); } catch (err) {}
+        self.setState({ done: true, orderId: id });
         try { window.scrollTo(0, 0); } catch (err) {}
       }
     };
