@@ -43,7 +43,8 @@
   }
 
   function page() {
-    return (location.pathname.split('/').pop() || 'Main').replace(/\.dc\.html$|\.html$/, '') || 'Main';
+    // Radi i sa skraćenim adresama (Cloudflare: /Checkout.dc umesto /Checkout.dc.html)
+    return (location.pathname.split('/').pop() || 'Main').replace(/\.dc(\.html)?$|\.html$/, '') || 'Main';
   }
 
   function payload(type, data) {
