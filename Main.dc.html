@@ -181,6 +181,11 @@ img{display:block;max-width:100%;height:auto}
 .ghost{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:14px 18px;border-radius:999px;border:1.5px solid var(--line2);font-weight:600;font-size:15px;color:var(--muted);text-align:center}
 .ghost:hover{border-color:#fff;color:#fff}
 .xbtn{all:unset;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid var(--line)}
+.zd-pop{animation:zdPop .75s cubic-bezier(.2,1.5,.35,1) both}
+@keyframes zdPop{0%{transform:scale(.86);filter:brightness(1.7)}55%{transform:scale(1.06);filter:brightness(1.25) drop-shadow(0 0 22px rgba(217,45,122,.75))}100%{transform:scale(1);filter:none}}
+.zd-cover{transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.zd-cover.gone{opacity:0;transform:scale(1.06)}
+@media (prefers-reduced-motion:reduce){.zd-pop{animation:none}.zd-cover{transition:opacity .2s}}
 .linkbtn{all:unset;cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;color:var(--muted);align-self:center;min-height:32px}
 
 /* responsive */
@@ -515,14 +520,15 @@ img{display:block;max-width:100%;height:auto}
 </div>
 <h2 id="scr-title" class="wide" style="margin: 0; font-weight: 900; font-size: 28px; line-height: 1.02; letter-spacing: -0.01em">{{scrTitle}}</h2>
 <div style="position: relative; border-radius: 20px; overflow: hidden; background: #07050D; border: 1px solid var(--line); aspect-ratio: 16 / 7">
-<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center">
+<div class="{{codeCls}}" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center">
 <span style="font-weight: 700; font-size: 12px; letter-spacing: 0.24em; color: var(--muted)">KOD:</span>
 <span class="wide gtext" style="font-weight: 900; font-size: clamp(34px, 10vw, 50px); line-height: 1; letter-spacing: 0.02em">FOKUS10</span>
 <span style="font-weight: 600; font-size: 14px; color: #fff">−10% na celu porudžbinu</span>
 </div>
 <sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
-<canvas ref="{{setCanvas}}" width="640" height="280" aria-hidden="true" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerLeave="{{onUp}}" style="position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab"></canvas>
+<canvas class="zd-cover" ref="{{setCanvas}}" width="640" height="280" aria-hidden="true" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerCancel="{{onUp}}" style="position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab"></canvas>
 </sc-if>
+<canvas ref="{{setFx}}" width="640" height="280" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"></canvas>
 </div>
 <sc-if value="{{notRevealed}}" hint-placeholder-val="{{ true }}">
 <p style="margin: 0; font-size: 15px; color: var(--muted); text-align: center">Prevuci prstom ili mišem preko kartice.</p>
@@ -1114,9 +1120,23 @@ class Component extends DCLogic {
       self.cv = el;
       self.paintCover();
     };
-    this.onDown = function (e) { self.drawing = true; self.scratchAt(e); };
-    this.onMove = function (e) { if (self.drawing) self.scratchAt(e); };
-    this.onUp = function () { self.drawing = false; };
+    this.last = null; this.fx = null; this.parts = []; this.fxRaf = 0; this.finishing = false;
+    this.calm = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.setFx = function (el) { self.fx = el || null; };
+    this.onDown = function (e) {
+      if (self.finishing) return;
+      self.drawing = true; self.last = null;
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+      self.scratchAt(e);
+    };
+    this.onMove = function (e) {
+      if (!self.drawing || self.finishing) return;
+      var ne = e.nativeEvent || e;
+      var list = ne.getCoalescedEvents ? ne.getCoalescedEvents() : null;
+      if (list && list.length) { for (var i = 0; i < list.length; i++) self.scratchAt(list[i], i < list.length - 1); }
+      else self.scratchAt(e);
+    };
+    this.onUp = function () { self.drawing = false; self.last = null; };
     this.lv = {};
     function leafRef(key, layout, opts) {
       return function (el) {
@@ -1165,20 +1185,99 @@ class Component extends DCLogic {
     x.textAlign = 'center'; x.textBaseline = 'middle';
     x.fillText('IZGREBI OVDE', c.width / 2, c.height / 2);
   }
-  scratchAt(e) {
-    var c = this.cv; if (!c) return;
+  // Glatko grebanje: spojene linije umesto tačkica, meka ivica, opiljci, animirano otkrivanje
+  scratchAt(e, skipCheck) {
+    var c = this.cv; if (!c || this.finishing) return;
     var r = c.getBoundingClientRect(); if (!r.width) return;
     var px = (e.clientX - r.left) * (c.width / r.width);
     var py = (e.clientY - r.top) * (c.height / r.height);
-    var x = c.getContext('2d');
+    this.stroke(px, py);
+    if (!skipCheck) { this.moves++; if (this.moves % 6 === 0) this.check(); }
+  }
+  stroke(px, py) {
+    var c = this.cv; if (!c) return;
+    var x = c.getContext('2d'), a = this.last || { x: px - 0.1, y: py };
+    x.save();
     x.globalCompositeOperation = 'destination-out';
-    x.beginPath(); x.arc(px, py, 34, 0, Math.PI * 2); x.fill();
-    this.moves++;
-    if (this.moves % 8 === 0) {
-      var d = x.getImageData(0, 0, c.width, c.height).data, clear = 0, n = 0;
-      for (var i = 3; i < d.length; i += 64) { n++; if (d[i] === 0) clear++; }
-      if (clear / n > 0.45) { this.drawing = false; this.cv = null; this.setState({ revealed: true }); this.burst(); }
+    x.lineCap = 'round'; x.lineJoin = 'round'; x.lineWidth = 58;
+    x.shadowColor = '#000'; x.shadowBlur = 16;
+    x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(px, py); x.stroke();
+    x.restore();
+    var dx = px - a.x, dy = py - a.y, dist = Math.sqrt(dx * dx + dy * dy);
+    this.last = { x: px, y: py };
+    if (!this.calm && dist > 2) this.flakes(px, py, dx, dy, Math.min(4, 1 + dist / 14));
+    if (this.moves % 10 === 0 && navigator.vibrate) { try { navigator.vibrate(4); } catch (err) {} }
+  }
+  flakes(px, py, dx, dy, n) {
+    var cols = ['#D9973A', '#D92D7A', '#7436E0', '#9B4FD6', '#FFFFFF', '#4A1A5E'];
+    for (var i = 0; i < n; i++) {
+      this.parts.push({ x: px + (Math.random() - 0.5) * 30, y: py + (Math.random() - 0.5) * 30,
+        vx: dx * 0.06 + (Math.random() - 0.5) * 3, vy: dy * 0.06 - Math.random() * 2.5,
+        s: 2 + Math.random() * 4, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4,
+        c: cols[(Math.random() * cols.length) | 0], life: 1 });
     }
+    if (this.parts.length > 260) this.parts.splice(0, this.parts.length - 260);
+    this.runFx();
+  }
+  runFx() {
+    if (this.fxRaf || !this.fx) return;
+    var self = this;
+    function tick() {
+      var f = self.fx; if (!f || !f.isConnected) { self.fxRaf = 0; self.parts = []; return; }
+      var x = f.getContext('2d'); x.clearRect(0, 0, f.width, f.height);
+      for (var i = self.parts.length - 1; i >= 0; i--) {
+        var p = self.parts[i];
+        p.vy += 0.28; p.vx *= 0.985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= p.big ? 0.012 : 0.022;
+        if (p.life <= 0 || p.y > f.height + 20) { self.parts.splice(i, 1); continue; }
+        x.save(); x.globalAlpha = Math.max(0, Math.min(1, p.life * 1.4)); x.translate(p.x, p.y); x.rotate(p.r);
+        x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * 0.66); x.restore();
+      }
+      if (self.parts.length) self.fxRaf = requestAnimationFrame(tick);
+      else { x.clearRect(0, 0, f.width, f.height); self.fxRaf = 0; }
+    }
+    this.fxRaf = requestAnimationFrame(tick);
+  }
+  check() {
+    var c = this.cv; if (!c) return;
+    var d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data, clear = 0, n = 0;
+    for (var i = 3; i < d.length; i += 64) { n++; if (d[i] < 40) clear++; }
+    if (clear / n > 0.5) this.finish();
+  }
+  finish() {
+    if (this.finishing) return;
+    this.finishing = true; this.drawing = false;
+    var self = this, c = this.cv;
+    if (navigator.vibrate) { try { navigator.vibrate([12, 40, 18]); } catch (err) {} }
+    this.confetti();
+    if (c && !this.calm) { c.style.pointerEvents = 'none'; c.classList.add('gone'); }
+    setTimeout(function () { self.cv = null; self.finishing = false; self.setState({ revealed: true }); }, this.calm ? 120 : 520);
+  }
+  confetti() {
+    if (this.calm || !this.fx) return;
+    var f = this.fx, cols = ['#D9973A', '#D92D7A', '#7436E0', '#FFFFFF', '#F2C27A'];
+    for (var i = 0; i < 70; i++) {
+      var ang = Math.random() * Math.PI * 2, sp = 4 + Math.random() * 9;
+      this.parts.push({ x: f.width / 2, y: f.height / 2, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 4,
+        s: 4 + Math.random() * 6, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.5,
+        c: cols[i % cols.length], life: 1, big: true });
+    }
+    this.runFx();
+  }
+  // "Otkrij bez grebanja": animirano samo-grebanje cik-cak preko kartice
+  autoScratch() {
+    var c = this.cv;
+    if (!c || this.calm) { this.cv = null; this.setState({ revealed: true }); return; }
+    var self = this, t0 = 0, D = 900, W = c.width, H = c.height;
+    this.last = null; this.finishing = false;
+    function pt(t) { var rows = 4, k = t * rows, row = Math.floor(Math.min(k, rows - 0.0001)), u = k - row;
+      var xx = row % 2 ? W * (1 - u) : W * u; return { x: -20 + xx * 1.08, y: H * (0.12 + row * 0.26) + Math.sin(u * Math.PI) * 18 }; }
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var t = Math.min(1, (ts - t0) / D);
+      var p = pt(t); self.stroke(p.x, p.y);
+      if (t < 1 && self.cv) requestAnimationFrame(step); else self.finish();
+    }
+    requestAnimationFrame(step);
   }
   renderVals() {
     var self = this;
@@ -1283,6 +1382,8 @@ class Component extends DCLogic {
       notRevealed: !this.state.revealed,
       scrTitle: this.state.revealed ? 'Tvojih 10% je tu.' : 'Ispod je tvoj kod. Izgrebi ga.',
       setCanvas: this.setCanvas,
+      setFx: this.setFx,
+      codeCls: this.state.revealed ? 'zd-pop' : '',
       setLeavesBack: this.setLeavesBack,
       setLeavesFront: this.setLeavesFront,
       dekl: this.state.dekl,
@@ -1297,7 +1398,7 @@ class Component extends DCLogic {
       onDown: this.onDown,
       onMove: this.onMove,
       onUp: this.onUp,
-      reveal: function () { self.cv = null; self.setState({ revealed: true }); self.burst(); },
+      reveal: function () { self.autoScratch(); },
       onEmail: function (e) { self.setState({ email: e.target.value, err: '' }); },
       accept: function () {
         var m = (self.state.email || '').trim();
