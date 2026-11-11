@@ -87,7 +87,8 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0">
 <div class="card">
 <h2 class="step"><span class="num">1</span>Kontakt</h2>
-<label class="fld">Telefon *<input type="tel" name="phone" autocomplete="tel" placeholder="06x xxx xxxx" required minlength="8"></label>
+<label class="fld">Telefon *<input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="06x xxx xxxx" required minlength="8" onInput="{{clearPhone}}" aria-invalid="{{phoneBad}}"></label>
+<sc-if value="{{phoneErr}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #F0609A">{{phoneErr}}</div></sc-if>
 <label class="fld"><span>Mejl <span style="font-weight: 500; color: #ABA4BF">(opciono, za potvrdu i praćenje)</span></span><input type="email" name="email" autocomplete="email" placeholder="ime@primer.com" value="{{email}}" onChange="{{onEmail}}"></label>
 </div>
 
@@ -108,7 +109,7 @@ input::placeholder,textarea::placeholder{color:#6E6784}
 <div class="card">
 <h2 class="step"><span class="num">3</span>Plaćanje</h2>
 <sc-for list="{{pays}}" as="m" hint-placeholder-count="2">
-<button type="button" class="opt" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="{{m.style}}"><span style="display: flex; gap: 12px; align-items: center"><span aria-hidden="true" style="{{m.dot}}"></span><span style="display: flex; flex-direction: column; text-align: left"><span style="font-weight: 800; font-size: 15px">{{m.label}}</span><span style="font-size: 13px; color: #ABA4BF">{{m.hint}}</span></span></span></button>
+<button type="button" class="opt" onClick="{{m.pick}}" aria-pressed="{{m.on}}" aria-disabled="{{m.disabled}}" style="{{m.style}}"><span style="display: flex; gap: 12px; align-items: center"><span aria-hidden="true" style="{{m.dot}}"></span><span style="display: flex; flex-direction: column; text-align: left"><span style="font-weight: 800; font-size: 15px">{{m.label}}</span><span style="font-size: 13px; color: #ABA4BF">{{m.hint}}</span></span></span></button>
 </sc-for>
 </div>
 
@@ -230,7 +231,15 @@ class Component extends DCLogic {
       if (localStorage.getItem('zd_disc') === '1') coupon = true;
       mail = localStorage.getItem('zd_email') || '';
     } catch (e) {}
-    this.state = { pkg: pkg, coupon: coupon, pay: 0, done: false, email: mail, code: '', codeErr: '', orderId: '' };
+    this.state = { pkg: pkg, coupon: coupon, pay: 0, done: false, email: mail, code: '', codeErr: '', orderId: '', phoneErr: '' };
+    // Osvežena hvala strana: prikaži istu potvrdu umesto prazne forme (da kupac ne poruči dvaput)
+    try {
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      var last = JSON.parse(sessionStorage.getItem('zd_done') || 'null');
+      if (nav && nav.type === 'reload' && last && Date.now() - last.t < 30 * 60 * 1000) {
+        this.state.done = true; this.state.orderId = last.id; this.state.pkg = last.pkg; this.state.coupon = last.coupon;
+      }
+    } catch (e) {}
   }
   renderVals() {
     var self = this;
@@ -267,15 +276,16 @@ class Component extends DCLogic {
     var off = 'background: #120D1E; border: 1.5px solid rgba(255,255,255,0.09);';
     var payRaw = [
       { label: 'Pouzećem', hint: 'Plaćaš kuriru kad paket stigne' },
-      { label: 'Karticom ili IPS', hint: 'Visa, Mastercard, Maestro, Amex, Dina ili IPS skeniranjem' }
+      { label: 'Karticom ili IPS', hint: 'Uskoro. Za sada plaćaš pouzećem, kuriru kad paket stigne.', disabled: true }
     ];
     var pays = payRaw.map(function (m, i) {
       var on = self.state.pay === i;
       return Object.assign({}, m, {
         on: on,
-        style: on ? 'background: #1B1430; border: 2px solid #D92D7A;' : off,
+        style: on ? 'background: #1B1430; border: 2px solid #D92D7A;' : off + (m.disabled ? ' opacity: 0.5; cursor: not-allowed;' : ''),
         dot: 'width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; flex: none; ' + (on ? 'border: 6px solid #D92D7A; background: #120D1E;' : 'border: 2px solid rgba(255,255,255,0.22);'),
-        pick: function () { self.setState({ pay: i }); }
+        disabled: !!m.disabled,
+        pick: function () { if (!m.disabled) self.setState({ pay: i }); }
       });
     });
     var sel = packages[this.state.pkg];
@@ -302,9 +312,20 @@ class Component extends DCLogic {
       done: this.state.done,
       notDone: !this.state.done,
       orderId: this.state.orderId,
+      phoneErr: this.state.phoneErr,
+      phoneBad: this.state.phoneErr ? 'true' : 'false',
+      clearPhone: function () { if (self.state.phoneErr) self.setState({ phoneErr: '' }); },
       submit: function (e) {
         if (e && e.preventDefault) e.preventDefault();
         if (self.state.done) return;
+        // Ista provera kao na serveru: bar 8 cifara, inače se porudžbina ne bi upisala
+        var ph = e && e.target && e.target.elements && e.target.elements.phone;
+        var digits = ph ? String(ph.value).replace(/\D/g, '') : '';
+        if (digits.length < 8 || digits.length > 15) {
+          self.setState({ phoneErr: 'Proveri broj telefona. Treba nam ceo broj, npr. 064 123 4567.' });
+          try { ph.focus(); } catch (err) {}
+          return;
+        }
         var z = window.ZD;
         var id = z ? z.orderId() : 'ZD-' + Date.now();
         if (z) {
@@ -315,7 +336,7 @@ class Component extends DCLogic {
             pay: payRaw[self.state.pay].label, totalShown: sel.totalTxt
           }));
         }
-        try { localStorage.setItem('zd_last_order', id); } catch (err) {}
+        try { localStorage.setItem('zd_last_order', id); sessionStorage.setItem('zd_done', JSON.stringify({ id: id, pkg: self.state.pkg, coupon: c, t: Date.now() })); } catch (err) {}
         self.setState({ done: true, orderId: id });
         try { window.scrollTo(0, 0); } catch (err) {}
       }
